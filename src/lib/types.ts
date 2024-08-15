@@ -26,3 +26,12 @@ export const userSchema = z.object({
 
 export type TUserSchema = z.infer<typeof userSchema>; 
 
+export const loginSchema = z.object({
+    email: z.string().email().refine((val)=>val.endsWith('@gmail.com'),{
+        message: 'Email must end with @gmail.com',
+    }),
+    password: z.string().min(8)
+});
+
+export type TLoginSchema = z.infer<typeof loginSchema>;
+

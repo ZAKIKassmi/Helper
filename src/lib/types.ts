@@ -9,8 +9,6 @@ export const userSchema = z.object({
     }),
     email: z.string().trim().email({
         message: 'Email is not valid'
-    }).refine((val)=>val.endsWith('@gmail.com'),{
-        message: 'Email must end with @gmail.com',
     }),
     password: z.string().trim().min(8, {
         message: 'Password must contain at least 8 characters',
@@ -27,11 +25,13 @@ export const userSchema = z.object({
 export type TUserSchema = z.infer<typeof userSchema>; 
 
 export const loginSchema = z.object({
-    email: z.string().email().refine((val)=>val.endsWith('@gmail.com'),{
-        message: 'Email must end with @gmail.com',
-    }),
-    password: z.string().min(8)
-});
+    email: z.string().trim().email({
+        message: 'Please Enter a valid email'
+      }),
+    password: z.string().trim().min(1, {
+        message: 'Please enter password'
+      })
+  });
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
 

@@ -57,7 +57,7 @@ export const validateRequest = async (): Promise<{user: User; session: Session} 
 
     //validate sessionId
     const result =  await lucia.validateSession(sessionId);
-    // next.js throws when you attempt to set cookie when rendering page
+    // next.js throws when you attempt to set cookie when rendering the page
     try{
         if(result.session && result.session.fresh){
             // if session.fresh is true it indicates that the session expiration has been extended and you should set new session cookie

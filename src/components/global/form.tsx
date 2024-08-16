@@ -15,7 +15,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import {signupItems} from '@/lib/constants';
 import { createUser } from '@/app/signup/_action/action';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
  
 
 export default function CustomForm() {
@@ -43,9 +43,9 @@ export default function CustomForm() {
         formData.append('confirmPassword', data.confirmPassword);
         //call the formAction
         formAction(formData);
-        let isError = false;
+        
         if(state?.errors){
-            isError =true;
+           
             const errors = state.errors;
 
 
@@ -78,15 +78,13 @@ export default function CustomForm() {
                     type: 'server',
                     message: errors.confirmPassword
                 });
-            }else{
-                alert('Something went wrong');
             }
            
         }
-        //reset the function after submitting
-        if(!isError){
-            form.reset();
-        }
+        //reset the function after a successfull submit.
+        
+
+        
     }
   return (
     <Form {...form}>

@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 
@@ -19,3 +20,15 @@ export const sessions = pgTable('sessions',{
 		mode: "date"
 	}).notNull(),
 }); 
+
+
+export const usersRelations = relations(userTable, ({ many }) => ({
+    sessions: many(sessions),
+  }));
+
+export const sessionsRelation = relations(sessions, ({ one }) => ({
+    author: one(userTable, {
+        fields: [sessions.userId],
+        references: [userTable.id],
+    }),
+}));

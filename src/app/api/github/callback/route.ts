@@ -28,17 +28,23 @@ export async function GET(request: Request): Promise<Response> {
       const githubUser: GitHubUser = await githubUserResponse.json();
       const gitId = Number(githubUser.id);
 
-      if(!githubUser.email){
-        const res = await fetch("https://api.github.com/user/emails",{
-          headers: {
-            Authorization: `Bearer ${tokens.accessToken}`,
-          }
-        });
+      if (!githubUser.email) {
+        const githubUserEmailResponse = await fetch(
+          "https://api.github.com/user/emails",
+          {
+            headers: {
+              Authorization: `Bearer ${tokens.accessToken}`,
+            },
+          },
+        );
+        const githubUserEmails = await githubUserEmailResponse.json();
+  
+        githubUser.email = getPrimaryEmail(githubUserEmails);
       }
 
 
       const existingUser = await db.select().from(userTable).where(eq(userTable.githubId, gitId)).limit(1);
-		  // const existingUser = await db.table("user").where("github_id", "=", githubUser.id).get();
+
       if (existingUser.length > 0) {
         const session = await lucia.createSession(existingUser[0].id, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
@@ -51,13 +57,10 @@ export async function GET(request: Request): Promise<Response> {
         });
       }
 
-      
-      
-
       const user = await db.insert(userTable).values({
         firstName: '',
         lastName: '',
-        email: '',
+        email: githubUser.email || '',
         password: '',
         githubId: gitId,
         username: githubUser.login,

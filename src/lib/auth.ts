@@ -5,7 +5,7 @@ import { db } from "@/drizzle/db";
 import { userTable, sessions } from "@/drizzle/schema";
 import type { Session, User } from "lucia";
 import { cookies } from "next/headers";
-import { GitHub } from "arctic";
+import { GitHub, Google } from "arctic";
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, userTable);
 
@@ -83,6 +83,8 @@ export const validateRequest = async (): Promise<{user: User; session: Session} 
 }
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
+export const googleAuth = new Google(process.env.GOOGLE_CLIENT_ID!, process.env.GOOGLE_CLIENT_SECRET!
+    ,`${process.env.HOST_NAME}/api/google/callback`);
 
 
 

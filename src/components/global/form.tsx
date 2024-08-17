@@ -1,7 +1,7 @@
 'use client';
 import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TUserSchema, userSchema } from '@/lib/types';
+import { SignUpFormNameTypes, TUserSchema, userSchema } from '@/lib/types';
 import { 
     Form, 
     FormControl,
@@ -16,6 +16,7 @@ import { Input } from '../ui/input';
 import {signupItems} from '@/lib/constants';
 import { createUser } from '@/app/signup/_action/action';
 import { useFormState } from 'react-dom';
+import { useEffect } from 'react';
  
 
 export default function CustomForm() {
@@ -33,6 +34,16 @@ export default function CustomForm() {
         }   
     });
 
+    useEffect(()=>{
+        if(Array.isArray(state) && state?.length > 0){
+            state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string})=>{
+                form.setError(issue.name, {
+                    message: issue.errorMessage
+                })
+            })
+        }
+    },[state]);
+
     async function onSubmit(data: TUserSchema){
         const formData = new FormData();
         //server actions accept FromData object
@@ -43,47 +54,6 @@ export default function CustomForm() {
         formData.append('confirmPassword', data.confirmPassword);
         //call the formAction
         formAction(formData);
-        
-        if(state?.errors){
-           
-            const errors = state.errors;
-
-
-            if(errors.firstName){
-                form.setError('firstName',{
-                    type: 'server',
-                    message: errors.firstName
-                });
-            }
-            if(errors.lastName){
-                form.setError('lastName',{
-                    type: 'server',
-                    message: errors.lastName
-                });
-            }
-            if(errors.email){
-                form.setError('email',{
-                    type: 'server',
-                    message: errors.email
-                });
-            }
-            if(errors.password){
-                form.setError('password',{
-                    type: 'server',
-                    message: errors.password
-                });
-            }
-            if(errors.confirmPassword){
-                form.setError('confirmPassword',{
-                    type: 'server',
-                    message: errors.confirmPassword
-                });
-            }
-           
-        }
-        //reset the function after a successfull submit.
-        
-
         
     }
   return (

@@ -2,7 +2,7 @@
 import { db } from '@/drizzle/db';
 import { userTable } from '@/drizzle/schema';
 import { lucia } from '@/lib/auth';
-import { userSchema } from '@/lib/types';
+import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -11,7 +11,7 @@ import { redirect } from 'next/navigation';
 export async function createUser(_: any, formData: FormData ){
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
-    const email = "formData.get('email') as string";
+    const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
 
@@ -23,15 +23,14 @@ export async function createUser(_: any, formData: FormData ){
         password,
         confirmPassword
     });
-    let zodErrors: { [key: string]: string } = {};
-    if(!result.success){
-        result.error.issues.forEach((i)=>{
-            zodErrors = { ...zodErrors, [i.path[0]]: i.message }
-        });
-    }
 
-    if(Object.keys(zodErrors).length > 0 ){
-        return {errors: zodErrors}
+    let errors: {name:  SignUpFormNameTypes, errorMessage: string}[] = [];
+
+    if(!result.success){
+        result.error.issues.forEach((issue)=>{
+            errors = [...errors, {name: issue.path[0] as SignUpFormNameTypes, errorMessage: issue.message}]
+        });
+        return errors;
     }
     let hashed_password = '';
     try{

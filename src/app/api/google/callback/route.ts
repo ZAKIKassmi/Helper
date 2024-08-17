@@ -44,18 +44,6 @@ export async function GET(request: Request):Promise<Response>{
       });
     }
 
-    console.log(googleUser);
-    // const result = GoogleUserSchema.safeParse(googleUser);
-    // if(!result.success){
-    //   return new Response(JSON.stringify({
-    //     message: 'Schemas does not match',
-    //   }), {
-    //     status: 400, // or any appropriate status code
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   }); 
-    // }
     const user = await db.insert(userTable).values({
       firstName: googleUser.given_name || '',
       lastName: googleUser.family_name || '',

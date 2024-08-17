@@ -48,3 +48,5 @@ export const GoogleUserSchema = z.object({
 
   export type GoogleUser = z.infer<typeof GoogleUserSchema>;
 
+  export type SignUpFormNameTypes = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword';
+

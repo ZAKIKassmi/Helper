@@ -111,6 +111,10 @@ export default function LoginForm() {
                             Log in with Google
                         </Button>
                     </Link>
+
+                    <Link href="/signup" className='text-blue-600 underline'>
+                        Create an accout
+                    </Link>
                 </form>
                 
             </Form>

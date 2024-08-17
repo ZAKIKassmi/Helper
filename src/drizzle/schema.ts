@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 
 export const userTable = pgTable('user_table',{
@@ -8,6 +8,8 @@ export const userTable = pgTable('user_table',{
     lastName: varchar('last_name',{length: 255}).notNull(),
     email: varchar('user_email',{length: 255}).unique().notNull(),
     password: text('user_password').notNull(),
+    githubId: integer('github_id').unique(),
+    username: varchar('username'),
 });
 
 export const sessions = pgTable('sessions',{
@@ -22,6 +24,7 @@ export const sessions = pgTable('sessions',{
 }); 
 
 
+//Setting up relation for drizzle orm.
 export const usersRelations = relations(userTable, ({ many }) => ({
     sessions: many(sessions),
   }));

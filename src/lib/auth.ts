@@ -1,9 +1,11 @@
+import 'dotenv/config';
 import { Lucia, TimeSpan } from "lucia";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { db } from "@/drizzle/db";
 import { userTable, sessions } from "@/drizzle/schema";
 import type { Session, User } from "lucia";
 import { cookies } from "next/headers";
+import { GitHub } from "arctic";
 
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, userTable);
 
@@ -19,6 +21,8 @@ declare module "lucia" {
 
 interface DatabaseUserAttributes {
 	id: string;
+    github_id: number,
+    username: string,
 }
 
 
@@ -37,6 +41,8 @@ export const lucia = new Lucia(adapter, {
 		return {
 			// attributes has the type of DatabaseUserAttributes
 			id: attributes.id,
+            github_id: attributes.github_id,
+            username: attributes.username,
 		};
 	}
 });
@@ -75,6 +81,8 @@ export const validateRequest = async (): Promise<{user: User; session: Session} 
     return result;
     
 }
+
+export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
 
 
 

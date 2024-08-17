@@ -56,7 +56,6 @@ export async function createUser(_: any, formData: FormData ){
             id: userTable.id    
         });
 
-        console.log(userId[0].id);
         try{
             const session = await lucia.createSession(userId[0].id,{});
             const sessionCookie = lucia.createSessionCookie(session.id);

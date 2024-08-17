@@ -35,3 +35,16 @@ export const loginSchema = z.object({
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
 
+
+export const GoogleUserSchema = z.object({
+    sub: z.string().trim(),
+    name: z.string().trim(),
+    given_name: z.string().trim(),
+    family_name: z.string().trim(),
+    picture: z.string().trim(),
+    email: z.string().trim(),
+    email_verified: z.boolean(),
+  });
+
+  export type GoogleUser = z.infer<typeof GoogleUserSchema>;
+

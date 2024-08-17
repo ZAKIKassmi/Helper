@@ -105,6 +105,12 @@ export default function LoginForm() {
                             Log in with GitHub
                         </Button>
                     </Link>
+
+                    <Link  href='/api/google'>
+                        <Button className='w-full'>
+                            Log in with Google
+                        </Button>
+                    </Link>
                 </form>
                 
             </Form>

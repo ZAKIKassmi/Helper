@@ -7,6 +7,9 @@ import type { Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { GitHub, Google } from "arctic";
 
+
+//lucia connects to the database via an adapter
+//takes as an arguments: the database, session table, and user table
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, userTable);
 
 
@@ -21,8 +24,8 @@ declare module "lucia" {
 
 interface DatabaseUserAttributes {
 	id: string;
-    github_id: number,
-    username: string,
+    email: string;
+    email_verified: boolean;
 }
 
 
@@ -41,15 +44,14 @@ export const lucia = new Lucia(adapter, {
 		return {
 			// attributes has the type of DatabaseUserAttributes
 			id: attributes.id,
-            github_id: attributes.github_id,
-            username: attributes.username,
+            email: attributes.email,
+            emailVerified: attributes.email_verified,
 		};
 	}
 });
 
 
 //validateRequest will check for session cookie, validate it and set new cookie if necessary.
-
 export const validateRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
     //check the session cookie
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;

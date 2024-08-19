@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { bigserial, date, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 
 export const userTable = pgTable('user_table',{
@@ -25,10 +25,31 @@ export const sessions = pgTable('sessions',{
 }); 
 
 
+export const emailVerificationTable = pgTable('email_verification_table',{
+    id: serial('id').primaryKey().notNull(),
+    code: varchar('code').notNull(),
+    userId: uuid('user_id').references(()=>userTable.id,{
+        onDelete: 'cascade'
+    }).unique(),
+    email: varchar('email',{length: 255}).notNull(),
+    expiresAt: date('expirest_at'),
+})
+
+
 //Setting up relation for drizzle orm.
-export const usersRelations = relations(userTable, ({ many }) => ({
+export const usersRelations = relations(userTable, ({ many, one }) => ({
     sessions: many(sessions),
+    emailVerification: one(emailVerificationTable)
   }));
+
+export const emailVerificationTableRelations = relations(emailVerificationTable,({one})=>{
+    return {
+        user: one(userTable,{
+            fields: [emailVerificationTable.userId],
+            references: [userTable.id],
+        })
+    }
+})
 
 export const sessionsRelation = relations(sessions, ({ one }) => ({
     author: one(userTable, {

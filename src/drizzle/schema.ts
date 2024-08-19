@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { bigserial, date, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { bigserial, boolean, date, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 
 export const userTable = pgTable('user_table',{
@@ -7,10 +7,12 @@ export const userTable = pgTable('user_table',{
     firstName: varchar('first_name',{length: 255}).notNull(),
     lastName: varchar('last_name',{length: 255}).notNull(),
     email: varchar('user_email',{length: 255}).unique().notNull(),
+    emailVerified: boolean('email_verified').notNull(),
     password: text('user_password').notNull(),
     githubId: integer('github_id').unique(),
     username: varchar('username'),
     googleId: text("google_id").unique(),
+
 });
 
 export const sessions = pgTable('sessions',{
@@ -32,7 +34,10 @@ export const emailVerificationTable = pgTable('email_verification_table',{
         onDelete: 'cascade'
     }).unique(),
     email: varchar('email',{length: 255}).notNull(),
-    expiresAt: date('expirest_at'),
+    expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+		mode: "date"
+	}).notNull(),
 })
 
 

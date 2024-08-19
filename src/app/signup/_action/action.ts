@@ -2,10 +2,14 @@
 import { db } from '@/drizzle/db';
 import { userTable } from '@/drizzle/schema';
 import { lucia } from '@/lib/auth';
+
 import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { sendVerificationCode } from '../email-verification/_action/action';
+import generateEmailVerificationCode from '../email-verification/_action/generateVerificationCode';
+
 
 
 export async function createUser(_: any, formData: FormData ){
@@ -51,10 +55,13 @@ export async function createUser(_: any, formData: FormData ){
             lastName,
             email,
             password: hashed_password,
+            emailVerified: false,
         }).returning({
             id: userTable.id    
         });
-
+        //generate email verification code.
+        const verificationCode = await generateEmailVerificationCode(userId[0].id, email);
+        await sendVerificationCode({email, verificationCode});
         try{
             const session = await lucia.createSession(userId[0].id,{});
             const sessionCookie = lucia.createSessionCookie(session.id);
@@ -68,5 +75,5 @@ export async function createUser(_: any, formData: FormData ){
         console.log('Could not insert the user');
         return;
     }
-    redirect('/');
+    redirect('/signup/email-verification');
 } 

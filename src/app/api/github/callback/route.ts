@@ -64,6 +64,7 @@ export async function GET(request: Request): Promise<Response> {
         password: '',
         githubId: gitId,
         username: githubUser.login,
+        emailVerified: true
       }).returning({
         id: userTable.id    
     });

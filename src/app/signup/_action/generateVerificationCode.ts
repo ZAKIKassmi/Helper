@@ -8,7 +8,7 @@ import {generateRandomString, alphabet} from "oslo/crypto";
 export default async function generateEmailVerificationCode(userId: string, email:string):Promise<string> {
     try{
       await db.delete(emailVerificationTable).where(eq(emailVerificationTable.userId, userId));
-      const code = generateRandomString(6, alphabet("0-9","A-Z"));
+      const code = generateRandomString(8, alphabet("0-9"));
       try{
         await db.insert(emailVerificationTable).values({
           userId,

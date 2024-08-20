@@ -50,3 +50,9 @@ export const GoogleUserSchema = z.object({
 
   export type SignUpFormNameTypes = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword';
 
+  export const  VerificationFormSchema = z.object({
+    verificationCode: z.string().trim().min(8).max(8),
+  });
+
+  export type TVerificationFormSchema = z.infer<typeof VerificationFormSchema>;
+

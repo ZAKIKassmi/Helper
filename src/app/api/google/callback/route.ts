@@ -51,6 +51,7 @@ export async function GET(request: Request):Promise<Response>{
       password: '',
       username: googleUser.name || null,
       googleId: googleUser.sub,
+      emailVerified: true,
     }).returning({
       id: userTable.id,
     });

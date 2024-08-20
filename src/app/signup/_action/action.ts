@@ -7,8 +7,8 @@ import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { sendVerificationCode } from '../email-verification/_action/action';
-import generateEmailVerificationCode from '../email-verification/_action/generateVerificationCode';
+import { sendVerificationCode } from './sendVerificationCode';
+import generateEmailVerificationCode from './generateVerificationCode';
 
 
 
@@ -61,7 +61,9 @@ export async function createUser(_: any, formData: FormData ){
         });
         //generate email verification code.
         const verificationCode = await generateEmailVerificationCode(userId[0].id, email);
-        await sendVerificationCode({email, verificationCode});
+        //Send email verification code
+        await sendVerificationCode({firstName,lastName,email, verificationCode});
+
         try{
             const session = await lucia.createSession(userId[0].id,{});
             const sessionCookie = lucia.createSessionCookie(session.id);

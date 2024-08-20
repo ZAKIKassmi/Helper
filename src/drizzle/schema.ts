@@ -40,11 +40,23 @@ export const emailVerificationTable = pgTable('email_verification_table',{
 	}).notNull(),
 })
 
+export const passwordTokensTable = pgTable('password_tokens',{
+    id: uuid('id').primaryKey().notNull().defaultRandom(),
+    tokenHash: text('token_hash').unique().notNull(),
+    userId: uuid('user_id').references(()=>userTable.id,{
+        onDelete: 'cascade',
+    }).notNull(),
+    expiresAt: timestamp("expires_at", {
+		withTimezone: true,
+		mode: "date"
+	}).notNull(),
+});
 
 //Setting up relation for drizzle orm.
 export const usersRelations = relations(userTable, ({ many, one }) => ({
     sessions: many(sessions),
-    emailVerification: one(emailVerificationTable)
+    emailVerification: one(emailVerificationTable),
+    passwordReset: one(passwordTokensTable)
   }));
 
 export const emailVerificationTableRelations = relations(emailVerificationTable,({one})=>{
@@ -54,7 +66,16 @@ export const emailVerificationTableRelations = relations(emailVerificationTable,
             references: [userTable.id],
         })
     }
-})
+});
+
+export const passwordTokensTableRelations = relations(passwordTokensTable,({one})=>{
+    return {
+        user: one(userTable,{
+            fields: [passwordTokensTable.userId],
+            references: [userTable.id]
+        })
+    }
+} )
 
 export const sessionsRelation = relations(sessions, ({ one }) => ({
     author: one(userTable, {

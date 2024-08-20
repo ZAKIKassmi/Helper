@@ -25,11 +25,12 @@ export default async function Home() {
   const user = await getUser();
   
   return (
-    <>
+    <div>
+      <h1>Hi</h1>
       <div>
         Hello {user[0].firstName} {user[0].lastName} {user[0].username}
       </div>
       <LogOutForm/>
-    </>
+    </div>
   );
 }

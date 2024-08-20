@@ -7,7 +7,7 @@ import { isWithinExpirationDate } from "oslo";
 
 
 export async function verifyVerificationCode(_:any, formData: FormData): Promise<{error: string,isError:boolean}> {
-	
+	//TODO: ADD A RATE LIMITER
   try{
     const {user} = await validateRequest();
     if(!user){

@@ -56,3 +56,10 @@ export const GoogleUserSchema = z.object({
 
   export type TVerificationFormSchema = z.infer<typeof VerificationFormSchema>;
 
+
+  export const ResetPasswordSchema = z.object({
+    email: z.string().trim().email({
+        message: 'Please Enter a valid email'
+      }),
+  });
+    export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;

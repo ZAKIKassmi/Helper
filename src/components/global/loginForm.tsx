@@ -111,10 +111,15 @@ export default function LoginForm() {
                             Log in with Google
                         </Button>
                     </Link>
+                    <div className='flex justify-between text-xs'>
 
                     <Link href="/signup" className='text-blue-600 underline'>
                         Create an accout
                     </Link>
+                    <Link href="/login/reset-password" className='text-blue-600 underline'>
+                        Forget Password?
+                    </Link>
+                    </div>
                 </form>
                 
             </Form>

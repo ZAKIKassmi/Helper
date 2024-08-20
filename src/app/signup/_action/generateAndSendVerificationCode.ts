@@ -17,7 +17,7 @@ export default async function generateEmailVerificationCode(userId: string, emai
             userId,
             email,
             code,
-            expiresAt: createDate(new TimeSpan(15, "m")),
+            expiresAt: createDate(new TimeSpan(5, "m")),
         });
 
         await Promise.all([deleteOldCode, insertNewCode]);

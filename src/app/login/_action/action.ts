@@ -33,8 +33,8 @@ export async function loginAction(_:any, formData: FormData){
         }
 
         const validPassword = await verify(user[0].password, password, {
-            memoryCost: 65536,
-            timeCost: 3,
+            memoryCost: 19456,
+            timeCost: 2,
             outputLen: 32,
             parallelism: 1
         });

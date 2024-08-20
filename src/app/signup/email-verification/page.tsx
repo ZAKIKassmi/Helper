@@ -8,6 +8,5 @@ export default function EmailVerfication() {
     <div className="relative w-full h-screen flex items-center justify-center">
       <VerificationCodeForm/>
     </div>
-   
   )
 }

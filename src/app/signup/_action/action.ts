@@ -7,8 +7,7 @@ import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { sendVerificationCode } from './sendVerificationCode';
-import generateEmailVerificationCode from './generateVerificationCode';
+import generateEmailVerificationCode from './generateAndSendVerificationCode';
 
 
 
@@ -29,18 +28,20 @@ export async function createUser(_: any, formData: FormData ){
     });
 
     let errors: {name:  SignUpFormNameTypes, errorMessage: string}[] = [];
-
+    console.time('Time');
     if(!result.success){
         result.error.issues.forEach((issue)=>{
             errors = [...errors, {name: issue.path[0] as SignUpFormNameTypes, errorMessage: issue.message}]
         });
         return errors;
     }
+    console.timeEnd('Time');
+    console.time('hashing');
     let hashed_password = '';
     try{
         hashed_password = await hash(password,{
-            memoryCost: 65536,
-            timeCost: 3,
+            memoryCost: 19456,
+            timeCost: 2,
             outputLen: 32,
             parallelism: 1
         });
@@ -48,8 +49,10 @@ export async function createUser(_: any, formData: FormData ){
     catch(e){
         console.log('something went wrong with hashing password!');
     }
+    console.timeEnd('hashing');
 
     try{
+        console.time('insert user');
         const userId = await db.insert(userTable).values({
             firstName,
             lastName,
@@ -59,10 +62,10 @@ export async function createUser(_: any, formData: FormData ){
         }).returning({
             id: userTable.id    
         });
+        console.timeEnd('insert user');
         //generate email verification code.
         const verificationCode = await generateEmailVerificationCode(userId[0].id, email);
-        //Send email verification code
-        await sendVerificationCode({firstName,lastName,email, verificationCode});
+    
 
         try{
             const session = await lucia.createSession(userId[0].id,{});

@@ -20,7 +20,7 @@ import { resetPassword } from '@/app/login/reset-password/[token]/_actions/actio
 import zxcvbn from 'zxcvbn';
 
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({token}:{token:string}) {
 
     const [state, formAction] = useFormState(resetPassword, {
         message: "",
@@ -81,7 +81,8 @@ export default function ResetPasswordForm() {
           return;
         }
         formData.append('password', data.password);
-        formData.append('confirmaPasswor',data.confirmPassword)
+        formData.append('confirmePassword',data.confirmPassword);
+        formData.append('token',token);
 
         formAction(formData);
     }

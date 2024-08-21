@@ -63,15 +63,16 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
         error: "could not update the user email verification",
       }
     }
+    //if everything is ok
+    return{
+      error: "Email has been verified!",
+      isError: false
+    }
   }
   catch(e){
     return {
       error: "user not found",
       isError: true
     }
-  }
-	return{
-    error: "Email has been verified!",
-    isError: false
   }
 }

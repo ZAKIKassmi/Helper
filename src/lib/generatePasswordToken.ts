@@ -8,7 +8,12 @@ import { eq } from "drizzle-orm";
 
 
 
-export async function generateResetPasswordToken(userId:string):Promise<{token: string | null}> {
+export async function generateResetPasswordToken(userId:string):Promise<{token: string | null, message: string, isError: boolean}> {
+  const defaultResult = {
+    token: null,
+    message: "We'll send a reset email if the account exists",
+    isError: false,
+  }
   try{
     await db.delete(passwordTokensTable).where(eq(passwordTokensTable.userId, userId));
     try{
@@ -21,17 +26,19 @@ export async function generateResetPasswordToken(userId:string):Promise<{token: 
       });
       return{
         token,
+        message: "We'll send a reset email if the account exists",
+        isError: false
       }
     }
     catch{
-      return{
-        token: null,
-      }
+      return {
+        ...defaultResult,
+        message: "Oops! Something went wrong. Please try again.",
+        isError: true,
+      };
     }
   }
-  catch(e){
-    return{
-      token: null,
-    }
+  catch{
+    return defaultResult;
   }
 }

@@ -14,11 +14,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
+import { resetPasswordLink } from '@/app/login/reset-password/_actions/action';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 
 export default function ResetPasswordForm() {
 
-    // const [state, formAction] = useFormState(, );
+    const [state, formAction] = useFormState(resetPasswordLink, {
+        message: "",
+        isError: true
+    });
     
     const form = useForm<TResetPasswordSchema>({
         resolver: zodResolver(ResetPasswordSchema),
@@ -28,12 +34,21 @@ export default function ResetPasswordForm() {
     });
 
     
+    useEffect(()=>{
+        if(state.isError && state.message.length > 0){
+            toast.error(state.message);
+        }
+        else if(!state.isError && state.message.length > 0){
+            toast.success(state.message);
+        }
+    },[state]);
+  
 
     async function onSubmit(data: TResetPasswordSchema){
         const formData = new FormData;
         formData.append('email', data.email);
 
-        // formAction(formData);
+        formAction(formData);
     }
     return (
     

@@ -32,10 +32,10 @@ export default function VerificationCodeForm() {
   const router = useRouter();
 
   useEffect(()=>{
-    if(state.isError){
+    if(state.isError && state.error.length > 0){
       toast.error(state.error);
     }
-    else{
+    else if(!state.isError && state.error.length > 0){
       toast.success(state.error);
       router.push("/");
     }
@@ -89,7 +89,7 @@ export default function VerificationCodeForm() {
                 <FormDescription>
                 We have sent a verification code to your email.
                 </FormDescription>
-                <FormMessage/>
+                {/* <FormMessage/> */}
             </FormItem>
           )}
         >

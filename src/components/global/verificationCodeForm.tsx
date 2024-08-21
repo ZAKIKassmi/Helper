@@ -86,6 +86,7 @@ export default function VerificationCodeForm() {
                   </InputOTPGroup>
                 </InputOTP>
                 </FormControl>
+                <FormMessage/>
                 <FormDescription>
                 We have sent a verification code to your email.
                 </FormDescription>

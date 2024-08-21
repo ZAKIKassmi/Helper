@@ -25,5 +25,5 @@ export function sendEmail({email, subject,firstName, lastName, isLink, code}:Pro
           </div>
         `,
     });
-  },3000);
+  },1500);
 }

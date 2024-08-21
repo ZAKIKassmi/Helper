@@ -27,7 +27,7 @@ export async function resetPasswordLink(_:any,formData: FormData): Promise<{mess
       }
     }
     //TODO: Change it to the domaine name in production
-    const verificationLink = "http://localhost:3000/reset-password/" + token;
+    const verificationLink = "http://localhost:3000/login/reset-password/" + token;
     const emailDetails = {
       email,
       subject: "Helper Password Reset Link",
@@ -43,7 +43,7 @@ export async function resetPasswordLink(_:any,formData: FormData): Promise<{mess
     catch{
       return defaultResult;
     }
-    return defaultResult;
+    return {...defaultResult, message: "We have sent a link to your email"};
   }
   catch{
     return defaultResult;

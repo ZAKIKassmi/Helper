@@ -63,3 +63,16 @@ export const GoogleUserSchema = z.object({
       }),
   });
     export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
+
+    export const SetNewPasswordSchema = z.object({
+        password: z.string().trim().min(8, {
+            message: 'Password must contain at least 8 characters',
+        }),
+        confirmPassword: z.string().trim().min(8,{
+            message: 'Password must contain at least 8 characters',
+        }),
+    }).refine((data)=> data.password === data.confirmPassword,{
+        message: "Passwords do not match",
+    });
+
+    export type TSetNewPasswordSchema = z.infer<typeof SetNewPasswordSchema>;

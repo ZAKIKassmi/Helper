@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function loginAction(_:any, formData: FormData){
+export async function loginAction(_:any, formData: FormData):Promise<{name: "email" | "password" | "root", errorMessage: string, isToast: boolean}[]>{
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     
@@ -17,10 +17,10 @@ export async function loginAction(_:any, formData: FormData){
         password
     });
 
-    let errors: {name: "email" | "password" | "root", errorMessage: string}[] = [];
+    let errors: {name: "email" | "password" | "root", errorMessage: string, isToast: boolean}[] = [];
     if(!result.success){
         result.error.issues.forEach((issue)=>{
-           errors = [...errors, {name: issue.path[0] as "email" | "password" | "root", errorMessage: issue.message}]
+           errors = [...errors, {name: issue.path[0] as "email" | "password" | "root", errorMessage: issue.message, isToast: false}]
         });
         return errors;
     }
@@ -28,7 +28,7 @@ export async function loginAction(_:any, formData: FormData){
     try{
         const user = await db.select().from(userTable).where(eq(userTable.email, email)).limit(1);
         if(user.length == 0){
-            return errors = [...errors, {name: 'password',errorMessage: 'Email or Password is incorrect'}]
+            return errors = [...errors, {name: 'password',errorMessage: 'Email or password is incorrect.t', isToast:true}]
             
         }
 
@@ -40,7 +40,7 @@ export async function loginAction(_:any, formData: FormData){
         });
 
         if (!validPassword) {
-            return errors = [...errors, {name: 'password',errorMessage: 'Email or Password is incorrect'}]
+            return errors = [...errors, {name: 'password',errorMessage: 'Email or password is incorrect.',isToast:true}];
         }
         
         try{
@@ -49,11 +49,19 @@ export async function loginAction(_:any, formData: FormData){
             cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         }
         catch(e){
-            console.log('Somthing went wrong while trying to create the session');
+            return[{
+                name: 'password',
+                isToast: true,
+                errorMessage: "Oops! Something went wrong. Please try again later."
+            }];
         }
     }
     catch(e){
-        console.log('can not fetch user');
+        return[{
+            name: 'password',
+            isToast: true,
+            errorMessage: "Oops! Something went wrong. Please try again later."
+        }];
     }
     redirect('/');
 }

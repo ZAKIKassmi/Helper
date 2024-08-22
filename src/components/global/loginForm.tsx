@@ -17,6 +17,7 @@ import { loginAction } from '@/app/login/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
 
@@ -32,11 +33,15 @@ export default function LoginForm() {
 
     useEffect(()=>{
         if(Array.isArray(state) && state?.length > 0){
-            console.log('Inside arrayisArray');
-            state.forEach((issue: {name: "email" | "password" | "root", errorMessage: string})=>{
-                form.setError(issue.name, {
-                    message: issue.errorMessage
-                })
+            state.forEach((issue: {name: "email" | "password" | "root", errorMessage: string, isToast:boolean})=>{
+                if(!issue.isToast){
+                    form.setError(issue.name, {
+                        message: issue.errorMessage
+                    })
+                }
+                else{
+                    toast.error(issue.errorMessage);
+                }
             })
         }
     },[state]);
@@ -45,15 +50,7 @@ export default function LoginForm() {
         const formData = new FormData;
         formData.append('email', data.email);
         formData.append('password', data.password);
-
-
-
         formAction(formData);
-        
-        // //reset the function after a successfull submit.
-        // if(!isError){
-        //     // form.reset();
-        // }
     }
     return (
     

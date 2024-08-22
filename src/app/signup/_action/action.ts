@@ -6,9 +6,7 @@ import { lucia } from '@/lib/auth';
 import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
-
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -17,7 +15,6 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
-    //TODO: add a toast message here & improve error handling
     
     const result = userSchema.safeParse({
         firstName,
@@ -51,7 +48,12 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         });
     }
     catch(e){
-        console.log('something went wrong with hashing password!');
+        return[{
+            name: 'confirmPassword',
+            isError: true,
+            isToast: true,
+            errorMessage: "Oops! Something went wrong. Please try again later."
+        }];
     }
 
     try{

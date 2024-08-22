@@ -7,7 +7,6 @@ type Props = {
   lastName: string;
   isLink: boolean;
   code: string;
-
 }
 
 export function sendEmail({email, subject,firstName, lastName, isLink, code}:Props){

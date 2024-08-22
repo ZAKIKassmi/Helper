@@ -1,6 +1,7 @@
 import { db } from "@/drizzle/db";
 import { userTable } from "@/drizzle/schema";
 import { googleAuth, lucia } from "@/lib/auth";
+import { setSession } from "@/lib/session";
 import { GoogleUser, GoogleUserSchema } from "@/lib/types";
 import { OAuth2RequestError } from "arctic";
 import { eq } from "drizzle-orm";
@@ -32,17 +33,33 @@ export async function GET(request: Request):Promise<Response>{
     const googleUser: GoogleUser = await res.json();
     const existingUser = await db.select().from(userTable).where(eq(userTable.googleId, googleUser.sub)).limit(1);
 
-    if(existingUser.length > 0){
-      const session = await lucia.createSession(existingUser[0].id, {});
-      const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-      return new Response(null,{
+    const existingEmail = await db.select().from(userTable).where(eq(userTable.email, googleUser.email)).limit(1);
+
+    if(existingEmail.length > 0 && existingEmail[0].googleId){
+      await setSession(existingEmail[0].id);
+      return new Response(null, {
         status: 302,
-        headers:{
-          Location: "/"
+        headers: {
+          Location: "/",
         }
-      });
+      })
     }
+    else if(existingEmail.length > 0 && !existingEmail[0].googleId){
+      await db.update(userTable).set({
+        firstName: googleUser.given_name,
+        lastName: googleUser.family_name,
+        googleId: googleUser.sub,
+        username: googleUser.name,
+      });
+      await setSession(existingEmail[0].id);
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: "/",
+        }
+      })
+    }
+
 
     const user = await db.insert(userTable).values({
       firstName: googleUser.given_name || '',
@@ -55,10 +72,7 @@ export async function GET(request: Request):Promise<Response>{
     }).returning({
       id: userTable.id,
     });
-    
-    const session = await lucia.createSession(user[0].id,{});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+    await setSession(user[0].id);
     return new Response(null,{
       status: 302,
       headers:{

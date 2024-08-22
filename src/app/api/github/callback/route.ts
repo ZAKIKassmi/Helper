@@ -69,9 +69,6 @@ export async function GET(request: Request): Promise<Response> {
 
       }
 
-
-      
-
       const user = await db.insert(userTable).values({
         firstName: '',
         lastName: '',

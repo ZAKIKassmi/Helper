@@ -2,6 +2,7 @@
 import { db } from "@/drizzle/db";
 import { userTable } from "@/drizzle/schema";
 import { lucia } from "@/lib/auth";
+import { setSession } from "@/lib/session";
 import { loginSchema } from "@/lib/types";
 import { verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
@@ -44,9 +45,7 @@ export async function loginAction(_:any, formData: FormData):Promise<{name: "ema
         }
         
         try{
-            const session = await lucia.createSession(user[0].id,{});
-            const sessionCookie = lucia.createSessionCookie(session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            await setSession(user[0].id);
         }
         catch(e){
             return[{

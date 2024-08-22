@@ -8,6 +8,7 @@ import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
 import { eq } from 'drizzle-orm';
+import { setSession } from '@/lib/session';
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -85,9 +86,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         }
 
         try{
-            const session = await lucia.createSession(userId[0].id,{});
-            const sessionCookie = lucia.createSessionCookie(session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            await setSession(userId[0].id);
         }catch(e){
             return[{
                 name: 'confirmPassword',

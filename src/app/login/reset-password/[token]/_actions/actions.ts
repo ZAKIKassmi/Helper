@@ -2,6 +2,7 @@
 import { db } from "@/drizzle/db";
 import { passwordTokensTable, userTable } from "@/drizzle/schema";
 import { lucia } from "@/lib/auth";
+import { setSession } from "@/lib/session";
 import { SetNewPasswordSchema } from "@/lib/types";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
@@ -65,9 +66,7 @@ export async function resetPassword(_:any, formData: FormData):Promise<{message:
         parallelism: 1
       });
       await db.update(userTable).set({password: passwordHash});
-      const session = await lucia.createSession(dbToken[0].userId,{});
-      const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+      await setSession(dbToken[0].userId);
     }
     catch{
       return {

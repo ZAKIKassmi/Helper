@@ -8,17 +8,16 @@ import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
-import { sendEmail } from '@/lib/email';
 
 
 
-export async function createUser(_: any, formData: FormData ){
+export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
-
+    //TODO: add a toast message here & improve error handling
     
     const result = userSchema.safeParse({
         firstName,
@@ -28,12 +27,17 @@ export async function createUser(_: any, formData: FormData ){
         confirmPassword
     });
 
-    let errors: {name:  SignUpFormNameTypes, errorMessage: string}[] = [];
+    let errors: {name:  SignUpFormNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
 
     if(!result.success){
         result.error.issues.forEach((issue)=>{
-            errors = [...errors, {name: issue.path[0] as SignUpFormNameTypes, errorMessage: issue.message}]
+            errors = [...errors, {name: issue.path[0] as SignUpFormNameTypes, errorMessage: issue.message,isToast: false, isError: true}]
         });
+        return errors;
+    }
+
+    if(password !== confirmPassword){
+        errors = [...errors, {name: "confirmPassword", errorMessage: "Passwords do not match!", isToast: true,isError: true}];
         return errors;
     }
 
@@ -61,20 +65,33 @@ export async function createUser(_: any, formData: FormData ){
             id: userTable.id    
         });
         //generate and send email verification code.
-        const verificationCode = await generateEmailVerificationCode(userId[0].id, email);
+        const {isError, isToast, errorMessage} = await generateEmailVerificationCode(userId[0].id, email);
+        if(isError){
+            return [{name: "confirmPassword", isToast, errorMessage,isError}];
+        }
 
         try{
             const session = await lucia.createSession(userId[0].id,{});
             const sessionCookie = lucia.createSessionCookie(session.id);
             cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         }catch(e){
-            console.log('Something went wrong while sitting up the cookies',e);
-            return;
+            return[{
+                name: 'confirmPassword',
+                isError: true,
+                isToast: true,
+                errorMessage: "Oops! Something went wrong. Please try again later."
+            }]
         }
     }
     catch(e){
-        console.log('Could not insert the user');
-        return;
+        return[{
+            name: 'confirmPassword',
+            isError: true,
+            isToast: true,
+            errorMessage: "Oops! Something went wrong. Please try again later."
+        }];
     }
-    redirect('/signup/email-verification');
+    return [{name: 'confirmPassword', isError: false, isToast: true, errorMessage: "We've sent a verification code to your email"}];
+
+    
 } 

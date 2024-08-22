@@ -19,6 +19,7 @@ import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
  
 
 export default function CustomForm() {
@@ -35,14 +36,25 @@ export default function CustomForm() {
             confirmPassword: ''
         }   
     });
-
+    const router = useRouter();
+    //prefetch the email verification route.
+    router.prefetch("/signup/email-verification");
     useEffect(()=>{
         if(Array.isArray(state) && state?.length > 0){
-            state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string})=>{
-                form.setError(issue.name, {
-                    message: issue.errorMessage
-                })
-            })
+            state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
+                if(!issue.isToast){
+                    form.setError(issue.name, {
+                        message: issue.errorMessage
+                    })
+                }
+                else if(issue.isToast && issue.isError){
+                    toast.error(issue.errorMessage);
+                }
+                else if(issue.isToast && !issue.isError){
+                    toast.success(issue.errorMessage);
+                    router.push("/signup/email-verification");
+                }
+            });
         }
     },[state]);
 
@@ -78,6 +90,10 @@ export default function CustomForm() {
             toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.",{
                 duration: 4500,
             });
+            return;
+        }
+        if(data.password !== data.confirmPassword){
+            toast.error("Passwords do not match!!");
             return;
         }
         const formData = new FormData();

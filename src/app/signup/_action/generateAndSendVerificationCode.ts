@@ -4,11 +4,9 @@ import { emailVerificationTable, userTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { TimeSpan, createDate } from "oslo";
 import { generateRandomString, alphabet } from "oslo/crypto";
-
-import { mailOptions, transporter } from "@/lib/nodemailer";
 import { sendEmail } from "@/lib/email";
 
-export default async function generateEmailVerificationCode(userId: string, email: string): Promise<string> {
+export default async function generateEmailVerificationCode(userId: string, email: string): Promise<{isError: boolean, isToast: boolean, errorMessage: string}> {
     const code = generateRandomString(8, alphabet("0-9"));
     
     try {
@@ -33,9 +31,17 @@ export default async function generateEmailVerificationCode(userId: string, emai
         } 
         await sendEmail(emailDetails);
         
-        return code;
-    } catch (e) {
-        console.error('Error during email verification code generation:', e);
-        return 'Could not generate code';
+        return {
+            isError: false,
+            errorMessage: "We have send a verification code to your email",
+            isToast: true,
+        }
+    }
+    catch{
+        return {
+            isError: true,
+            errorMessage: "Oops! Something went wrong while generating the verification code",
+            isToast: true,
+        };
     }
 }

@@ -7,6 +7,7 @@ import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
+import { eq } from 'drizzle-orm';
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -32,10 +33,21 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         });
         return errors;
     }
+    //Check if the email already exist in the database. (EMAILS MUST BE UNIQUE);
+    try{
+        const checkExistingEmail = await db.select().from(userTable).where(eq(userTable.email, email));
+        if(checkExistingEmail.length > 0){
+            //trying to keep the errorMessages vague.
+            return [{name: "confirmPassword", errorMessage: "Oops! Something went wrong", isToast: true,isError: true}];
+        }
+    }
+    catch(e){
+        return [{name: "confirmPassword", errorMessage: "Oops! Something went wrong. Please try again later", isToast: true,isError: true}];
+    }
 
     if(password !== confirmPassword){
-        errors = [...errors, {name: "confirmPassword", errorMessage: "Passwords do not match!", isToast: true,isError: true}];
-        return errors;
+        return [{name: "confirmPassword", errorMessage: "Passwords do not match!", isToast: true,isError: true}];
+        
     }
 
     let hashed_password = '';

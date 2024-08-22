@@ -12,7 +12,6 @@ export const userTable = pgTable('user_table',{
     githubId: integer('github_id').unique(),
     username: varchar('username'),
     googleId: text("google_id").unique(),
-
 });
 
 export const sessions = pgTable('sessions',{

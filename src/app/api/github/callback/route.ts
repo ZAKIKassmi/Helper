@@ -4,6 +4,7 @@ import { OAuth2RequestError } from "arctic";
 import { userTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { db } from "@/drizzle/db";
+import { setSession } from "@/lib/session";
 
 
 export async function GET(request: Request): Promise<Response> {
@@ -48,9 +49,7 @@ export async function GET(request: Request): Promise<Response> {
             username: githubUser.login,
             emailVerified: true,
           });
-          const session = await lucia.createSession(existingEmail[0].id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+          await setSession(existingEmail[0].id);
           return new Response(null, {
             status: 302,
             headers: {
@@ -59,33 +58,19 @@ export async function GET(request: Request): Promise<Response> {
           });
         }
         if(existingEmail.length > 0 && existingEmail[0].githubId){
-          const session = await lucia.createSession(existingEmail[0].id, {});
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-        return new Response(null, {
-          status: 302,
-          headers: {
-            Location: "/"
-          }
-        });
+          await setSession(existingEmail[0].id);
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: "/"
+            }
+          });
         }
 
       }
 
 
-      // const existingUser = await db.select().from(userTable).where(eq(userTable.githubId, gitId)).limit(1);
-
-      // if (existingUser.length > 0) {
-      //   const session = await lucia.createSession(existingUser[0].id, {});
-      //   const sessionCookie = lucia.createSessionCookie(session.id);
-      //   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
-      //   return new Response(null, {
-      //     status: 302,
-      //     headers: {
-      //       Location: "/"
-      //     }
-      //   });
-      // }
+      
 
       const user = await db.insert(userTable).values({
         firstName: '',
@@ -99,18 +84,13 @@ export async function GET(request: Request): Promise<Response> {
         id: userTable.id    
     });
 
-      const session = await lucia.createSession(user[0].id, {});
-      const sessionCookie = lucia.createSessionCookie(session.id);
-      cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+      await setSession(user[0].id);
       return new Response(null, {
         status: 302,
         headers: {
           Location: "/"
         }
       });
-
-
-
     }
     catch(e){
       // the specific error message depends on the provider
@@ -123,10 +103,7 @@ export async function GET(request: Request): Promise<Response> {
       return new Response(null, {
         status: 500
       });
-
     }
-
-
 }
 
 function getPrimaryEmail(emails: Email[]): string {

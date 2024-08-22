@@ -71,8 +71,6 @@ export const GoogleUserSchema = z.object({
         confirmPassword: z.string().trim().min(8,{
             message: 'Password must contain at least 8 characters',
         }),
-    }).refine((data)=> data.password === data.confirmPassword,{
-        message: "Passwords do not match",
     });
 
     export type TSetNewPasswordSchema = z.infer<typeof SetNewPasswordSchema>;

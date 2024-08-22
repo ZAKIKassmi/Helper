@@ -18,9 +18,12 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { resetPassword } from '@/app/login/reset-password/[token]/_actions/actions';
 import zxcvbn from 'zxcvbn';
+import { useRouter } from 'next/navigation';
 
 
-export default function ResetPasswordForm({token}:{token:string}) {
+export default function ResetPasswordForm(
+    {token}:{token:string}
+){
 
     const [state, formAction] = useFormState(resetPassword, {
         message: "",
@@ -31,7 +34,7 @@ export default function ResetPasswordForm({token}:{token:string}) {
     const form = useForm<TSetNewPasswordSchema>({
         resolver: zodResolver(SetNewPasswordSchema),
         defaultValues: {
-            password: '',
+            password: "",
             confirmPassword: "",
         }
     });
@@ -63,35 +66,45 @@ export default function ResetPasswordForm({token}:{token:string}) {
       }
   }
 
-    
+    const router = useRouter();
     useEffect(()=>{
         if(state.isError && state.message.length > 0){
             toast.error(state.message);
         }
         else if(!state.isError && state.message.length > 0){
             toast.success(state.message);
+            router.push('/');
         }
     },[state]);
   
 
     async function onSubmit(data: TSetNewPasswordSchema){
+        if(zxcvbn(data.password).score < 3){
+            toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.",{
+                duration: 4500,
+            });
+            return;
+        }
         const formData = new FormData;
         if(data.password !== data.confirmPassword){
           toast.error("Oops! The passwords you entered don't match.");
           return;
         }
         formData.append('password', data.password);
-        formData.append('confirmePassword',data.confirmPassword);
+        formData.append('confirmPassword',data.confirmPassword);
         formData.append('token',token);
 
         formAction(formData);
     }
+
+    const onInvalid = (errors:any) => console.error(errors)
     return (
     
             <Form {...form}>
                 <form
                 className='flex flex-col max-w-[500px] w-full gap-4'
-                onSubmit={form.handleSubmit(onSubmit)}>
+                onSubmit={form.handleSubmit(onSubmit,onInvalid)}>
+
                     <FormField 
                         name='password'
                         control={form.control}
@@ -142,15 +155,10 @@ export default function ResetPasswordForm({token}:{token:string}) {
                         )}
                     >
                     </FormField>
-
-                    
-                
-                    <Button type='submit' disabled={form.formState.isSubmitting}>
+                    <Button type="submit" disabled={form.formState.isSubmitting}>
                         Reset Password
                     </Button>
-                    
                 </form>
-                
             </Form>
 
             

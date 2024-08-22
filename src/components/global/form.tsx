@@ -16,13 +16,15 @@ import { Input } from '../ui/input';
 import {signupItems} from '@/lib/constants';
 import { createUser } from '@/app/signup/_action/action';
 import { useFormState } from 'react-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import zxcvbn from 'zxcvbn';
+import { toast } from 'sonner';
  
 
 export default function CustomForm() {
 
     const [state, formAction] = useFormState(createUser, null);
-
+    const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
     const form = useForm<TUserSchema>({
         resolver: zodResolver(userSchema),
         defaultValues: {
@@ -44,7 +46,40 @@ export default function CustomForm() {
         }
     },[state]);
 
+    function evaluatePasswordStrength(password: string) {
+        const result = zxcvbn(password);
+        if (password.length === 0) {
+          setPasswordState('');
+          return;
+        }
+        switch (result.score) {
+            case 0:
+                setPasswordState('Very Weak');
+                break;
+            case 1:
+                setPasswordState('Weak');
+                break;
+            case 2:
+                setPasswordState('Moderate');
+                break;
+            case 3:
+                setPasswordState('Strong');
+                break;
+            case 4:
+                setPasswordState('Very Strong');
+                break;
+            default:
+                setPasswordState("");
+        }
+    }
+
     async function onSubmit(data: TUserSchema){
+        if(zxcvbn(data.password).score < 3){
+            toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.",{
+                duration: 4500,
+            });
+            return;
+        }
         const formData = new FormData();
         //server actions accept FromData object
         formData.append('firstName', data.firstName);
@@ -69,8 +104,25 @@ export default function CustomForm() {
                         <FormItem>
                             <FormLabel>{item.displayedName}</FormLabel>
                             <FormControl>
-                                <Input placeholder={item.displayedName} type={item.type}  {...field} />
+                                <Input placeholder={item.displayedName} type={item.type}  {...field} 
+                                    onChange={(e) => {
+                                        field.onChange(e);
+                                        if (item.name === 'password') {
+                                            evaluatePasswordStrength(e.target.value);
+                                        }
+                                    }}
+                                />
                             </FormControl>
+                            {item.name === 'password' && <FormDescription className={
+                                  !passwordState ? "hidden" :
+                                  passwordState === "Weak" ? "text-orange-500" :
+                                  passwordState === "Very Weak" ? "text-red-500" :
+                                  passwordState === "Moderate" ? "text-yellow-500" :
+                                  passwordState === "Strong" ? "text-green-500" :
+                                  "text-blue-500"
+                                }>
+                                    {passwordState}
+                                </FormDescription>}
                             <FormMessage />
                         </FormItem>  
                         )}

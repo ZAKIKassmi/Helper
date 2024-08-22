@@ -8,6 +8,7 @@ import {hash} from '@node-rs/argon2';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
+import { sendEmail } from '@/lib/email';
 
 
 
@@ -28,15 +29,14 @@ export async function createUser(_: any, formData: FormData ){
     });
 
     let errors: {name:  SignUpFormNameTypes, errorMessage: string}[] = [];
-    console.time('Time');
+
     if(!result.success){
         result.error.issues.forEach((issue)=>{
             errors = [...errors, {name: issue.path[0] as SignUpFormNameTypes, errorMessage: issue.message}]
         });
         return errors;
     }
-    console.timeEnd('Time');
-    console.time('hashing');
+
     let hashed_password = '';
     try{
         hashed_password = await hash(password,{
@@ -49,10 +49,8 @@ export async function createUser(_: any, formData: FormData ){
     catch(e){
         console.log('something went wrong with hashing password!');
     }
-    console.timeEnd('hashing');
 
     try{
-        console.time('insert user');
         const userId = await db.insert(userTable).values({
             firstName,
             lastName,
@@ -62,10 +60,8 @@ export async function createUser(_: any, formData: FormData ){
         }).returning({
             id: userTable.id    
         });
-        console.timeEnd('insert user');
-        //generate email verification code.
+        //generate and send email verification code.
         const verificationCode = await generateEmailVerificationCode(userId[0].id, email);
-    
 
         try{
             const session = await lucia.createSession(userId[0].id,{});

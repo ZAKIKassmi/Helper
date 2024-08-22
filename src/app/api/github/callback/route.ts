@@ -39,14 +39,27 @@ export async function GET(request: Request): Promise<Response> {
         );
         const githubUserEmails = await githubUserEmailResponse.json();
   
-        githubUser.email = getPrimaryEmail(githubUserEmails);
-      }
-
-
-      const existingUser = await db.select().from(userTable).where(eq(userTable.githubId, gitId)).limit(1);
-
-      if (existingUser.length > 0) {
-        const session = await lucia.createSession(existingUser[0].id, {});
+        // githubUser.email = getPrimaryEmail(githubUserEmails);
+        const primaryEmail = getPrimaryEmail(githubUserEmails);
+        const existingEmail  = await db.select().from(userTable).where(eq(userTable.email,primaryEmail));
+        if(existingEmail.length > 0 && !existingEmail[0].githubId){
+          await db.update(userTable).set({
+            githubId: gitId,
+            username: githubUser.login,
+            emailVerified: true,
+          });
+          const session = await lucia.createSession(existingEmail[0].id, {});
+        const sessionCookie = lucia.createSessionCookie(session.id);
+        cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: "/"
+            }
+          });
+        }
+        if(existingEmail.length > 0 && existingEmail[0].githubId){
+          const session = await lucia.createSession(existingEmail[0].id, {});
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
         return new Response(null, {
@@ -55,7 +68,24 @@ export async function GET(request: Request): Promise<Response> {
             Location: "/"
           }
         });
+        }
+
       }
+
+
+      // const existingUser = await db.select().from(userTable).where(eq(userTable.githubId, gitId)).limit(1);
+
+      // if (existingUser.length > 0) {
+      //   const session = await lucia.createSession(existingUser[0].id, {});
+      //   const sessionCookie = lucia.createSessionCookie(session.id);
+      //   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+      //   return new Response(null, {
+      //     status: 302,
+      //     headers: {
+      //       Location: "/"
+      //     }
+      //   });
+      // }
 
       const user = await db.insert(userTable).values({
         firstName: '',

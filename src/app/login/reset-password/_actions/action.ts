@@ -3,12 +3,30 @@ import { db } from "@/drizzle/db";
 import { userTable } from "@/drizzle/schema";
 import { sendEmail } from "@/lib/email";
 import { generateResetPasswordToken } from "@/lib/generatePasswordToken";
+import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 
 
 export async function resetPasswordLink(_:any,formData: FormData): Promise<{message: string,isError:boolean}> {
   const email = formData.get('email') as string;
+  const emailSchema = z.string().email();
+
+  const res = emailSchema.safeParse(email);
+  if(!res.success){
+    return {
+      message: "Please enter a valid email!!",
+      isError: true
+    }
+  }
+  const checkLimit = await rateLimitByIp({limit: 1, window: 10000,key: email});
+  if(checkLimit?.isError){
+    return {
+      message: checkLimit.message,
+      isError: true,
+    }
+  }
   const defaultResult = {
     message: "We'll send a reset email if the account exists",
     isError: false,

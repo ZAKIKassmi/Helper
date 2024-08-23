@@ -110,10 +110,10 @@ export default function LoginForm() {
                     </Link>
                     <div className='flex justify-between text-xs'>
 
-                    <Link href="/signup" className='text-blue-600 underline'>
+                    <Link href="/signup" className='text-blue-600 underline' prefetch={true}>
                         Create an accout
                     </Link>
-                    <Link href="/login/reset-password" className='text-blue-600 underline'>
+                    <Link href="/login/reset-password" className='text-blue-600 underline' prefetch={true}>
                         Forget Password?
                     </Link>
                     </div>

@@ -2,7 +2,6 @@
 import { 
     Form, 
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -55,7 +54,9 @@ export default function ResetPasswordEmailForm() {
             <Form {...form}>
                 <form
                 className='flex flex-col max-w-[500px] w-full gap-4'
-                onSubmit={form.handleSubmit(onSubmit)}>
+                onSubmit={form.handleSubmit(onSubmit)}
+                noValidate
+                >
 
 
                     <FormField 

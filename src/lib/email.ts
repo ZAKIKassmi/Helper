@@ -12,6 +12,9 @@ type Props = {
 export function sendEmail({email, subject,firstName, lastName, isLink, code}:Props){
   // I have used setTimeout to defer the process of sending email by 3 seconds 
   // to improve the user experience by avoiding the 1-second delay in loading the verification page. 
+
+
+  //TODO: Improve UI
   setTimeout(async()=>{
     await transporter.sendMail({
         ...mailOptions,

@@ -48,6 +48,7 @@ export async function GET(request: Request): Promise<Response> {
             githubId: gitId,
             username: githubUser.login,
             emailVerified: true,
+            pictureUrl: githubUser.avatar_url
           });
           await setSession(existingEmail[0].id);
           return new Response(null, {
@@ -76,7 +77,8 @@ export async function GET(request: Request): Promise<Response> {
         password: '',
         githubId: gitId,
         username: githubUser.login,
-        emailVerified: true
+        emailVerified: true,
+        pictureUrl: githubUser.avatar_url
       }).returning({
         id: userTable.id    
     });
@@ -119,4 +121,5 @@ interface GitHubUser {
 	id: string;
 	login: string;
   email: string;
+  avatar_url: string,
 }

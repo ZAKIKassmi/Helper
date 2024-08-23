@@ -50,6 +50,7 @@ export async function GET(request: Request):Promise<Response>{
         lastName: googleUser.family_name,
         googleId: googleUser.sub,
         username: googleUser.name,
+        pictureUrl: googleUser.picture,
       });
       await setSession(existingEmail[0].id);
       return new Response(null, {

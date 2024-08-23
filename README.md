@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# User Login and Signup Template Using Next.js 14 and Lucia Auth
 
-First, run the development server:
+I have created a template for user login and signup either by their email and passwords or OAuth 2.0 using Lucia Auth for Authentication, Zod for schema declaration and validation, Drizzle ORM, and Postgresql.
+
+
+
+
+## Dependencies
+
+You will need to i the following dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  npx create-next-app@latest
+  npx shadcn-ui@latest init
+  npm i lucia
+  npm i @lucia-auth/adapter-drizzle
+  npm i postgres
+  npm i dotenv
+  npm i sonner
+  npm i zod
+  npm i drizzle-orm
+  npm i drizzle-kit
+  npm i arctic
+  npm i react-hook-form
+  npm i @hookform/resolvers
+  npm i oslo
+  npm i zxcvbn
 ```
+Developer dependencies:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+  npm i @types/nodemailer
+  npm i @types/pg
+  npm i @types/ zxcvbn
+```
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To run this project, you will need to add the following environment variables to your .env file. 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+`DATABASE_URL`
 
-## Learn More
+`GITHUB_CLIENT_ID`
 
-To learn more about Next.js, take a look at the following resources:
+`GITHUB_CLIENT_SECRET`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`GOOGLE_CLIENT_ID`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+`GOOGLE_CLIENT_SECRET`
 
-## Deploy on Vercel
+`EMAIL` 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`EMAIL_PASSWORD` 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+`HOST_NAME`
+
+
+
+## Documentation
+
+[Lucia Auth](https://lucia-auth.com/)                     
+[Drizzle ORM](https://orm.drizzle.team/)  
+[Zod](https://zod.dev/)   
+[nodemailer](https://nodemailer.com/)  
+[Next.js](https://nextjs.org/)
+
+## FAQ
+
+#### What value should I assign to the "EMAIL" environment variable?
+
+It is your foundation, company, or personal email address that you will use to send email verification codes and password reset links to your users.
+
+
+#### What value should I assing to the 'EMAIL_PASSWORD' environment variable?
+
+If the email account you plan to use does not have 2-step verification, you should use the email password directly.
+
+If the email account has 2-step verification enabled, you will need to generate an app-specific password:
+
+  - Go to **Manage your Google Account.**
+  - Navigate **to Security and then App passwords.**
+  - Select **Create an app password.**
+  - Follow the prompts to **generate a new app password.**
+  - Add the generated app password to your **.env** file.
+
+
+## Author
+
+- [@ElKassmiZakariae](https://github.com/ZAKIKassmi)
+

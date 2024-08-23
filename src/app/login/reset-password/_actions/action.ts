@@ -6,7 +6,7 @@ import { generateResetPasswordToken } from "@/lib/generatePasswordToken";
 import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-
+import "dotenv/config";
 
 
 export async function resetPasswordLink(_:any,formData: FormData): Promise<{message: string,isError:boolean}> {
@@ -45,7 +45,7 @@ export async function resetPasswordLink(_:any,formData: FormData): Promise<{mess
       }
     }
     //TODO: Change it to the domaine name in production
-    const verificationLink = "http://localhost:3000/login/reset-password/" + token;
+    const verificationLink = process.env.HOST_NAME+"/login/reset-password/" + token;
     const emailDetails = {
       email,
       subject: "Helper Password Reset Link",

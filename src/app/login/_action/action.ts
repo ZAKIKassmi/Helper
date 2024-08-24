@@ -1,17 +1,25 @@
 'use server';
 import { db } from "@/drizzle/db";
 import { userTable } from "@/drizzle/schema";
-import { lucia } from "@/lib/auth";
+import { rateLimitByIp } from "@/lib/limiter";
 import { setSession } from "@/lib/session";
 import { loginSchema } from "@/lib/types";
 import { verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function loginAction(_:any, formData: FormData):Promise<{name: "email" | "password" | "root", errorMessage: string, isToast: boolean}[]>{
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
+
+    const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});
+  if(checkLimit?.isError){
+    return [{
+        name: "password",
+        errorMessage: checkLimit.message,
+        isToast: true,
+    }]
+  }
     
     const result = loginSchema.safeParse({
         email,

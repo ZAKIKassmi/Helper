@@ -70,6 +70,7 @@ export async function GET(request: Request):Promise<Response>{
       username: googleUser.name || null,
       googleId: googleUser.sub,
       emailVerified: true,
+      pictureUrl: googleUser.picture
     }).returning({
       id: userTable.id,
     });

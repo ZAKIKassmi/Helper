@@ -2,12 +2,12 @@
 import { db } from "@/drizzle/db";
 import { emailVerificationTable, userTable } from "@/drizzle/schema";
 import { validateRequest } from "@/lib/auth";
+import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
 import { isWithinExpirationDate } from "oslo";
 
 
 export async function verifyVerificationCode(_:any, formData: FormData): Promise<{error: string,isError:boolean}> {
-	//TODO: ADD A RATE LIMITER
   try{
     const {user} = await validateRequest();
     if(!user){
@@ -16,6 +16,14 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
         isError: true
       }
     }
+    const {message, isError} = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
+    if(isError){
+      return{
+        error: message,
+        isError: isError,
+      }
+    }
+
     try{
       const data = await db.select().from(emailVerificationTable).where(eq(emailVerificationTable.userId, user.id));
       if(data.length == 0 || data[0].code !== formData.get('code')){
@@ -42,7 +50,7 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
 
       if(user.email !== data[0].email){
         return{
-          error: "Not the same user",
+          error: "Oops! Something went wrong. Please try again later.",
           isError: true
         }
       }
@@ -60,12 +68,12 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
     catch{
       return{
         isError: true,
-        error: "could not update the user email verification",
+        error: "Could not update the user email verification",
       }
     }
     //if everything is ok
     return{
-      error: "Email has been verified!",
+      error: "Email has been verified.",
       isError: false
     }
   }

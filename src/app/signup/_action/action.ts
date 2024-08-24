@@ -1,14 +1,12 @@
 'use server';
 import { db } from '@/drizzle/db';
 import { userTable } from '@/drizzle/schema';
-import { lucia } from '@/lib/auth';
-
 import { SignUpFormNameTypes, userSchema } from '@/lib/types';
 import {hash} from '@node-rs/argon2';
-import { cookies } from 'next/headers';
 import generateEmailVerificationCode from './generateAndSendVerificationCode';
 import { eq } from 'drizzle-orm';
 import { setSession } from '@/lib/session';
+import { rateLimitByIp } from '@/lib/limiter';
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -17,6 +15,16 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
+    
+    const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});    
+    if(checkLimit?.isError){
+      return [{
+        name: "confirmPassword",
+        errorMessage: checkLimit.message,
+        isToast: true,
+        isError: true,
+      }]
+    }
     
     const result = userSchema.safeParse({
         firstName,

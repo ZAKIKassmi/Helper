@@ -20,7 +20,7 @@ export async function resetPasswordLink(_:any,formData: FormData): Promise<{mess
       isError: true
     }
   }
-  const checkLimit = await rateLimitByIp({limit: 1, window: 10000,key: email});
+  const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});
   if(checkLimit?.isError){
     return {
       message: checkLimit.message,
@@ -61,7 +61,7 @@ export async function resetPasswordLink(_:any,formData: FormData): Promise<{mess
     catch{
       return defaultResult;
     }
-    return {...defaultResult, message: "We have sent a link to your email"};
+    return {...defaultResult, message: "We'll send a reset email if the account exists"};
   }
   catch{
     return defaultResult;

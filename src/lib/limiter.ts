@@ -1,11 +1,5 @@
 import { getIp } from "./get-ip";
 
-export class RateLimitError extends Error {
-  constructor() {
-    super("Rate limit exceeded");
-    this.name = "RateLimitError";
-  }
-}
 
 const PRUNE_INTERVAL = 60 * 1000; // 1 minute
 
@@ -30,22 +24,25 @@ function pruneTrackers() {
 setInterval(pruneTrackers, PRUNE_INTERVAL);
 
 export async function rateLimitByIp({
-  key = "global",
+  key="global",
   limit = 5,
-  window = 10000 * 360 * 24,
+  window = 10000 * 360 * 4,
 }: {
-  key: string;
+  key: string,
   limit: number;
   window: number;
 }) {
   const ip = getIp();
 
   if (!ip) {
-    throw new RateLimitError();
+    return {
+      message: "Oops! Something went wrong!! We could not find the IP address",
+      isError: true
+    }
   }
 
   const res = await rateLimitByKey({
-    key: `${ip}-${key}`,
+    key: ip || key,
     limit,
     window,
   });

@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/drizzle/db";
 import { userTable } from "@/drizzle/schema";
 import { validateRequest } from "@/lib/auth";
-import { TUserSchema } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
@@ -27,12 +26,12 @@ export default async function Home() {
   
   return (
     <div>
-      <Avatar>
+        {    user.length > 0 &&  <Avatar>
         <AvatarImage src={user[0]?.pictureUrl as string} />
         <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+      </Avatar>}
       <div>
-        Hello {(user[0].firstName && user[0].lastName )|| user[0].username}
+        Hello {(user.length > 0) && ((user[0].firstName && user[0].lastName )|| user[0].username)}
       </div>
       <LogOutForm/>
     </div>

@@ -9,6 +9,7 @@ import { isWithinExpirationDate } from "oslo";
 
 export async function verifyVerificationCode(_:any, formData: FormData): Promise<{error: string,isError:boolean}> {
   try{
+    
     const {user} = await validateRequest();
     if(!user){
       return {
@@ -16,14 +17,14 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
         isError: true
       }
     }
-    const {message, isError} = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
-    if(isError){
+    const checkLimit = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
+    if(checkLimit.isError){
       return{
-        error: message,
-        isError: isError,
+        error: checkLimit.message,
+        isError: true,
       }
     }
-
+    
     try{
       const data = await db.select().from(emailVerificationTable).where(eq(emailVerificationTable.userId, user.id));
       if(data.length == 0 || data[0].code !== formData.get('code')){
@@ -78,6 +79,7 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
     }
   }
   catch(e){
+    console.log(e);
     return {
       error: "user not found",
       isError: true

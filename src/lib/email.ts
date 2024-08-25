@@ -21,9 +21,31 @@ export function sendEmail({email, subject,firstName, lastName, isLink, code}:Pro
         to: email,
         subject,
         html: `
-          <div className="flex flex-col items-center w-full h-screen justify-center gap-4">
-            <h1>Hello ${firstName} ${lastName}</h1>
-            <div>This is your ${isLink ? "rest link" : "verification code"}:<br> <strong>${code}</strong></div>
+          <div style="display: flex; flex-direction: column; width: 100%; justify-content: center; align-items: center;">
+            <div style="max-width: 500px; width: 100%; padding: 16px; margin: 16px auto; ">
+              <h1 style="font-size: 24px; font-weight: bold; color: #EF4444; text-align: center;">
+                Helper*
+              </h1>
+              <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 20px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">
+                  Hello ${firstName} ${lastName},
+                </h2>
+                <p>You have been registered to Helper successfully. Here is your ${isLink ? "reset link" : "verification code"}:</p>
+              </div>
+              ${
+                isLink ? `
+                  <a href="${code}" target="_blank" style="display: block; text-align: center; margin-bottom: 24px;">
+                    <button style="background-color: #1F2937; color: white; padding: 10px 20px; border: none; cursor: pointer; font-size: 16px;">
+                      Reset Password
+                    </button>
+                  </a>
+                ` : `
+                  <p style="padding: 8px 16px; border-radius: 4px; background-color: #1F2937; color: white; text-align: center; width: fit-content; margin: 0 auto;">
+                    ${code}
+                  </p>
+                `
+              }
+            </div>
           </div>
         `,
     });

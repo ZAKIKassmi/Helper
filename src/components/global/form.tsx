@@ -38,7 +38,7 @@ export default function CustomForm() {
     });
     const router = useRouter();
     //prefetch the email verification route.
-    router.prefetch("/signup/email-verification");
+    // router.prefetch("/signup/email-verification");
     useEffect(()=>{
         if(Array.isArray(state) && state?.length > 0){
             state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
@@ -87,14 +87,12 @@ export default function CustomForm() {
 
     async function onSubmit(data: TUserSchema){
         if(zxcvbn(data.password).score < 3){
-            toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.",{
-                duration: 4500,
-            });
-            return;
+            toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.");
+            return null;
         }
         if(data.password !== data.confirmPassword){
             toast.error("Passwords do not match!!");
-            return;
+            return null;
         }
         const formData = new FormData();
         //server actions accept FromData object

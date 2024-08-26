@@ -37,7 +37,7 @@ export async function loginAction(_:any, formData: FormData):Promise<{name: "ema
     try{
         const user = await db.select().from(userTable).where(eq(userTable.email, email)).limit(1);
         if(user.length == 0){
-            return errors = [...errors, {name: 'password',errorMessage: 'Email or password is incorrect.t', isToast:true}]
+            return errors = [...errors, {name: 'password',errorMessage: 'Email or password is incorrect', isToast:true}]
             
         }
 

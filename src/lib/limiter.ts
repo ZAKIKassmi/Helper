@@ -73,11 +73,11 @@ export async function rateLimitByKey({
       isError: true
     }
   }
+  trackers.set(key, tracker);
 
   return {
     message: "",
     isError: false,
   }
 
-  trackers.set(key, tracker);
 }

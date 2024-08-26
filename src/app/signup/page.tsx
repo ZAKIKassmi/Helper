@@ -1,5 +1,7 @@
-import dynamic from "next/dynamic";
-const CustomForm = dynamic(()=>import('@/components/global/form'), {ssr: false});
+// import dynamic from "next/dynamic";
+// const CustomForm = dynamic(()=>import('@/components/global/form'), {ssr: false});
+
+import CustomForm from "@/components/global/form";
 
 export default function Page() {
   return (

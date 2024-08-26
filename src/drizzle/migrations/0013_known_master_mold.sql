@@ -1,1 +1,0 @@
-ALTER TABLE "user_table" ADD COLUMN "email_verified" boolean NOT NULL;

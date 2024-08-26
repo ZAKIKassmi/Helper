@@ -42,6 +42,7 @@ export async function GET(request: Request): Promise<Response> {
   
         // githubUser.email = getPrimaryEmail(githubUserEmails);
         const primaryEmail = getPrimaryEmail(githubUserEmails);
+        githubUser.email = primaryEmail;
         const existingEmail  = await db.select().from(userTable).where(eq(userTable.email,primaryEmail));
         if(existingEmail.length > 0 && !existingEmail[0].githubId){
           await db.update(userTable).set({

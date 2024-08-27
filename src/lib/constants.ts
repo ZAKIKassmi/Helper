@@ -27,3 +27,25 @@ export const signupItems: { name: FormFieldName; displayedName: string,type: str
         type: 'password'
     }
 ]
+
+
+
+export const aboutLinkDropDownItems: {name: string, location: string}[] = [
+    {
+        name: 'Newsroom',
+        location: '/Newsroom',
+    },
+    {
+        name: 'How We Work?',
+        location: '/#HowWeWork',
+
+    },
+    {
+        name: 'Help Center',
+        location: '/helpcenter',
+    },
+    {
+        name:'Supported Countries',
+        location: '/suppported-countries',
+    }
+]

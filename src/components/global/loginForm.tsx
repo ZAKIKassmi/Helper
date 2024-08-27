@@ -13,7 +13,7 @@ import { loginSchema,TLoginSchema } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { loginAction } from '@/app/login/_action/action';
+import { loginAction } from '@/app/(auth)/login/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Link from 'next/link';

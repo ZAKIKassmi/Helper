@@ -15,7 +15,7 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "../ui/input-otp";
 import { Button } from "../ui/button";
 import { TVerificationFormSchema, VerificationFormSchema } from "@/lib/types";
-import { verifyVerificationCode } from "@/app/signup/email-verification/_action/action";
+import { verifyVerificationCode } from "@/app/(auth)/signup/email-verification/_action/action";
 import { useFormState } from "react-dom";
 import {Toaster, toast} from 'sonner';
 import { useEffect } from "react";

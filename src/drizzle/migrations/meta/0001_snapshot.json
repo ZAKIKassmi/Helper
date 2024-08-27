@@ -1,6 +1,6 @@
 {
-  "id": "f6ac66b6-6d4d-418a-a2ac-f4922d749924",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "df843a50-a0ab-422e-b1d4-844a447396f7",
+  "prevId": "f6ac66b6-6d4d-418a-a2ac-f4922d749924",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -674,26 +674,26 @@
           "name": "phone_number",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "gender": {
           "name": "gender",
           "type": "gender",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "is_eligible": {
           "name": "is_eligible",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "date_of_birth": {
           "name": "date_of_birth",
           "type": "date",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "user_password": {
           "name": "user_password",

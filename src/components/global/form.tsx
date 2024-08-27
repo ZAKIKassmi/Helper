@@ -14,7 +14,7 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import {signupItems} from '@/lib/constants';
-import { createUser } from '@/app/signup/_action/action';
+import { createUser } from '@/app/(auth)/signup/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';

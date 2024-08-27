@@ -14,11 +14,16 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
+        "vs": "375px",
         "2xl": "1400px",
       },
     },
     extend: {
       colors: {
+        "c-red-500": "#F75369",
+        "c-red-600": "#e14c60",
+        "c-red-700": "#AF3B4B",
+        "n-90": "#909092",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

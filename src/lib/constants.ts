@@ -1,3 +1,5 @@
+import { NavbarLinksType } from "./types";
+
 type FormFieldName = "firstName" | "lastName" | "email" | "password" | "confirmPassword";
 
 export const signupItems: { name: FormFieldName; displayedName: string,type: string }[] = [
@@ -30,22 +32,50 @@ export const signupItems: { name: FormFieldName; displayedName: string,type: str
 
 
 
-export const aboutLinkDropDownItems: {name: string, location: string}[] = [
+export const aboutLinkDropDownItems: {name: string, location: string, description: string}[] = [
     {
-        name: 'Newsroom',
-        location: '/Newsroom',
-    },
-    {
-        name: 'How We Work?',
-        location: '/#HowWeWork',
+        name: "Newsroom",
+        location: "/newsroom",
+        description: "Stay updated with our latest news and events.",
 
     },
     {
-        name: 'Help Center',
-        location: '/helpcenter',
+        name: "How We Work",
+        location: "/#howwework",
+        description: "Discover our approach and work process.",
+
     },
     {
-        name:'Supported Countries',
-        location: '/suppported-countries',
+        name: "Supported Countries",
+        location: "/supported-countries",
+        description: "Explore the regions where we are active.",
+
+    }
+]
+
+export const navbarLinks: {name: string, location: string, isDropDown: boolean, description: string, more?:NavbarLinksType}[] = [
+    {
+        name: 'Home',
+        location: '/',
+        isDropDown: false,
+        description: "Go Back Home"
+    },
+    {
+        name: 'Donate',
+        location: '/donate',
+        isDropDown: false,
+        description: "Help us expand and build more blood centers",
+    },
+    {
+        name: 'About',
+        location: '/about',
+        isDropDown: true,
+        description: "How helper works, Newsroom, and more",
+    },
+    {
+        name: 'Contact us',
+        location: '/contact',
+        isDropDown: false,
+        description: "Any question? We are here for you"
     }
 ]

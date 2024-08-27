@@ -12,7 +12,21 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./customButton";
-import { aboutLinkDropDownItems } from "@/lib/constants";
+import { aboutLinkDropDownItems, navbarLinks } from "@/lib/constants";
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+
+
+
+
 
 export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -48,7 +62,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
 
           <NavigationMenuItem>
             
-              <NavigationMenuTrigger className="p-1 pl-1.5 pr-1.5 bg-white text-n-90 text-xs leading-[110%] hover:bg-[#EFEFEF] hover:text-n-90 relative">
+              <NavigationMenuTrigger className="p-1 pl-1.5 pr-1.5 bg-white text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF] hover:text-n-90 relative">
                 About us
               </NavigationMenuTrigger>
               <NavigationMenuContent className="">
@@ -57,7 +71,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
                   {
                     aboutLinkDropDownItems.map((item: { name: string, location: string }) => (
                       <li key={item.name} className="w-[200px] text-center">
-                        <Link className="p-3 block w-full text-n-90 hover:bg-[#EFEFEF]" href={item.location}>
+                        <Link className="p-3 block w-full text-n-90 text-base hover:bg-[#EFEFEF]" href={item.location}>
                           {item.name}
                         </Link>
                       </li>
@@ -78,16 +92,62 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="text-xs items-center hidden md:flex gap-1">
-        <Link href='/login' className='p-3 pl-3 pr-3 bg-white rounded transition duration-150 ease-in-out text-n-90 text-xs leading-[110%] hover:bg-[#EFEFEF]'>
+      <div className="items-center hidden md:flex gap-2">
+        <Link href='/login' className='p-3 pl-3 pr-3 bg-white rounded transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
           Log in
         </Link>
-        <Link href="/signup" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-xs leading-[110%] hover:bg-c-red-700'>
+        <Link href="/signup" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Sign up
         </Link>
       </div>
-      
-      
+
+      <div className="md:hidden">
+  <Sheet>
+    <SheetTrigger>
+      <Image src='/icons/Hamburger.svg' alt="Hamburger Icon" width={24} height={24} />
+    </SheetTrigger>
+    <SheetContent className="pt-16 flex flex-col gap-2">
+      {navbarLinks.map((link: { name: string, location: string, isDropDown: boolean, description: string }) => (
+        <div key={link.name} className="p-4 hover:bg-[#EFEFEF] flex justify-between rounded">
+          {link.isDropDown ? (
+            <Sheet>
+              <SheetTrigger className="w-full">
+                <div className="flex justify-between w-full">
+                  <div>
+                    <SheetTitle className="text-n-700 text-base text-left">{link.name}</SheetTitle>
+                    <SheetDescription className="text-n-70 text-sm">
+                      {link.description}
+                    </SheetDescription>
+                  </div>
+                  <Image src="/icons/arrow-right.svg" alt="Arrow right icon" height={16} width={16}/>
+                </div>
+              </SheetTrigger>
+              <SheetContent className="pt-16 flex flex-col gap-2">
+                {aboutLinkDropDownItems.map((item)=>(
+                  <Link href={item.location} className="p-4 hover:bg-[#EFEFEF] flex flex-col justify-between rounded">
+                  <SheetTitle className="text-n-700 text-base">{item.name}</SheetTitle>
+                  <SheetDescription className="text-n-70 text-sm">
+                    {item.description}
+                  </SheetDescription>
+                </Link>
+                ))}
+              </SheetContent>
+            </Sheet>
+          ) : (
+            <Link href={link.location} className="flex-1">
+              <SheetTitle className="text-n-700 text-base">{link.name}</SheetTitle>
+              <SheetDescription className="text-n-70 text-sm">
+                {link.description}
+              </SheetDescription>
+            </Link>
+          )}
+        </div>
+      ))}
+    </SheetContent>
+  </Sheet>
+</div>
+
+
 
     </nav>
   )

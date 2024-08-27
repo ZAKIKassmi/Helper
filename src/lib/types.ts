@@ -71,3 +71,5 @@ export const GoogleUserSchema = z.object({
     });
 
     export type TSetNewPasswordSchema = z.infer<typeof SetNewPasswordSchema>;
+
+    export type NavbarLinksType = {name: string, location: string, isDropDown: boolean, description: string}[]

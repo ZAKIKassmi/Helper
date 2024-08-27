@@ -26,12 +26,16 @@ export default async function Home() {
   // const user = await getUser();
   
   return (
-    <div>
+    <>
         <Header isLoggedIn={false}/>
-      <div>
-        {/* Hello {(user.length > 0) && ((user[0].firstName && user[0].lastName )|| user[0].username)} */}
-      </div>
-      {/* <LogOutForm/> */}
-    </div>
+        <div className="w-full h-screen  pt-16">
+          <div className="text-white w-full text-center bg-black text-5xl">
+            <p className="text-display-small font-bold">
+              Be a frequent donor,<br/> and save the lives of those around you
+            </p>
+
+          </div>
+        </div>
+    </>
   );
 }

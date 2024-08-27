@@ -19,6 +19,30 @@ const config = {
       },
     },
     extend: {
+      fontSize:{
+        "display-large": ["3.25rem",{lineHeight: "130%"}], //52px
+        "display-small": ["2.75rem",{lineHeight: "130%"}], //44px
+        "h1-1": ["2.5rem",{lineHeight: "130%"}], 
+        "h2-d": ["2.25rem",{lineHeight: "130%"}], 
+        "h3-d": ["2rem",{lineHeight: "130%"}], 
+        "h4-d": ["1.75rem",{lineHeight: "130%"}],
+        "h5-d": ["1.5rem",{lineHeight: "130%"}], 
+        "h6-d": ["1.25rem",{lineHeight: "130%"}], 
+        "h1-m": ["2.25rem",{lineHeight: "130%"}], 
+        "h2-m": ["2rem",{lineHeight: "130%"}], 
+        "h3-m": ["1.75rem",{lineHeight: "130%"}], 
+        "h4-m": ["1.5rem",{lineHeight: "130%"}], 
+        "h5-m": ["1.25rem",{lineHeight: "130%"}], 
+        "h6-m": ["1.125rem",{lineHeight: "130%"}],
+        "p-l": ["1.125rem",{lineHeight: "160%"}],
+        "p-n": ["1rem",{lineHeight: "160%"}],
+        "p-s": ["0.875rem",{lineHeight: "160%"}],
+        "p-x-small": ["0.75rem",{lineHeight: "160%"}],
+        "label-n": ["1rem", {lineHeight: "110%"}],
+        "label-s": ["0.875rem", {lineHeight: "110%"}],
+        "label-x-small": ["0.75rem", {lineHeight: "110%"}],
+        "label-xx-small": ["0.625rem", {lineHeight: "110%"}],
+      },
       colors: {
         "c-red-100": "#fdcad1",
         "c-red-200": "#fbb0ba",

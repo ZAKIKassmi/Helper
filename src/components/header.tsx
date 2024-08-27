@@ -30,7 +30,7 @@ import {
 
 export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px]">
+    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] border-b-n-30 border fixed bg-white">
       <Link href="/">
         <Image
           src='/images/Logo.svg'
@@ -92,7 +92,15 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="items-center hidden md:flex gap-2">
+      {
+        isLoggedIn ? (
+          
+              <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+            Dashboard
+            </Link>
+         
+        ): (
+          <div className="items-center hidden md:flex gap-2">
         <Link href='/login' className='p-3 pl-3 pr-3 bg-white rounded transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
           Log in
         </Link>
@@ -100,54 +108,81 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           Sign up
         </Link>
       </div>
+        )
+      }
+
+      
 
       <div className="md:hidden">
-  <Sheet>
-    <SheetTrigger>
-      <Image src='/icons/Hamburger.svg' alt="Hamburger Icon" width={24} height={24} />
-    </SheetTrigger>
-    <SheetContent className="pt-16 flex flex-col gap-2">
-      {navbarLinks.map((link: { name: string, location: string, isDropDown: boolean, description: string }) => (
-        <div key={link.name} className="p-4 hover:bg-[#EFEFEF] flex justify-between rounded">
-          {link.isDropDown ? (
-            <Sheet>
-              <SheetTrigger className="w-full">
-                <div className="flex justify-between w-full">
-                  <div>
-                    <SheetTitle className="text-n-700 text-base text-left">{link.name}</SheetTitle>
+        <Sheet>
+          <SheetTrigger>
+            <Image src='/icons/Hamburger.svg' alt="Hamburger Icon" width={24} height={24} />
+          </SheetTrigger>
+          <SheetContent className="pt-16 flex flex-col gap-2 justify-between">
+            <div>
+
+            
+            {navbarLinks.map((link: { name: string, location: string, isDropDown: boolean, description: string }) => (
+              <div key={link.name} className="p-4 hover:bg-[#EFEFEF] flex justify-between rounded">
+                {link.isDropDown ? (
+                  <Sheet>
+                    <SheetTrigger className="w-full">
+                      <div className="flex justify-between w-full">
+                        <div>
+                          <SheetTitle className="text-n-700 text-base text-left">{link.name}</SheetTitle>
+                          <SheetDescription className="text-n-70 text-sm">
+                            {link.description}
+                          </SheetDescription>
+                        </div>
+                        <Image src="/icons/arrow-right.svg" alt="Arrow right icon" height={16} width={16}/>
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent className="pt-16 flex flex-col gap-2">
+                      {aboutLinkDropDownItems.map((item)=>(
+                        <Link href={item.location} className="p-4 hover:bg-[#EFEFEF] flex flex-col justify-between rounded">
+                        <SheetTitle className="text-n-700 text-base">{item.name}</SheetTitle>
+                        <SheetDescription className="text-n-70 text-sm">
+                          {item.description}
+                        </SheetDescription>
+                      </Link>
+                      ))}
+                    </SheetContent>
+                  </Sheet>
+                ) : (
+                  <Link href={link.location} className="flex-1">
+                    <SheetTitle className="text-n-700 text-base">{link.name}</SheetTitle>
                     <SheetDescription className="text-n-70 text-sm">
                       {link.description}
                     </SheetDescription>
-                  </div>
-                  <Image src="/icons/arrow-right.svg" alt="Arrow right icon" height={16} width={16}/>
-                </div>
-              </SheetTrigger>
-              <SheetContent className="pt-16 flex flex-col gap-2">
-                {aboutLinkDropDownItems.map((item)=>(
-                  <Link href={item.location} className="p-4 hover:bg-[#EFEFEF] flex flex-col justify-between rounded">
-                  <SheetTitle className="text-n-700 text-base">{item.name}</SheetTitle>
-                  <SheetDescription className="text-n-70 text-sm">
-                    {item.description}
-                  </SheetDescription>
-                </Link>
-                ))}
-              </SheetContent>
-            </Sheet>
-          ) : (
-            <Link href={link.location} className="flex-1">
-              <SheetTitle className="text-n-700 text-base">{link.name}</SheetTitle>
-              <SheetDescription className="text-n-70 text-sm">
-                {link.description}
-              </SheetDescription>
-            </Link>
-          )}
-        </div>
-      ))}
-    </SheetContent>
-  </Sheet>
-</div>
+                  </Link>
+                )}
 
 
+                
+              </div>
+            ))}
+            </div>
+            {
+              isLoggedIn ? (
+                
+                    <Link href="/dashboard" className='p-3 text-center pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+                  Dashboard
+                  </Link>
+              
+              ): (
+
+                <div className="items-center flex flex-col w-full gap-2 text-center">
+              <Link href='/login' className='p-3 pl-3 pr-3 w-full bg-white rounded transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
+                Log in
+              </Link>
+              <Link href="/signup" className='p-3 pl-3 pr-3 w-full bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+                Sign up
+              </Link>
+            </div>
+            )}
+          </SheetContent>
+        </Sheet>
+      </div>
 
     </nav>
   )

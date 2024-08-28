@@ -30,7 +30,7 @@ import {
 
 export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] border-b-n-30 border fixed bg-white">
+    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] border-b-n-30 border fixed bg-white z-10">
       <Link href="/">
         <Image
           src='/images/Logo.svg'
@@ -71,7 +71,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
                   {
                     aboutLinkDropDownItems.map((item: { name: string, location: string }) => (
                       <li key={item.name} className="w-[200px] text-center">
-                        <Link className="p-3 block w-full text-n-90 text-base hover:bg-[#EFEFEF]" href={item.location}>
+                        <Link className="p-3 block w-full text-n-90 text-base text-left hover:bg-[#EFEFEF]" href={item.location}>
                           {item.name}
                         </Link>
                       </li>
@@ -130,7 +130,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
                       <div className="flex justify-between w-full">
                         <div>
                           <SheetTitle className="text-n-700 text-base text-left">{link.name}</SheetTitle>
-                          <SheetDescription className="text-n-70 text-sm">
+                          <SheetDescription className="text-n-70 text-sm text-left">
                             {link.description}
                           </SheetDescription>
                         </div>
@@ -139,7 +139,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
                     </SheetTrigger>
                     <SheetContent className="pt-16 flex flex-col gap-2">
                       {aboutLinkDropDownItems.map((item)=>(
-                        <Link href={item.location} className="p-4 hover:bg-[#EFEFEF] flex flex-col justify-between rounded">
+                        <Link key={item.name} href={item.location} className="p-4 hover:bg-[#EFEFEF] flex flex-col justify-between rounded">
                         <SheetTitle className="text-n-700 text-base">{item.name}</SheetTitle>
                         <SheetDescription className="text-n-70 text-sm">
                           {item.description}

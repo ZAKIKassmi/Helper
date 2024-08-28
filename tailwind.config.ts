@@ -119,10 +119,31 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        'translate-y-fade-in': {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0%)', opacity: '1' }
+        },
+        'translate-y-fade-in-fast': {
+          '0%': { transform: 'translateY(100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0%)', opacity: '1' }
+        },
+        'float': {
+          '0%. 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(50px)' },
+        },
+        'fast-float':{
+          '0%. 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(50px)' },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 500ms ease-out",
+        "translate-y-fade-in-fast-then-float": "translate-y-fade-in-fast 800ms ease-in-out forwards",
+        "translate-y-fade-in-then-float": "translate-y-fade-in 900ms ease-in-out 400ms forwards",
+        "float": "float 4.5s ease-in-out 1.2s infinite ",
+        "fast-float": "fast-float 4.5s ease-in-out 1.19s infinite",
       },
     },
   },

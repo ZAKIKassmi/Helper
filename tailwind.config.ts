@@ -13,10 +13,14 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "vs": "",
-        "2xl": "1400px",
-      },
+    },
+    screens: {
+      "csz": "450px",
+      "sm": "640px",
+      "md": "768px",
+      "lg": "1024px",
+      "xl": "1280px",
+      "2xl": "1400px"
     },
     extend: {
       fontSize:{
@@ -142,8 +146,8 @@ const config = {
         "fade-in": "fade-in 500ms ease-out",
         "translate-y-fade-in-fast-then-float": "translate-y-fade-in-fast 800ms ease-in-out forwards",
         "translate-y-fade-in-then-float": "translate-y-fade-in 900ms ease-in-out 400ms forwards",
-        "float": "float 4.5s ease-in-out 1.2s infinite ",
-        "fast-float": "fast-float 4.5s ease-in-out 1.19s infinite",
+        "float": "float 4.5s ease-in-out 1.3s infinite ",
+        "fast-float": "fast-float 4.5s ease-in-out 1.4s infinite",
       },
     },
   },

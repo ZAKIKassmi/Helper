@@ -30,7 +30,7 @@ import {
 
 export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] border-b-n-30 border fixed bg-white z-10">
+    <nav className="flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] max-w-[1440px] border-b-n-30 border fixed bg-white z-10">
       <Link href="/">
         <Image
           src='/images/Logo.svg'

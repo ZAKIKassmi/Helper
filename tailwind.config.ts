@@ -15,6 +15,7 @@ const config = {
       padding: "2rem",
     },
     screens: {
+      "csxxs": "353px",
       "csz": "450px",
       "sm": "640px",
       "md": "768px",
@@ -25,6 +26,7 @@ const config = {
       
     },
     extend: {
+      
       fontSize:{
         "display-large": ["3.25rem",{lineHeight: "130%"}], //52px
         "display-small": ["2.75rem",{lineHeight: "130%"}], //44px
@@ -152,9 +154,10 @@ const config = {
         "fade-in": "fade-in 1s ease-out",
         "translate-y-fade-in-fast-then-float": "translate-y-fade-in-fast 800ms ease-in-out forwards",
         "translate-y-fade-in-then-float": "translate-y-fade-in 900ms ease-in-out 400ms forwards",
-        "float": "float 4.5s ease-in-out 1.3s infinite ",
+        "float": "float 4.5s ease-in-out 1.3s infinite",
         "fast-float": "fast-float 4.5s ease-in-out 1.4s infinite",
       },
+      
     },
   },
   plugins: [require("tailwindcss-animate")],

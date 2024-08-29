@@ -34,6 +34,7 @@ export default async function Home() {
         <Header isLoggedIn={false}/>
         <AnimatedHeroSection/>
         <SecondSection/>
+
         
     </>
   );

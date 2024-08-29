@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollTopRef = useRef(0);
-
+  
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     if (scrollTop > lastScrollTopRef.current) {
@@ -50,7 +50,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <nav
       className={cn(
-        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] max-w-[1440px] border-b-n-30 border fixed bg-white z-10 transition-transform duration-300",
+        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] max-w-[1440px] border-b-n-30 border fixed bg-white z-50 transition-transform duration-300",
         {
           "-translate-y-full": !isVisible,
           "translate-y-0": isVisible,

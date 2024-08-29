@@ -15,7 +15,7 @@ export default function AnimatedHeroSection() {
               </h6>
             </div>
  
-            <div className="animate-float absolute right-[-120px] csz:right-[-150px] md:right-[-200px]  lg:right-[-250px] max-csxxs:top-64 top-52 xl:right-[-150px]">
+            <div className="animate-float absolute right-[-120px] csz:right-[-150px] md:right-[-200px]  lg:right-[-250px] max-csxxs:top-60 top-52 xl:right-[-150px]">
               <Image className="aspect-[1392/500] hidden lg:block" priority={true} src='/images/desktop-hand.svg' width={1392} height={500} alt="Donors hand"/>
               <Image className="aspect-[1392/500] hidden csz:block  lg:hidden" priority={true}   src='/images/tablet-hand.svg' width={1392} height={500} alt="Donors hand"/>
               <Image className="aspect-[1392/500] csz:hidden  lg:hidden" priority={true}   src='/images/phone-hand.svg' width={1392} height={500} alt="Donors hand"/>

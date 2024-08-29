@@ -1,6 +1,7 @@
 import LogOutForm from "@/components/global/logoutFrom";
 import Header from "@/components/header";
 import AnimatedHeroSection from "@/components/home/hero-section-animated";
+import HowWeWork from "@/components/home/how-we-work";
 import SecondSection from "@/components/home/second-section";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/drizzle/db";
@@ -34,7 +35,7 @@ export default async function Home() {
         <Header isLoggedIn={false}/>
         <AnimatedHeroSection/>
         <SecondSection/>
-
+        <HowWeWork/>
         
     </>
   );

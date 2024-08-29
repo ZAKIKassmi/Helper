@@ -7,13 +7,22 @@ export default function SecondSection() {
   const ref = useRef(null);
 
   const [isIntersecting, setIsIntersecting] = useState<boolean>();
-  console.log(isIntersecting);
+  const scrollRef = useRef(0);
 
   useEffect(()=>{
     //entries represent the list of items that matche the observe item.
     const observer = new IntersectionObserver((entries)=>{
       const entry = entries[0];
-      setIsIntersecting(entry.isIntersecting);
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      if(scrollTop > scrollRef.current && entry.isIntersecting){
+        setIsIntersecting(true);
+      }
+      else if(scrollTop < scrollRef.current && !entry.isIntersecting){
+        setIsIntersecting(false);
+      }
+
+      scrollRef.current = scrollTop <= 0 ? 0 : scrollTop;
+      
     });
     observer.observe(ref.current!);
   },[]);

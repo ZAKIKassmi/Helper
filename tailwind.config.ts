@@ -20,13 +20,14 @@ const config = {
       "md": "768px",
       "lg": "1024px",
       "xl": "1280px",
-      "2xl": "1400px"
+      "2xl": "1400px",
+      
     },
     extend: {
       fontSize:{
         "display-large": ["3.25rem",{lineHeight: "130%"}], //52px
         "display-small": ["2.75rem",{lineHeight: "130%"}], //44px
-        "h1-1": ["2.5rem",{lineHeight: "130%"}], 
+        "h1-d": ["2.5rem",{lineHeight: "130%"}], 
         "h2-d": ["2.25rem",{lineHeight: "130%"}], 
         "h3-d": ["2rem",{lineHeight: "130%"}], 
         "h4-d": ["1.75rem",{lineHeight: "130%"}],

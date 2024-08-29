@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function AnimatedHeroSection() {
   return (
-    <section className="w-full items-center pt-28 h-[65vh] csz:h-[80vh] sm:h-[90vh] md:h-[100vh] lg:h-[110vh] overflow-hidden relative">
+    <section className="items-center pt-28 h-[65vh] csz:h-[80vh] sm:h-[90vh] md:h-[100vh] lg:h-[110vh] 3xl:h-[700px] overflow-hidden relative">
           <div className="text-white w-full text-center text-5xl flex flex-col">
             <div className="min-h-fit overflow-hidden animate-float">
               <h1 className="text-h6-m csz:text-h4-m sm:text-h3-m  md:text-h1-m lg:text-display-small font-bold text-n-900 leading-[120%] transform translate-y-full opacity-0 animate-translate-y-fade-in-then-float ">

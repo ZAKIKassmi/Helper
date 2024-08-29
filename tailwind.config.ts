@@ -21,6 +21,7 @@ const config = {
       "lg": "1024px",
       "xl": "1280px",
       "2xl": "1400px",
+      "3xl": "1600px",
       
     },
     extend: {
@@ -139,12 +140,16 @@ const config = {
         'fast-float':{
           '0%. 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(50px)' },
+        },
+        'fade-in': {
+          '0%': {opacity: '0'},
+          '100%':{opacity: '1'},
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 500ms ease-out",
+        "fade-in": "fade-in 1s ease-out",
         "translate-y-fade-in-fast-then-float": "translate-y-fade-in-fast 800ms ease-in-out forwards",
         "translate-y-fade-in-then-float": "translate-y-fade-in 900ms ease-in-out 400ms forwards",
         "float": "float 4.5s ease-in-out 1.3s infinite ",

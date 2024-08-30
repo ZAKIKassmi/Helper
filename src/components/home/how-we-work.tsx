@@ -1,6 +1,5 @@
 import { cardItems } from "@/lib/constants";
 import CustomCard from "../customCard";
-import { useEffect, useRef, useState } from "react";
 
 
 export default function HowWeWork() {

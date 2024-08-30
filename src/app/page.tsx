@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import LogOutForm from "@/components/global/logoutFrom";
 import Header from "@/components/header";
 import AnimatedHeroSection from "@/components/home/hero-section-animated";
@@ -36,7 +37,7 @@ export default async function Home() {
         <AnimatedHeroSection/>
         <SecondSection/>
         <HowWeWork/>
-        
+        <Footer/>      
     </>
   );
 }

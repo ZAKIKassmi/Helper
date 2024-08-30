@@ -113,3 +113,74 @@ export const cardItems:{title: string, description: string, isSignUp: boolean}[]
     },
     
 ]
+
+export const footerItems = [
+    {
+        title: "Resources",
+        subTitles: [
+            {
+                title: "Learn more",
+                link: "/learnmore"
+            },
+            {
+                title: "Analytics",
+                link: "/analytics"
+            },
+            {
+                title: "Blogs",
+                link: "/blogs"
+            }
+        ]
+    },
+    {
+        title: "Donate",
+        subTitles: [
+            {
+                title: "Social impact",
+                link: "/social-impact"
+            },
+            {
+                title: "Help a person",
+                link: "/help-person"
+            },
+            {
+                title: "Crises relief",
+                link: "/crises-relief"
+            }
+        ]
+    },
+    {
+        title: "About",
+        subTitles: [
+            {
+                title: "How we work",
+                link: "/how-we-work"
+            },
+            {
+                title: "How helper works",
+                link: "/how-helper-works"
+            },
+            {
+                title: "Newsroom",
+                link: "/newsroom"
+            },
+            {
+                title: "Supported countries",
+                link: "/supported-countries"
+            },
+            {
+                title: "Help Center",
+                link: "/help-center"
+            }
+        ]
+    },
+    {
+        title: "Legal",
+        subTitles: [
+            {
+                title: "Privacy & Policy",
+                link: "/privacy-policy"
+            }
+        ]
+    }
+];

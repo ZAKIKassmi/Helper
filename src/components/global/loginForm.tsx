@@ -18,6 +18,8 @@ import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import LoginWithGoogleButton from '../login-with-google-button';
+import CustomSeperator from '../custom-seperator';
 
 export default function LoginForm() {
 
@@ -56,7 +58,7 @@ export default function LoginForm() {
     
             <Form {...form}>
                 <form
-                className='flex flex-col max-w-[500px] w-full gap-4'
+                className='flex flex-col max-w-[500px] w-full gap-4 p-4'
                 onSubmit={form.handleSubmit(onSubmit)}>
 
 
@@ -65,11 +67,11 @@ export default function LoginForm() {
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel>
+                                <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Email
                                 </FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='Email' type='email'/>
+                                    <Input {...field} className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder='Email' type='email'/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -82,11 +84,11 @@ export default function LoginForm() {
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel>
+                                <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Password
                                 </FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='Password' type='password'/>
+                                    <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' {...field} placeholder='Password' type='password'/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -94,26 +96,20 @@ export default function LoginForm() {
                     >
                     </FormField>
                 
-                    <Button type='submit' disabled={form.formState.isSubmitting}>
+                    <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type='submit' disabled={form.formState.isSubmitting}>
                         Log in
                     </Button>
-                    <Link  href='/api/github'>
-                        <Button className='w-full'>
-                            Log in with GitHub
-                        </Button>
-                    </Link>
+                    
+                    <CustomSeperator/>
+                    
+                    <LoginWithGoogleButton/>
+                    
+                    <div className='flex flex-wrap whitespace-nowrap justify-between text-xs'>
 
-                    <Link  href='/api/google'>
-                        <Button className='w-full'>
-                            Log in with Google
-                        </Button>
-                    </Link>
-                    <div className='flex justify-between text-xs'>
-
-                    <Link href="/signup" className='text-blue-600 underline' prefetch={true}>
+                    <Link href="/signup" className=' text-label-x-small font-medium text-n-900 underline' prefetch={true}>
                         Create an accout
                     </Link>
-                    <Link href="/login/reset-password" className='text-blue-600 underline' prefetch={true}>
+                    <Link href="/login/reset-password" className='text-label-x-small font-medium text-n-900 underline' prefetch={true}>
                         Forget Password?
                     </Link>
                     </div>

@@ -29,6 +29,8 @@ import {
   } from "@/components/ui/select";
 import Link from 'next/link';
 import Image from 'next/image';
+import LoginWithGoogleButton from '../login-with-google-button';
+import CustomSeperator from '../custom-seperator';
  
 
 export default function CustomForm() {
@@ -229,20 +231,9 @@ export default function CustomForm() {
             </Button>
 
 
-            <div className='flex w-full max-w-96 mx-auto gap-3 justify-center items-center'>
-                <div className='h-[1px] bg-n-50 w-full'></div>
-                <p className='text-n-50'>OR</p>
-                <div className='h-[1px] bg-n-50 w-full'></div>
-            </div>
+            <CustomSeperator/>
 
-            <Link  href='/api/google'>
-                
-                <Button className='w-full bg-white border border-n-50 flex gap-3 hover:bg-n-20 justify-center items-center'>
-                <Image src="/icons/google.svg" width={24} height={24} alt='Google icon for siging up with oauth2.0'/>
-                <p className='text-n-70 text-label-n font-medium'> Sign up with Google</p>
-                
-                </Button>
-            </Link>
+            <LoginWithGoogleButton/>
         </form>
     </Form>
   )

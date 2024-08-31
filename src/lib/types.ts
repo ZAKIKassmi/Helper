@@ -2,10 +2,10 @@ import {z} from 'zod';
 
 export const userSchema = z.object({
     firstName: z.string().trim().toLowerCase().min(1,{
-        message: 'First Name must contain at least 1 character'
+        message: 'must contain at least 1 character'
     }),
     lastName: z.string().trim().toLowerCase().min(1,{
-        message: 'Last Name must contain at least 1 character'
+        message: 'must contain at least 1 character'
     }),
     email: z.string().trim().email({
         message: 'Email is not valid'
@@ -16,6 +16,18 @@ export const userSchema = z.object({
     confirmPassword: z.string().trim().min(8,{
         message: 'Password must contain at least 8 characters',
     }),
+    gender: z.enum(["Male", "Female"],{
+        message: "This field is Required"
+    }),
+    phoneNumber: z.string({
+        message: "This field is required"
+    }).min(8,{
+        message: 'Phone minimum length is 8 characters'
+    }).max(15,{
+        message: 'Phone maximum length is 15 characters'
+    }).startsWith('+',{
+        message: 'Phone number must starts with +',
+    })
 });
 
 

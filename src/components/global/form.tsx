@@ -20,6 +20,15 @@ import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+  } from "@/components/ui/select";
+import Link from 'next/link';
+import Image from 'next/image';
  
 
 export default function CustomForm() {
@@ -106,8 +115,46 @@ export default function CustomForm() {
         
     }
   return (
+    
     <Form {...form}>
-        <form className='flex flex-col max-w-[500px] w-full gap-4' onSubmit={form.handleSubmit(onSubmit)}>
+        <form className='flex flex-col max-w-[500px] w-full gap-4 px-4 ' onSubmit={form.handleSubmit(onSubmit)}>
+
+            <div className='grid grid-cols-1 gap-4 csz:grid-cols-2'>
+                <FormField 
+                    key="firstName"
+                    name="firstName"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <FormLabel className='text-label-n text-n-900 font-medium'>First Name</FormLabel>
+                        <FormControl>
+                            <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="First Name" type="text"  {...field}   
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>  
+                    )}
+                    >
+                </FormField>
+
+                <FormField 
+                    key="lastName"
+                    name="lastName"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <FormLabel className='text-label-n text-n-900 font-medium'>Last Name</FormLabel>
+                        <FormControl>
+                            <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Last Name" type="text"  {...field}   
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>  
+                    )}
+                    >
+                </FormField>
+
+            </div>
             {
                 signupItems.map((item)=>(
                     <FormField 
@@ -116,9 +163,9 @@ export default function CustomForm() {
                         control={form.control}
                         render={({field})=>(
                         <FormItem>
-                            <FormLabel>{item.displayedName}</FormLabel>
+                            <FormLabel className='text-label-n text-n-900 font-medium'>{item.displayedName}</FormLabel>
                             <FormControl>
-                                <Input placeholder={item.displayedName} type={item.type}  {...field} 
+                                <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
                                     onChange={(e) => {
                                         field.onChange(e);
                                         if (item.name === 'password') {
@@ -144,9 +191,58 @@ export default function CustomForm() {
                     </FormField>
                 ))
             }
-           <Button type="submit" disabled={form.formState.isSubmitting}>
+
+            {/* 
+                TODO: the following fields needs to be added to the formdata and get inserted into the db.
+            */}
+            <FormField 
+                key="gender"
+                name="gender"
+                control={form.control}
+                render={({field})=>(
+                <FormItem className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
+                    <FormLabel className='text-label-n text-n-900 font-medium'>Gender</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} >
+                    <FormControl>
+                        <SelectTrigger className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
+                            <SelectValue className='text-label-n font-medium' placeholder="Please select your gender"/>
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className='text-n-900 font-medium cursor-pointer focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
+                            <SelectItem value="Male" className='cursor-pointer '>Male</SelectItem>
+                            <SelectItem value="Female" className='cursor-pointer '>Female</SelectItem> 
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>  
+                )}
+                >
+            </FormField>
+
+
+            {/* TODO: add User phone number input */}
+         
+
+
+           <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>
             Sign Up
             </Button>
+
+
+            <div className='flex w-full max-w-96 mx-auto gap-3 justify-center items-center'>
+                <div className='h-[1px] bg-n-50 w-full'></div>
+                <p className='text-n-50'>OR</p>
+                <div className='h-[1px] bg-n-50 w-full'></div>
+            </div>
+
+            <Link  href='/api/google'>
+                
+                <Button className='w-full bg-white border border-n-50 flex gap-3 hover:bg-n-20 justify-center items-center'>
+                <Image src="/icons/google.svg" width={24} height={24} alt='Google icon for siging up with oauth2.0'/>
+                <p className='text-n-70 text-label-n font-medium'> Sign up with Google</p>
+                
+                </Button>
+            </Link>
         </form>
     </Form>
   )

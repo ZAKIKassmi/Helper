@@ -13,7 +13,7 @@ import { loginSchema,TLoginSchema } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { loginAction } from '@/app/(auth)/login/_action/action';
+import { loginAction } from '@/app/(userAuth)/login/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import Link from 'next/link';
@@ -67,9 +67,9 @@ export default function LoginForm() {
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel className='text-label-n text-n-900 font-medium'>
+                                {/* <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Email
-                                </FormLabel>
+                                </FormLabel> */}
                                 <FormControl>
                                     <Input {...field} className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder='Email' type='email'/>
                                 </FormControl>
@@ -84,9 +84,9 @@ export default function LoginForm() {
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel className='text-label-n text-n-900 font-medium'>
+                                {/* <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Password
-                                </FormLabel>
+                                </FormLabel> */}
                                 <FormControl>
                                     <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' {...field} placeholder='Password' type='password'/>
                                 </FormControl>

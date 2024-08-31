@@ -16,7 +16,7 @@ import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { resetPassword } from '@/app/(auth)/login/reset-password/[token]/_actions/actions';
+import { resetPassword } from '@/app/(userAuth)/login/reset-password/[token]/_actions/actions';
 import zxcvbn from 'zxcvbn';
 import { useRouter } from 'next/navigation';
 

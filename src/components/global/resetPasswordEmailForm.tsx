@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
-import { resetPasswordLink } from '@/app/(auth)/login/reset-password/_actions/action';
+import { resetPasswordLink } from '@/app/(userAuth)/login/reset-password/_actions/action';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 

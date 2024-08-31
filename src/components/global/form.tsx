@@ -14,7 +14,7 @@ import {
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import {signupItems} from '@/lib/constants';
-import { createUser } from '@/app/(auth)/signup/_action/action';
+import { createUser } from '@/app/(userAuth)/signup/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
@@ -128,7 +128,7 @@ export default function CustomForm() {
                     control={form.control}
                     render={({field})=>(
                     <FormItem>
-                        <FormLabel className='text-label-n text-n-900 font-medium'>First Name</FormLabel>
+                        {/* <FormLabel className='text-label-n text-n-900 font-medium'>First Name</FormLabel> */}
                         <FormControl>
                             <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="First Name" type="text"  {...field}   
                             />
@@ -145,7 +145,7 @@ export default function CustomForm() {
                     control={form.control}
                     render={({field})=>(
                     <FormItem>
-                        <FormLabel className='text-label-n text-n-900 font-medium'>Last Name</FormLabel>
+                        {/* <FormLabel className='text-label-n text-n-900 font-medium'>Last Name</FormLabel> */}
                         <FormControl>
                             <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Last Name" type="text"  {...field}   
                             />
@@ -165,7 +165,7 @@ export default function CustomForm() {
                         control={form.control}
                         render={({field})=>(
                         <FormItem>
-                            <FormLabel className='text-label-n text-n-900 font-medium'>{item.displayedName}</FormLabel>
+                            {/* <FormLabel className='text-label-n text-n-900 font-medium'>{item.displayedName}</FormLabel> */}
                             <FormControl>
                                 <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
                                     onChange={(e) => {
@@ -203,7 +203,7 @@ export default function CustomForm() {
                 control={form.control}
                 render={({field})=>(
                 <FormItem className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
-                    <FormLabel className='text-label-n text-n-900 font-medium'>Gender</FormLabel>
+                    {/* <FormLabel className='text-label-n text-n-900 font-medium'>Gender</FormLabel> */}
                     <Select onValueChange={field.onChange} defaultValue={field.value} >
                     <FormControl>
                         <SelectTrigger className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>

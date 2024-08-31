@@ -59,7 +59,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
     >
       <Link href="/">
         <Image
-          src='/images/Logo.svg'
+          src='/images/Helper..svg'
           width={73}
           height={38}
           alt="Helper logo"
@@ -122,7 +122,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           <Link href='/login' className='p-3 pl-3 pr-3 bg-white rounded-md transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
             Log in
           </Link>
-          <Link href="/signup" className='p-3 pl-3 pr-3 bg-c-red-500 rounded-md text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          <Link href="/user-type" className='p-3 pl-3 pr-3 bg-c-red-500 rounded-md text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
             Sign up
           </Link>
         </div>

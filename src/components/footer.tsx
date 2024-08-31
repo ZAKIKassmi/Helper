@@ -1,8 +1,6 @@
 import { footerItems } from '@/lib/constants'
 import Link from 'next/link'
 import React from 'react'
-import { Textarea } from './ui/textarea'
-import CustomButton from './customButton'
 
 
 export default function Footer() {
@@ -18,7 +16,7 @@ export default function Footer() {
               item.subTitles.map((subTitle)=>(
                 <Link key={subTitle.title} href={subTitle.link} className='text-n-700 hover:text-c-red-500 duration-300'>
                   {subTitle.title}
-                </Link> 
+                </Link>
               ))
             }
           </div>

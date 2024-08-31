@@ -1,8 +1,7 @@
-import { NavbarLinksType } from "./types";
+import { BloodBankNameType, NavbarLinksType, SignUpFormNameTypes } from "./types";
 
-type FormFieldName = "firstName" | "lastName" | "email" | "password" | "confirmPassword";
 
-export const signupItems: { name: FormFieldName; displayedName: string,type: string }[] = [
+export const signupItems: { name: SignUpFormNameTypes; displayedName: string,type: string }[] = [
     {
         name: 'email',
         displayedName: 'Email',
@@ -18,6 +17,35 @@ export const signupItems: { name: FormFieldName; displayedName: string,type: str
         displayedName: 'Confirm password',
         type: 'password'
     }
+];
+
+export const bloodBankBasicInformationItems:  { name: BloodBankNameType; displayedName: string,type: string }[] = [
+    {
+        name: "name",
+        displayedName: "Full Name",
+        type: "text"
+    },
+    {
+        name: "email",
+        displayedName: "Email",
+        type: "email"
+    },
+    {
+        name: "password",
+        displayedName: "Password",
+        type: "password"
+    },
+    {
+        name: "confirmPassword",
+        displayedName: "Confirm Password",
+        type: "password"
+    },
+    {
+        name: "address",
+        displayedName: "Address",
+        type: "text"
+    }
+
 ]
 
 

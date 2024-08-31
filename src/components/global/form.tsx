@@ -27,8 +27,6 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-import Link from 'next/link';
-import Image from 'next/image';
 import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
  

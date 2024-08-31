@@ -110,11 +110,12 @@ export default function ResetPasswordForm(
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel>
+                                <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Password
                                 </FormLabel>
                                 <FormControl>
                                     <Input 
+                                    className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'
                                     {...field} 
                                     placeholder='Password'
                                     onChange={(e) => {
@@ -144,18 +145,18 @@ export default function ResetPasswordForm(
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel>
+                                <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Password
                                 </FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='Confirm Password' type='Password'/>
+                                    <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' {...field} placeholder='Confirm Password' type='Password'/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )}
                     >
                     </FormField>
-                    <Button type="submit" disabled={form.formState.isSubmitting}>
+                    <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>
                         Reset Password
                     </Button>
                 </form>

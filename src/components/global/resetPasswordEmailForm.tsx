@@ -64,11 +64,11 @@ export default function ResetPasswordEmailForm() {
                         control={form.control}
                         render={({field})=>(
                             <FormItem>
-                                <FormLabel>
+                                <FormLabel className='text-label-n text-n-900 font-medium'>
                                     Email
                                 </FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='Email' type='email'/>
+                                    <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' {...field} placeholder='Email' type='email'/>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -78,7 +78,7 @@ export default function ResetPasswordEmailForm() {
 
                     
                 
-                    <Button type='submit' disabled={form.formState.isSubmitting}>
+                    <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type='submit' disabled={form.formState.isSubmitting}>
                         Send Link
                     </Button>
                     

@@ -112,4 +112,21 @@ export const BloodBankSchema = z.object({
 
 export type TBloodBankSchema = z.infer<typeof BloodBankSchema>;
 
+export const facilityDetailsSchema = z.object({
+    donationBeds: z.string().min(1,{
+        message: "Please enter a number",
+    }),
+    capacity: z.string().min(1,{
+        message: "Please enter a number",
+    }),
+    emergencyCalls: z.string().min(1,{
+        message: "Please enter a valid emergency contact"
+    })
+});
+
+export type TFacilityDetails = z.infer<typeof facilityDetailsSchema>;
+
 export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'confirmPassword' | 'address';
+
+
+export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyCalls';

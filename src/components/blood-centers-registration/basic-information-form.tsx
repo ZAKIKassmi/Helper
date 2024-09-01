@@ -19,25 +19,19 @@ import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select";
 import CountryCodes from "@/data/CountryCodes.json";
 import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
-import { ScrollArea } from '../ui/scroll-area';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
 
 
 type Props = {}
 
 export default function BasicInformationRegistrationForm({}: Props) {
-  //TODO: add backend login later
+  //TODO: add backend logic
 
   // const [state, formAction] = useFormState(createUser, null);
   const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
@@ -120,14 +114,17 @@ export default function BasicInformationRegistrationForm({}: Props) {
       formData.append('address', data.address);
       formData.append('password', data.password);
       formData.append('confirmPassword', data.confirmPassword);
-      //call the formAction
+
+      router.push('/registre/facility-details');
+
+      //TODO: call the formAction
       // formAction(formData);
       
   }
 return (
   
   <Form {...form}>
-      <form className='flex flex-col max-w-[500px] w-full gap-4 px-4 ' onSubmit={form.handleSubmit(onSubmit)}>              
+      <form className='flex flex-col w-full max-w-[500px] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>              
           {
               bloodBankBasicInformationItems.map((item)=>(
                   <FormField 
@@ -136,6 +133,7 @@ return (
                       control={form.control}
                       render={({field})=>(
                       <FormItem>
+                        {/* <FormLabel>{item.displayedName}</FormLabel> */}
                           <FormControl>
                               <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
                                   onChange={(e) => {
@@ -173,14 +171,14 @@ return (
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild >
                   <FormControl>
                     <Button
                       variant="outline"
                       role="combobox"
                       aria-expanded={open}
                       className={cn(
-                        "w-[200px] justify-between",
+                        "w-full justify-between ",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -188,16 +186,16 @@ return (
                         ? CountryCodes.find(
                             (country) => country.name === field.value
                           )?.name
-                        : "Select language"}
+                        : "Select country"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent className="w-full max-w-[500px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search language..." />
+                    <CommandInput placeholder="Search country..." />
                     <CommandList>
-                      <CommandEmpty>No language found.</CommandEmpty>
+                      <CommandEmpty>No country found.</CommandEmpty>
                       <CommandGroup>
                         {CountryCodes.map((country) => (
                           <CommandItem
@@ -235,10 +233,14 @@ return (
           {/* TODO: add User phone number input */}
        
 
+          <div className='w-full justify-end flex'>
 
-         <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>
-          Sign Up
-          </Button>
+            <Button className='flex border rounded-lg gap-2 duration-200 px-8 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
+              <p className='text-n-900'>Next</p>
+              <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
+            </Button>
+          </div>
+          
 
       </form>
   </Form>

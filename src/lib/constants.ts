@@ -1,4 +1,4 @@
-import { BloodBankNameType, NavbarLinksType, SignUpFormNameTypes } from "./types";
+import { BloodBankFacilityNameTypes, BloodBankNameType, NavbarLinksType, SignUpFormNameTypes } from "./types";
 
 
 export const signupItems: { name: SignUpFormNameTypes; displayedName: string,type: string }[] = [
@@ -46,6 +46,24 @@ export const bloodBankBasicInformationItems:  { name: BloodBankNameType; display
         type: "text"
     }
 
+]
+
+export const bloodBankFacilityDetailsItems:  { name: BloodBankFacilityNameTypes; displayedName: string,type: string }[] = [
+    {
+        name: "donationBeds",
+        displayedName: "Number of Donation Beds/Chairs",
+        type: "text"
+    },
+    {
+        name: "capacity",
+        displayedName: "Numeber of donors can be handled per day",
+        type: "text"
+    },
+    {
+        name: "emergencyCalls",
+        displayedName: "Emergency contact information" ,
+        type: "text"
+    }
 ]
 
 

@@ -21,7 +21,7 @@ export default function Page({}: Props) {
         </Link>
 
 
-        <Link href="/registre" className='flex  flex-col max-csz:flex-1 max-csz:mx-4 justify-center items-center p-14 gap-3 rounded-lg border cursor-pointer text-n-900 hover:bg-n-20  duration-200 text-label-n font-medium'>
+        <Link href="/registre/basic-information" className='flex  flex-col max-csz:flex-1 max-csz:mx-4 justify-center items-center p-14 gap-3 rounded-lg border cursor-pointer text-n-900 hover:bg-n-20  duration-200 text-label-n font-medium'>
             <Image src="/icons/home-hospital.svg" alt='home hospital icon' width={24} height={24}/>
             <p className='text-center whitespace-nowrap'>Blood Center</p> 
         </Link>

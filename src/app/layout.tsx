@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Provider } from 'react-wrap-balancer'
 
 const inter = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -18,10 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <Provider>
         <div className="max-w-[1440px] m-auto">
           {children}
           <Toaster position="bottom-right" richColors/>
         </div>
+      </Provider>
         </body>
     </html>
   );

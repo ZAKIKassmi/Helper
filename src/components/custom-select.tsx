@@ -1,4 +1,4 @@
-import { useState } from 'react';
+"use client";
 import { 
   Form, 
   FormControl,
@@ -10,6 +10,8 @@ import {
 } from './ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { generateTimeSlots } from '@/lib/generate-time-slots';
+import { useMemo } from 'react';
+
 
 type Props = {
   name:string;
@@ -17,6 +19,9 @@ type Props = {
 }
 
 export default function CustomSelect({name, control}: Props) {
+
+  const timeSlots = useMemo(() => generateTimeSlots("09:00", "22:00", 30), []);
+
 
   return (
     <FormField
@@ -28,13 +33,13 @@ export default function CustomSelect({name, control}: Props) {
                   <FormControl>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40 focus:ring-n-40 focus:ring-offset-n-40 w-[90px]'>
+                        <SelectTrigger className='focus-visible:ring-n-40 duration-200 focus-visible:ring-offset-n-40 focus:ring-n-40 focus:ring-offset-n-40 w-[100px]'>
                             <SelectValue placeholder="09:00" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {
-                          generateTimeSlots("09:00", "22:00", 30).map((time)=>(
+                          timeSlots.map((time)=>(
                             <SelectItem  key={time} value={`${time}:00`}>{time}</SelectItem>
                           ))
                         }

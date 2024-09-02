@@ -160,4 +160,15 @@ export const OperationalDaysSchema = z.object({
 export type TOperaionalDaysSchema = z.infer<typeof OperationalDaysSchema>;
 
 
+export const certificationSchema = z.object({
+    licenseNumber: z.string().min(1,{
+        message: "Please enter a number",
+    }),
+    expiryDate: z.string().date(),
+    certifications: z.string(),
+});
+
+export type TCertificationSchema = z.infer<typeof certificationSchema>;
+
+
 

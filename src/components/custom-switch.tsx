@@ -30,6 +30,7 @@ export default function CustomSwitch({name, control}: Props) {
                   <FormControl>
                         <div className='flex gap-2'>
                           <Switch
+                            className='duration-500'
 
                             onClick={()=>{
                               setIsOpen(i=>!i)

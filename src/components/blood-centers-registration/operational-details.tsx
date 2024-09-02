@@ -89,6 +89,7 @@ export default function OperationalDetailsForm({}: Props) {
       const formData = new FormData();
       //server actions accept FromData object
       console.log(data.SundayStartAt);
+      console.log("is submitting")
 
       //TODO: call the formAction
       // formAction(formData);
@@ -101,12 +102,11 @@ return (
          {
             OperationalDetailsItems.map((item)=>(
               <div key={item.dayName} className='flex flex-col gap-2 mb-3 cs:flex-row cs:items-center items-stretch justify-between sm:items-center'>
-                <div className='flex justify-between w-full'>
+                <div className='flex justify-between w-full flex-1'>
                 <p className='text-label-n font-medium max-w-[100px] w-full'>{item.dayName}</p>
                 <CustomSwitch name={item.switch} control={form.control}/>
-
                 </div>
-                <div className='flex justify-between items-center gap-4'>    
+                <div className='flex justify-between items-center gap-4 flex-[1.2]'>    
                   <CustomSelect name={item.statrsAt} control={form.control}/>
                   <p className='text-label-n font-medium'>To</p>
                   <CustomSelect name={item.endsAt} control={form.control}/>
@@ -122,12 +122,12 @@ return (
                   <p className='text-n-900'>Go Back</p>
                 </Button>
             </Link>
-            <Link href="/registre/operational-details">
+            <Link href="/registre/certification-license">
               <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
                 <p className='text-n-900'>Next</p>
                 <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
               </Button>
-            </Link>
+            </Link> 
           </div>
           
           

@@ -130,3 +130,34 @@ export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'con
 
 
 export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyCalls';
+
+
+
+export const OperationalDaysSchema = z.object({
+    SundaySwitch: z.boolean(),
+    SundayStartAt: z.string(),
+    SundayEndsAt: z.string(),
+    MondaySwitch: z.boolean(),
+    MondayStartAt: z.string(),
+    MondayEndsAt: z.string(),
+    TuesdaySwitch: z.boolean(),
+    TuesdayStartAt: z.string(),
+    TuesdayEndsAt: z.string(),
+    WednesdaySwitch: z.boolean(),
+    WednesdayStartAt: z.string(),
+    WednesdayEndsAt:z.string(),
+    ThursdaySwitch: z.boolean(),
+    ThursdayStartAt: z.string(),
+    ThursdayEndsAt: z.string(),
+    FridaySwitch: z.boolean(),
+    FridayStartAt: z.string(),
+    FridayEndsAt: z.string(),
+    SaturdaySwitch: z.boolean(),
+    SaturdayStartAt: z.string(),
+    SaturdayEndsAt: z.string()
+});
+
+export type TOperaionalDaysSchema = z.infer<typeof OperationalDaysSchema>;
+
+
+

@@ -222,5 +222,48 @@ export const footerItems = [
 ];
 
 
-
+export const OperationalDetailsItems = [
+    {
+        dayName: "Sunday",
+        switch: "SundaySwitch",
+        statrsAt: "SundayStartAt",
+        endsAt: "SundayEndsAt"
+    },
+    {
+        dayName: "Monday",
+        switch: "MondaySwitch",
+        statrsAt: "MondayStartAt",
+        endsAt: "MondayEndsAt"
+    },
+    {
+        dayName: "Tuesday",
+        switch: "TuesdaySwitch",
+        statrsAt: "TuesdayStartAt",
+        endsAt: "TuesdayEndsAt"
+    },
+    {
+        dayName: "Wednesday",
+        switch: "WednesdaySwitch",
+        statrsAt: "WednesdayStartAt",
+        endsAt: "WednesdayEndsAt"
+    },
+    {
+        dayName: "Thursday",
+        switch: "ThursdaySwitch",
+        statrsAt: "ThursdayStartAt",
+        endsAt: "ThursdayEndsAt"
+    },
+    {
+        dayName: "Friday",
+        switch: "FridaySwitch",
+        statrsAt: "FridayStartAt",
+        endsAt: "FridayEndsAt"
+    },
+    {
+        dayName: "Saturday",
+        switch: "SaturdaySwitch",
+        statrsAt: "SaturdayStartAt",
+        endsAt: "SaturdayEndsAt"
+    },
+]
 

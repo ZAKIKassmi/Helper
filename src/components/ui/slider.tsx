@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => (
+>(({ className, tip, customStep ,...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
@@ -20,7 +20,16 @@ const Slider = React.forwardRef<
     <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
       <SliderPrimitive.Range className="absolute h-full bg-c-red-500" />
     </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-c-red-500 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50" />
+    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-c-red-500 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 relative">
+      <div className="absolute bg-white border rounded-sm shadow-sm  bottom-6 -left-14 px-6 py-2 flex gap-1">
+        <p>
+          {customStep}%,
+        </p>
+        <p>
+        ${tip?.toFixed(2) || "00.00"}
+        </p>
+      </div>
+    </SliderPrimitive.Thumb>
   </SliderPrimitive.Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName

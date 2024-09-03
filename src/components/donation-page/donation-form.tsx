@@ -47,6 +47,7 @@ export default function DonationForm({}: Props) {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState<number>(0);
   const [tip, setTip] = useState(0);
+  const [step, setStep] = useState(0);
   const form = useForm<TDonationSchema>({
       resolver: zodResolver(donationSchema),
       defaultValues: {
@@ -130,10 +131,13 @@ return (
                   
           <div className='flex flex-col w-full mb-4'>
             <p className='sm:text-h5-d font-bold mb-4 text-h6-d'>Tip Helper</p>
-            <p className='mb-4 text-p-n font-medium'>
+            <p className='mb-16 text-p-n font-medium'>
                 Helper has a 0% platform fee for organizers. Helper will continue offering  its services thanks to donors who will leave an optional amount here:
             </p>
-            <Slider onValueChange={(e)=>setTip((amount*e[0])/100)} defaultValue={[0]} max={30} step={1} />
+            <Slider customStep={step} tip={tip} onValueChange={(e)=>{
+              setTip((amount*e[0])/100);
+              setStep(e[0]);
+            }} defaultValue={[0]} max={30} step={1} />
           </div>        
       
 

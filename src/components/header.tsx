@@ -79,7 +79,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href='/donations' legacyBehavior passHref>
+            <Link href='/donation' legacyBehavior passHref>
               <NavigationMenuLink>
                 <CustomButton type="link" value="Donate" />
               </NavigationMenuLink>

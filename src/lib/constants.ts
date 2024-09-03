@@ -98,7 +98,7 @@ export const navbarLinks: {name: string, location: string, isDropDown: boolean, 
     },
     {
         name: 'Donate',
-        location: '/donate',
+        location: '/donation',
         isDropDown: false,
         description: "Help us expand and build more blood centers",
     },

@@ -170,5 +170,55 @@ export const certificationSchema = z.object({
 
 export type TCertificationSchema = z.infer<typeof certificationSchema>;
 
+const currentYear = new Date().getFullYear() % 100;
+
+export const donationSchema = z.object({
+    firstName: z.string().regex(new RegExp(/^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/),{
+        message: "First name must contain only letters."
+    }).trim().min(1,{
+        message: "Please enter a first name",
+    }).max(255,{
+        message: 'First name is too long'
+    }),
+    lastName: z.string().regex(new RegExp(/^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/),{
+        message: "First name must contain only letters."
+    }).trim().min(1,{
+        message: "Please enter a last name"
+    }).max(255,{
+        message: "Last name is too long",
+    }),
+    email: z.string().trim().email({
+        message: 'Email is not valid'
+    }),
+    cardNumber: z.string().trim().min(16,{
+        message: "Card number is not valid",
+    }).max(16,{
+        message: "Card number is not valid",
+    }),
+    monthYear: z.string().regex(new RegExp(`^(0[1-9]|1[0-2])\/(${currentYear}|[${currentYear+1}-9][0-9])$`),{
+        message: "Month must be between 01 and 12"
+    }).max(5).min(5),
+    cvv: z.string().min(3,{
+        message: "CVV is not valid",
+    }).max(3,{
+        message: "CVV is not valid"
+    }),
+    nameOnCard: z.string().min(1,{
+        message: "Please enter a name",
+    }).max(255,{
+        message: "Name is too long."
+    }),
+    country: z.string().max(255,{
+        message: "Country name is too long",
+    }),
+    zipCode: z.string().min(3,{
+        message: "Enter a zip code",
+    }).max(10,{
+        message: "Zip code is too long",
+    })
+});
+
+export type TDonationSchema = z.infer<typeof donationSchema>;
+
 
 

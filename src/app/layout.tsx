@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <Provider>
-        <div className="max-w-[1440px] m-auto">
+        <div className="max-w-[90rem] m-auto">
           {children}
           <Toaster position="bottom-right" richColors/>
         </div>

@@ -50,7 +50,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <nav
       className={cn(
-        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[120px] 2xl:pl-[120px] max-w-[1440px] border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
+        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[7.5rem] 2xl:pl-[7.5rem] max-w-[90rem] border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
         {
           "-translate-y-full": !isVisible,
           "translate-y-0": isVisible,
@@ -93,7 +93,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
             <NavigationMenuContent className="">
               <ul className="flex flex-col items-center justify-center bg-white shadow-lg rounded-md">
                 {aboutLinkDropDownItems.map((item: { name: string, location: string }) => (
-                  <li key={item.name} className="w-[200px] text-center">
+                  <li key={item.name} className="w-[12.5rem] text-center">
                     <Link className="p-3 block w-full text-n-90 text-base text-left hover:bg-[#EFEFEF]" href={item.location}>
                       {item.name}
                     </Link>

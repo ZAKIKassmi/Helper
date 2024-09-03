@@ -21,7 +21,7 @@ const Slider = React.forwardRef<
       <SliderPrimitive.Range className="absolute h-full bg-c-red-500" />
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-c-red-500 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 relative">
-      <div className="absolute bg-white border rounded-sm shadow-sm  bottom-6 -left-14 px-6 py-2 flex gap-1">
+      <div className="absolute bg-white border rounded-sm shadow-sm  bottom-6 -left-12 w-[7.5rem] px-2 py-3 flex justify-center gap-1">
         <p>
           {customStep}%,
         </p>

@@ -43,8 +43,8 @@ export default function DonationForm({}: Props) {
   // const [state, formAction] = useFormState(createUser, null);
   const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
   const [open, setOpen] = useState(false);
-
-
+  const [amount, setAmount] = useState<number>(0);
+  const [tip, setTip] = useState("00.00");
   const form = useForm<TDonationSchema>({
       resolver: zodResolver(donationSchema),
       defaultValues: {
@@ -57,6 +57,7 @@ export default function DonationForm({}: Props) {
           nameOnCard: '',
           country: '',
           zipCode: '',
+          amount: 0,
       }   
   });
   const router = useRouter();
@@ -94,10 +95,41 @@ return (
   <Form {...form}>
       <form className='flex  min-h-[75vh]  flex-col items-center w-full max-w-[37.5rem] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>
 
-         
+          <div className='flex flex-col w-full'>
+            <p className='text-h5-d font-bold mb-4'>Enter your donation</p>
+          <FormField 
+              name="amount"
+              control={form.control}
+              render={({field})=>(
+              <FormItem className='flex-1 w-full'>
+                  <FormControl>
+                    <div className='relative'>
+                      <p className='absolute left-4 top-1/2 -translate-y-1/2 font-bold text-h2-d'>
+                        $
+                      </p>
+                      <Input
+                      className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40 h-14 pl-11 text-h2-d font-bold' defaultValue="00.00"   type="text" 
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        setAmount(Number(e.target.value));
+                      }}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+              </FormItem>  
+              )}
+              >
+          </FormField>
+          </div>
                   
                   
       
+            <div className='flex flex-col gap-0 w-full'>
+            <p className='text-h5-d font-bold mb-4'>
+              Payment Method
+            </p>
             
 
             <Accordion className='border rounded-t-xl px-4 w-full mb-0'  type="single" collapsible >
@@ -290,7 +322,7 @@ return (
               </AccordionItem>
             </Accordion> 
 
-            <div className=' w-full mt-[-18px]  flex justify-between px-4 items-center text-n-900 text-label-n border py-4 border-t-0  rounded-b-xl'>
+            <div className=' w-full flex justify-between px-4 items-center text-n-900 text-label-n border py-4 border-t-0  rounded-b-xl'>
 
               <div className='flex gap-2 items-center'>
                 <PaypalIcon/>
@@ -302,7 +334,24 @@ return (
 
             </div>
 
-      
+            </div>
+
+
+            <div className='w-full flex flex-col gap-3'>
+              <p className='text-label-n font-bold'>
+                Your donation
+              </p>
+              <div className='flex flex-col gap-2'>
+                <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
+                  <p>Total Amount</p>
+                  <p>{`$${(amount ? amount : 0).toFixed(2)}`}</p>
+                </div>
+                <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
+                  <p>Helper Tip</p>
+                  <p>{tip}</p>
+                </div>
+              </div>
+            </div>
 
 
 
@@ -315,7 +364,10 @@ return (
               Donate
             </Button>
           </div>
-          
+
+          <p className='text-p-n text-muted-foreground '>
+          By choosing the payment method above, you agree to the Helper <span className='text-n-900 underline cursor-pointer'> Terms of Service </span>  and acknowledge the <span className='text-n-900 underline cursor-pointer'> Privacy Notice. </span>
+          </p>
 
       </form>
   </Form>

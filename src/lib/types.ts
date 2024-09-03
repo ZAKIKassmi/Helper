@@ -195,8 +195,8 @@ export const donationSchema = z.object({
     }).max(16,{
         message: "Card number is not valid",
     }),
-    monthYear: z.string().regex(new RegExp(`^(0[1-9]|1[0-2])\/(${currentYear}|[${currentYear+1}-9][0-9])$`),{
-        message: "Month must be between 01 and 12"
+    monthYear: z.string().regex(new RegExp(`^(0[1-9]|1[0-2])\/(${currentYear}|${currentYear + 1}|[${Math.floor((currentYear + 1) / 10)}-9][0-9])$`),{
+        message: `Month must be between 01 and 12 and Year must be above ${currentYear}`
     }).max(5).min(5),
     cvv: z.string().min(3,{
         message: "CVV is not valid",
@@ -215,6 +215,9 @@ export const donationSchema = z.object({
         message: "Enter a zip code",
     }).max(10,{
         message: "Zip code is too long",
+    }),
+    amount: z.number().lt(100_000_0).min(1,{
+        message: "Please enter a number"
     })
 });
 

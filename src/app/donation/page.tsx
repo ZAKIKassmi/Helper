@@ -22,19 +22,15 @@ export default function Page() {
 
       <div className='flex flex-col gap-4 w-full justify-center items-center py-8 px-2 csxxs:px-4'>
 
-        <div className='min-h-[70vh] flex-col flex justify-start gap-4 max-w-[561px] w-full' >
+        <div className='min-h-[70vh] flex-col flex justify-start gap-12 max-w-[38rem] w-full' >
 
-          <p className="csxxs:text-h6-d  sm:text-h3-d font-bold md:text-n-900 text-center">
+          <p className="csxxs:text-h6-d  sm:text-h3-d  font-bold md:text-n-900 text-center">
             <Balancer>
               Your donation will help us build more blood centers around the world!
             </Balancer>
           </p>
 
-
           <DonationForm/>
-
-
-
           
         </div>
 

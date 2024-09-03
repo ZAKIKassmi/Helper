@@ -33,6 +33,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import PaypalIcon from '../icons/paypal-icon';
+import Balancer from 'react-wrap-balancer';
+import { Slider } from '../ui/slider';
 
 
 type Props = {}
@@ -44,7 +46,7 @@ export default function DonationForm({}: Props) {
   const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState<number>(0);
-  const [tip, setTip] = useState("00.00");
+  const [tip, setTip] = useState(0);
   const form = useForm<TDonationSchema>({
       resolver: zodResolver(donationSchema),
       defaultValues: {
@@ -57,7 +59,7 @@ export default function DonationForm({}: Props) {
           nameOnCard: '',
           country: '',
           zipCode: '',
-          amount: 0,
+          amount: Number(parseFloat("0").toFixed(2))
       }   
   });
   const router = useRouter();
@@ -81,6 +83,7 @@ export default function DonationForm({}: Props) {
   //     }
   // },[state]);
 
+  
 
   async function onSubmit(data: TDonationSchema){
       const formData = new FormData();
@@ -93,44 +96,52 @@ export default function DonationForm({}: Props) {
 return (
   
   <Form {...form}>
-      <form className='flex  min-h-[75vh]  flex-col items-center w-full max-w-[37.5rem] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='flex  min-h-[75vh]  flex-col items-center w-full max-w-[40rem] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>
 
-          <div className='flex flex-col w-full'>
-            <p className='text-h5-d font-bold mb-4'>Enter your donation</p>
-          <FormField 
-              name="amount"
-              control={form.control}
-              render={({field})=>(
-              <FormItem className='flex-1 w-full'>
-                  <FormControl>
-                    <div className='relative'>
-                      <p className='absolute left-4 top-1/2 -translate-y-1/2 font-bold text-h2-d'>
-                        $
-                      </p>
-                      <Input
-                      className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40 h-14 pl-11 text-h2-d font-bold' defaultValue="00.00"   type="text" 
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setAmount(Number(e.target.value));
-                      }}
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-              </FormItem>  
-              )}
-              >
-          </FormField>
+          <div className='flex flex-col w-full mb-4'>
+            <p className='sm:text-h5-d font-bold mb-4 text-h6-d'>Enter your donation</p>
+            <FormField 
+                name="amount"
+                control={form.control}
+                render={({field})=>(
+                <FormItem className='flex-1 w-full'>
+                    <FormControl>
+                      <div className='relative'>
+                        <p className='absolute left-4 top-1/2 -translate-y-1/2 font-bold text-h2-d'>
+                          $
+                        </p>
+                        <Input
+                        
+                        className='focus-visible:ring-n-40 rounded-xl focus-visible:ring-offset-n-40 h-16 pl-11 text-4xl font-bold'  type="text"
+                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          setAmount(Number(e.target.value));
+                        }}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>  
+                )}
+                >
+            </FormField>
           </div>
                   
-                  
+          <div className='flex flex-col w-full mb-4'>
+            <p className='sm:text-h5-d font-bold mb-4 text-h6-d'>Tip Helper</p>
+            <p className='mb-4 text-p-n font-medium'>
+                Helper has a 0% platform fee for organizers. Helper will continue offering  its services thanks to donors who will leave an optional amount here:
+            </p>
+            <Slider onValueChange={(e)=>setTip((amount*e[0])/100)} defaultValue={[0]} max={30} step={1} />
+          </div>        
       
-            <div className='flex flex-col gap-0 w-full'>
-            <p className='text-h5-d font-bold mb-4'>
+
+          <div className='flex flex-col gap-0 w-full'>
+            <p className='sm:text-h5-d font-bold mb-4 text-h6-d'>
               Payment Method
             </p>
-            
+          
 
             <Accordion className='border rounded-t-xl px-4 w-full mb-0'  type="single" collapsible >
               <AccordionItem  value="donation">
@@ -334,24 +345,24 @@ return (
 
             </div>
 
-            </div>
+          </div>
 
 
-            <div className='w-full flex flex-col gap-3'>
-              <p className='text-label-n font-bold'>
-                Your donation
-              </p>
-              <div className='flex flex-col gap-2'>
-                <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
-                  <p>Total Amount</p>
-                  <p>{`$${(amount ? amount : 0).toFixed(2)}`}</p>
-                </div>
-                <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
-                  <p>Helper Tip</p>
-                  <p>{tip}</p>
-                </div>
+          <div className='w-full flex flex-col gap-3'>
+            <p className='text-label-n font-bold'>
+              Your donation
+            </p>
+            <div className='flex flex-col gap-2'>
+              <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
+                <p>Total Amount</p>
+                <p>{`$${(amount ? amount : 0).toFixed(2)}`}</p>
+              </div>
+              <div className='text-muted-foreground text-label-s font-medium flex justify-between'>
+                <p>Helper Tip</p>
+                <p>{`$${(tip || 0).toFixed(2)}`}</p>
               </div>
             </div>
+          </div>
 
 
 
@@ -365,8 +376,11 @@ return (
             </Button>
           </div>
 
-          <p className='text-p-n text-muted-foreground '>
+          <p className='text-p-s  text-muted-foreground '>
+            
+
           By choosing the payment method above, you agree to the Helper <span className='text-n-900 underline cursor-pointer'> Terms of Service </span>  and acknowledge the <span className='text-n-900 underline cursor-pointer'> Privacy Notice. </span>
+            
           </p>
 
       </form>

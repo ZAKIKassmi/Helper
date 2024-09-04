@@ -68,6 +68,10 @@
   }
 }
 
+.basic-information-page-transition{
+  transform: translateX(-100%);
+}
+
 /* width */
 /* ::-webkit-scrollbar {
   width: 5px;

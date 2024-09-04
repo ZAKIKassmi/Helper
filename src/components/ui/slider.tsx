@@ -23,10 +23,10 @@ const Slider = React.forwardRef<
     <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-c-red-500 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-0  focus-visible:ring-offset-0 disabled:pointer-events-none disabled:opacity-50 relative">
       <div className="absolute bg-white border rounded-sm shadow-sm  bottom-6 -left-12 w-[7.5rem] px-2 py-3 flex justify-center gap-1">
         <p>
-          {customStep}%,
+        ${tip?.toFixed(2) || "00.00"}
         </p>
         <p>
-        ${tip?.toFixed(2) || "00.00"}
+          ({customStep}%)
         </p>
       </div>
     </SliderPrimitive.Thumb>

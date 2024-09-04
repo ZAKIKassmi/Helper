@@ -25,17 +25,19 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import Link from 'next/link';
-
+import { AddBasicInformation } from '@/app/(bloodBankAuth)/registre/basic-information/_actions/action';
+import {countriesCodes} from "@/data/countries"
 
 type Props = {}
 
 export default function BasicInformationRegistrationForm({}: Props) {
   //TODO: add backend logic
 
-  // const [state, formAction] = useFormState(createUser, null);
+  const [state, formAction] = useFormState(AddBasicInformation, null);
   const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
   const [open, setOpen] = useState(false);
+
+  
 
 
   const form = useForm<TBloodBankSchema>({
@@ -51,24 +53,24 @@ export default function BasicInformationRegistrationForm({}: Props) {
   });
   const router = useRouter();
   //prefetch the email verification route.
-  // useEffect(()=>{
-  //     if(Array.isArray(state) && state?.length > 0){
-  //         state.forEach((issue: {name: BloodBankNameType, errorMessage: string, isToast: boolean, isError:boolean})=>{
-  //             if(!issue.isToast){
-  //                 form.setError(issue.name, {
-  //                     message: issue.errorMessage
-  //                 })
-  //             }
-  //             else if(issue.isToast && issue.isError){
-  //                 toast.error(issue.errorMessage);
-  //             }
-  //             else if(issue.isToast && !issue.isError){
-  //                 toast.success(issue.errorMessage);
-  //                 router.push("/signup/email-verification");
-  //             }
-  //         });
-  //     }
-  // },[state]);
+  useEffect(()=>{
+      if(Array.isArray(state) && state?.length > 0){
+          state.forEach((issue: {name: BloodBankNameType, errorMessage: string, isToast: boolean, isError:boolean})=>{
+              if(!issue.isToast){
+                  form.setError(issue.name, {
+                      message: issue.errorMessage
+                  })
+              }
+              else if(issue.isToast && issue.isError){
+                  toast.error(issue.errorMessage);
+              }
+              else if(issue.isToast && !issue.isError){
+                  toast.success(issue.errorMessage);
+                  router.push("/registre/email-verification");
+              }
+          });
+      }
+  },[state]);
 
   function evaluatePasswordStrength(password: string) {
       const result = zxcvbn(password);
@@ -98,12 +100,12 @@ export default function BasicInformationRegistrationForm({}: Props) {
   }
 
   async function onSubmit(data: TBloodBankSchema){
-      if(zxcvbn(data.password).score < 3){
+      if(zxcvbn(data.password).score < 4){
           toast.error("Your password needs to be stronger. Please include a mix of letters, numbers, and special characters for better security.");
           return null;
       }
       if(data.password !== data.confirmPassword){
-          toast.error("Passwords do not match!!");
+          toast.error("Oops! Passwords do not match.");
           return null;
       }
       const formData = new FormData();
@@ -115,10 +117,9 @@ export default function BasicInformationRegistrationForm({}: Props) {
       formData.append('password', data.password);
       formData.append('confirmPassword', data.confirmPassword);
 
-      router.push('/registre/facility-details');
-
       //TODO: call the formAction
-      // formAction(formData);
+      formAction(formData);
+
       
   }
 return (

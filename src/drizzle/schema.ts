@@ -41,6 +41,11 @@ export const bloodBanks = pgTable('blood_banks', {
     })
 });
 
+export const countries = pgTable('countries', {
+    id: serial('id').notNull().primaryKey(),
+    countryName: varchar('name', { length: 255 }).notNull().unique(),    
+});
+
 export const facilityDetails = pgTable('facility_details', {
     id: serial('id').primaryKey().notNull(),
     numberOfBeds: integer('number_of_beds').notNull(),
@@ -96,10 +101,7 @@ export const events = pgTable('events', {
     }),
 });
 
-export const countries = pgTable('countries', {
-    id: serial('id').notNull().primaryKey(),
-    countryName: varchar('country_name', { length: 255 }).notNull().unique(),
-});
+
 
 export const appointments = pgTable('appointments', {
     id: uuid('id').primaryKey().defaultRandom().notNull(),

@@ -47,7 +47,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         const checkExistingEmail = await db.select().from(userTable).where(eq(userTable.email, email));
         if(checkExistingEmail.length > 0){
             //trying to keep the errorMessages vague.
-            return [{name: "confirmPassword", errorMessage: "Oops! Something went wrong", isToast: true,isError: true}];
+            return [{name: "confirmPassword", errorMessage: "Oops! Something went wrong. Please try again later", isToast: true,isError: true}];
         }
     }
     catch(e){
@@ -55,7 +55,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     }
 
     if(password !== confirmPassword){
-        return [{name: "confirmPassword", errorMessage: "Passwords do not match!", isToast: true,isError: true}];
+        return [{name: "confirmPassword", errorMessage: "Oops! Passwords do not match.", isToast: true,isError: true}];
         
     }
 

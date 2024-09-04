@@ -110,6 +110,7 @@ export default function CustomForm() {
         formData.append('email', data.email);
         formData.append('password', data.password);
         formData.append('confirmPassword', data.confirmPassword);
+        // formData.append('gender', data.gender);
         //call the formAction
         formAction(formData);
         
@@ -216,8 +217,8 @@ export default function CustomForm() {
                     <FormMessage />
                 </FormItem>  
                 )}
-                >
-            </FormField>
+                />
+            
 
 
             {/* TODO: add User phone number input */}
@@ -225,7 +226,7 @@ export default function CustomForm() {
 
 
            <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>
-            Sign Up
+                Sign Up
             </Button>
 
 

@@ -18,7 +18,7 @@ export const userSchema = z.object({
     }),
     gender: z.enum(["Male", "Female"],{
         message: "This field is Required"
-    }),
+    }).optional(),
     phoneNumber: z.string({
         message: "This field is required"
     }).min(8,{
@@ -27,7 +27,7 @@ export const userSchema = z.object({
         message: 'Phone maximum length is 15 characters'
     }).startsWith('+',{
         message: 'Phone number must starts with +',
-    })
+    }).optional(),
 });
 
 

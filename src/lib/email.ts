@@ -3,13 +3,14 @@ import { mailOptions, transporter } from "./nodemailer";
 type Props = {
   email: string;
   subject: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   isLink: boolean;
   code: string;
+  name?: string;
 }
 
-export function sendEmail({email, subject,firstName, lastName, isLink, code}:Props){
+export function sendEmail({email, subject,firstName, lastName,name, isLink, code}:Props){
   // I have used setTimeout to defer the process of sending email by 3 seconds 
   // to improve the user experience by avoiding the 1-second delay in loading the verification page. 
 
@@ -28,7 +29,7 @@ export function sendEmail({email, subject,firstName, lastName, isLink, code}:Pro
               </h1>
               <div style="margin-bottom: 24px;">
                 <h2 style="font-size: 20px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">
-                  Hello ${firstName} ${lastName},
+                  Hello ${firstName} ${lastName} ${name},
                 </h2>
                 <p>You have been registered to Helper successfully. Here is your ${isLink ? "reset link" : "verification code"}:</p>
               </div>

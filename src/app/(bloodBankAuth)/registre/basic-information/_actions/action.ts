@@ -98,7 +98,7 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
       id: bloodBanks.id
     });
 
-    const {isError, isToast, errorMessage} = await generateEmailVerificationCode(String(bloodBank[0].id), email);
+    const {isError, isToast, errorMessage} = await generateEmailVerificationCode(String(bloodBank[0].id), email, "bloodBank");
     if(isError){
         return [{name: "confirmPassword", isToast, errorMessage,isError}];
     }

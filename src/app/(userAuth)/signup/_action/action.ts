@@ -88,7 +88,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
             id: userTable.id    
         });
         //generate and send email verification code.
-        const {isError, isToast, errorMessage} = await generateEmailVerificationCode(userId[0].id, email);
+        const {isError, isToast, errorMessage} = await generateEmailVerificationCode(userId[0].id, email, "user");
         if(isError){
             return [{name: "confirmPassword", isToast, errorMessage,isError}];
         }

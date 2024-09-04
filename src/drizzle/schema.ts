@@ -134,6 +134,9 @@ export const emailVerificationTable = pgTable('email_verification_table', {
     userId: uuid('user_id').references(() => userTable.id, {
         onDelete: 'cascade'
     }).unique(),
+    bloodBankId: integer('blood_bank_id').references(()=>bloodBanks.id,{
+        onDelete: 'cascade',
+    }),
     email: varchar('email', { length: 255 }).notNull(),
     expiresAt: timestamp("expires_at", {
         withTimezone: true,
@@ -174,6 +177,10 @@ export const emailVerificationTableRelations = relations(emailVerificationTable,
     user: one(userTable, {
         fields: [emailVerificationTable.userId],
         references: [userTable.id],
+    }),
+    bank: one(bloodBanks, {
+        fields: [emailVerificationTable.bloodBankId],
+        references: [bloodBanks.id],
     })
 }));
 
@@ -207,6 +214,7 @@ export const bloodBanksRelations = relations(bloodBanks, ({ many, one }) => ({
         fields: [bloodBanks.country],
         references: [countries.id],
     }),
+    emailVerification: one(emailVerificationTable),
     appointments: many(appointments),
     workingTimes: many(workingDaysHours),
     facilityDetails: one(facilityDetails),

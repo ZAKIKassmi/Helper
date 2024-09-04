@@ -15,6 +15,13 @@
       "when": 1724753508729,
       "tag": "0001_petite_deadpool",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1725462589945,
+      "tag": "0002_gorgeous_luminals",
+      "breakpoints": true
     }
   ]
 }

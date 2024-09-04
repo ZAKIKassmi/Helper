@@ -515,11 +515,6 @@
 "code": "IM"
 },
 {
-"name": "Israel",
-"dial_code": "+972",
-"code": "IL"
-},
-{
 "name": "Italy",
 "dial_code": "+39",
 "code": "IT"
@@ -825,7 +820,7 @@
 "code": "PW"
 },
 {
-"name": "Palestinian Territory, Occupied",
+"name": "Palestine",
 "dial_code": "+970",
 "code": "PS"
 },

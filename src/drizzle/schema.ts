@@ -43,7 +43,9 @@ export const bloodBanks = pgTable('blood_banks', {
 
 export const countries = pgTable('countries', {
     id: serial('id').notNull().primaryKey(),
-    countryName: varchar('name', { length: 255 }).notNull().unique(),    
+    countryName: varchar('name', { length: 255 }).notNull().unique(), 
+    dialCode: varchar("dial_code",{length:8}).notNull(),
+    code: varchar("code", {length:3}).notNull(),
 });
 
 export const facilityDetails = pgTable('facility_details', {

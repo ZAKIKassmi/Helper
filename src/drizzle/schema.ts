@@ -31,14 +31,26 @@ export const bloodTypes = pgTable('blood_types', {
 });
 
 export const bloodBanks = pgTable('blood_banks', {
-    id: serial('id').notNull().primaryKey(),
+    id: uuid('id').primaryKey().defaultRandom().notNull(),
     name: varchar('name', { length: 255 }).notNull(),
     email: varchar('email', { length: 255 }).notNull().unique(),
+    emailVerified: boolean('email_verified').notNull(),
     address: text('address').notNull(),
     password: text('password').notNull(),
     country: integer('country').notNull().references(() => countries.id, {
         onDelete: 'restrict'
     })
+});
+
+export const bloodBanksSessions = pgTable('blood_banks_sessions', {
+    id: text('id').primaryKey(),
+    userId: uuid('user_id').references(() => bloodBanks.id, {
+        onDelete: 'cascade'
+    }).notNull(),
+    expiresAt: timestamp("expires_at", {
+        withTimezone: true,
+        mode: "date"
+    }).notNull(),
 });
 
 export const countries = pgTable('countries', {
@@ -53,7 +65,7 @@ export const facilityDetails = pgTable('facility_details', {
     numberOfBeds: integer('number_of_beds').notNull(),
     capacity: integer('capacity').notNull(),
     emergencyContact: varchar('emergency_contact', { length: 1024 }),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
 });
@@ -63,7 +75,7 @@ export const servicesEnum = pgEnum('services_enum', ['Blood Donation', 'Plasma D
 export const services = pgTable('services', {
     id: serial('id').primaryKey().notNull(),
     serviceName: servicesEnum('service_name').notNull(),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
 });
@@ -75,7 +87,7 @@ export const workingDaysHours = pgTable('working_days_hours', {
     workingDay: daysEnum('working_day').notNull(),
     startsAt: time('starts_at').notNull(),
     endsAt: time('ends_at').notNull(),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
 });
@@ -84,7 +96,7 @@ export const certifications = pgTable('certifications', {
     id: serial('id').primaryKey().notNull(),
     licenseNumber: varchar('license_number', { length: 1024 }),
     certificationUrl: text('certification_url'),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull(),
 });
@@ -98,12 +110,10 @@ export const events = pgTable('events', {
     eventTime: time('event_time', {
         withTimezone: true,
     }).notNull(),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }),
 });
-
-
 
 export const appointments = pgTable('appointments', {
     id: uuid('id').primaryKey().defaultRandom().notNull(),
@@ -112,7 +122,7 @@ export const appointments = pgTable('appointments', {
     userId: uuid('user_id').references(() => userTable.id, {
         onDelete: 'cascade'
     }).notNull(),
-    bloodBankId: integer('blood_bank_id').references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'restrict'
     })
 });
@@ -134,7 +144,7 @@ export const emailVerificationTable = pgTable('email_verification_table', {
     userId: uuid('user_id').references(() => userTable.id, {
         onDelete: 'cascade'
     }).unique(),
-    bloodBankId: integer('blood_bank_id').references(()=>bloodBanks.id,{
+    bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }),
     email: varchar('email', { length: 255 }).notNull(),
@@ -184,6 +194,13 @@ export const emailVerificationTableRelations = relations(emailVerificationTable,
     })
 }));
 
+export const bloodBanksSessionsRelations = relations(bloodBanksSessions,({one})=>({
+    bank: one(bloodBanks, {
+        fields: [bloodBanksSessions.userId],
+        references: [bloodBanks.id],
+    })
+}))
+
 export const passwordTokensTableRelations = relations(passwordTokensTable, ({ one }) => ({
     user: one(userTable, {
         fields: [passwordTokensTable.userId],
@@ -215,6 +232,7 @@ export const bloodBanksRelations = relations(bloodBanks, ({ many, one }) => ({
         references: [countries.id],
     }),
     emailVerification: one(emailVerificationTable),
+    sessions: one(bloodBanksSessions),
     appointments: many(appointments),
     workingTimes: many(workingDaysHours),
     facilityDetails: one(facilityDetails),
@@ -228,10 +246,9 @@ export const bloodStocks = pgTable('blood_stocks', {
     bloodTypeId: integer('blood_type_id').notNull().references(() => bloodTypes.id, {
         onDelete: 'restrict'
     }),
-    bloodBankId: integer('blood_bank_id').notNull().references(() => bloodBanks.id, {
+    bloodBankId: uuid('blood_bank_id').notNull().references(() => bloodBanks.id, {
         onDelete: 'restrict'
     }),
-    level: varchar('level').notNull(),
 }, (table) => ({
     pk: primaryKey({ columns: [table.bloodTypeId, table.bloodBankId] })
 }));

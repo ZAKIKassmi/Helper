@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import { Lucia, TimeSpan } from "lucia";
-import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+import { DrizzlePostgreSQLAdapter, PostgreSQLSessionTable } from "@lucia-auth/adapter-drizzle";
 import { db } from "@/drizzle/db";
-import { userTable, sessions } from "@/drizzle/schema";
+import { userTable, sessions, bloodBanks, bloodBanksSessions } from "@/drizzle/schema";
 import type { Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { GitHub, Google } from "arctic";
@@ -11,7 +11,7 @@ import { GitHub, Google } from "arctic";
 //lucia connects to the database via an adapter
 //takes as an arguments: the database, session table, and user table
 const adapter = new DrizzlePostgreSQLAdapter(db, sessions, userTable);
-
+const bloodBankAdapter = new DrizzlePostgreSQLAdapter(db, bloodBanksSessions, bloodBanks);
 
 //we are importing lucia module above, but we do not have Typescript definitions in it.
 //Therefore, we delcare them here.
@@ -30,11 +30,11 @@ interface DatabaseUserAttributes {
 
 
 export const lucia = new Lucia(adapter, {
-    // sessionExpiresIn: new TimeSpan(2,'w'),// 2 weeks 
+    sessionExpiresIn: new TimeSpan(4,'w'),// 4 weeks 
 	sessionCookie: {
         // this sets cookies with super long expiration
         // since Next.js doesn't allow Lucia to extend cookie expiration when rendering pages
-		expires: false,
+		// expires: false,  
 		attributes: {
             // set to `true` when using HTTPS
 			secure: process.env.NODE_ENV === "production"
@@ -50,6 +50,51 @@ export const lucia = new Lucia(adapter, {
 	}
 });
 
+
+export const auth = new Lucia(bloodBankAdapter, {
+    sessionExpiresIn: new TimeSpan(4, 'w'), // 4 weeks 
+    sessionCookie: {
+        attributes: {
+            secure: process.env.NODE_ENV === "production"
+        }
+    },
+    getUserAttributes: (attributes: DatabaseUserAttributes) => {
+        return {
+            id: attributes.id,
+            email: attributes.email,
+            emailVerified: attributes.email_verified,
+        };
+    }
+});
+
+
+export const validateBloodBankRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
+    const sessionId = cookies().get(auth.sessionCookieName)?.value ?? null;
+    if(!sessionId){
+        //if no session cookie found => user must log in
+        return {
+            user: null,
+            session: null,
+        }
+    }
+
+    const result = await auth.validateSession(sessionId);
+    try{
+        if(result.session && result.session.fresh){
+            // if session.fresh is true it indicates that the session expiration has been extended and you should set new session cookie
+            const sessionCookie = auth.createSessionCookie(result.session.id);
+            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+        }
+
+        //if the session is invalide, delete the session cookie.
+        if(!result.session){
+            const sessionCookie = auth.createBlankSessionCookie();
+			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+        }
+    }
+    catch{}
+    return result;
+}
 
 //validateRequest will check for session cookie, validate it and set new cookie if necessary.
 export const validateRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{

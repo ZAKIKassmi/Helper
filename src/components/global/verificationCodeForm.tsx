@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {z} from 'zod';
@@ -23,11 +22,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { verifyVerificationCodeBloodBank } from "@/app/(bloodBankAuth)/registre/email-verification/_action/action";
 
 
 export default function VerificationCodeForm({href}:{href:string}) {
 
-  const [state, formAction] = useFormState(verifyVerificationCode, {
+  const action = href == "/" ? verifyVerificationCode : verifyVerificationCodeBloodBank;
+
+  const [state, formAction] = useFormState(action, {
     error: "",
     isError: true
   });

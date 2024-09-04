@@ -1,9 +1,51 @@
 {
-  "id": "778c45f2-8117-47fc-803f-ec6cc8760387",
-  "prevId": "df843a50-a0ab-422e-b1d4-844a447396f7",
+  "id": "38e8f046-df5a-4481-91dc-7dcef0f7ddee",
+  "prevId": "5f5082df-fc4a-4d1a-89e9-0b306cd50c70",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.blood_banks_sessions": {
+      "name": "blood_banks_sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "blood_bank_id": {
+          "name": "blood_bank_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "blood_banks_sessions_blood_bank_id_blood_banks_id_fk": {
+          "name": "blood_banks_sessions_blood_bank_id_blood_banks_id_fk",
+          "tableFrom": "blood_banks_sessions",
+          "tableTo": "blood_banks",
+          "columnsFrom": [
+            "blood_bank_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.appointments": {
       "name": "appointments",
       "schema": "",
@@ -35,7 +77,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -78,9 +120,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -91,6 +134,12 @@
         "email": {
           "name": "email",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": true
         },
@@ -152,13 +201,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "level": {
-          "name": "level",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -250,7 +293,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -338,6 +381,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "blood_bank_id": {
+          "name": "blood_bank_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "email": {
           "name": "email",
           "type": "varchar(255)",
@@ -359,6 +408,19 @@
           "tableTo": "user_table",
           "columnsFrom": [
             "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "email_verification_table_blood_bank_id_blood_banks_id_fk": {
+          "name": "email_verification_table_blood_bank_id_blood_banks_id_fk",
+          "tableFrom": "email_verification_table",
+          "tableTo": "blood_banks",
+          "columnsFrom": [
+            "blood_bank_id"
           ],
           "columnsTo": [
             "id"
@@ -421,7 +483,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -475,7 +537,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -575,7 +637,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -810,7 +872,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }

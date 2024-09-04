@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS "appointments" (
 	"appointment_date" date NOT NULL,
 	"appointment_time" time with time zone,
 	"user_id" uuid NOT NULL,
-	"blood_bank_id" integer
+	"blood_bank_id" uuid
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "blood_banks" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"address" text NOT NULL,
@@ -42,8 +42,7 @@ CREATE TABLE IF NOT EXISTS "blood_banks" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "blood_stocks" (
 	"blood_type_id" integer NOT NULL,
-	"blood_bank_id" integer NOT NULL,
-	"level" varchar NOT NULL,
+	"blood_bank_id" uuid NOT NULL,
 	CONSTRAINT "blood_stocks_blood_type_id_blood_bank_id_pk" PRIMARY KEY("blood_type_id","blood_bank_id")
 );
 --> statement-breakpoint
@@ -56,19 +55,22 @@ CREATE TABLE IF NOT EXISTS "certifications" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"license_number" varchar(1024),
 	"certification_url" text,
-	"blood_bank_id" integer NOT NULL
+	"blood_bank_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "countries" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"country_name" varchar(255) NOT NULL,
-	CONSTRAINT "countries_country_name_unique" UNIQUE("country_name")
+	"name" varchar(255) NOT NULL,
+	"dial_code" varchar(8) NOT NULL,
+	"code" varchar(3) NOT NULL,
+	CONSTRAINT "countries_name_unique" UNIQUE("name")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "email_verification_table" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"code" varchar NOT NULL,
 	"user_id" uuid,
+	"blood_bank_id" uuid,
 	"email" varchar(255) NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "email_verification_table_user_id_unique" UNIQUE("user_id")
@@ -81,7 +83,7 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"description" text NOT NULL,
 	"event_date" date NOT NULL,
 	"event_time" time with time zone NOT NULL,
-	"blood_bank_id" integer
+	"blood_bank_id" uuid
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "facility_details" (
@@ -89,7 +91,7 @@ CREATE TABLE IF NOT EXISTS "facility_details" (
 	"number_of_beds" integer NOT NULL,
 	"capacity" integer NOT NULL,
 	"emergency_contact" varchar(1024),
-	"blood_bank_id" integer NOT NULL
+	"blood_bank_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "password_tokens" (
@@ -103,7 +105,7 @@ CREATE TABLE IF NOT EXISTS "password_tokens" (
 CREATE TABLE IF NOT EXISTS "services" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"service_name" "services_enum" NOT NULL,
-	"blood_bank_id" integer NOT NULL
+	"blood_bank_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "sessions" (
@@ -119,10 +121,10 @@ CREATE TABLE IF NOT EXISTS "user_table" (
 	"user_email" varchar(255) NOT NULL,
 	"email_verified" boolean NOT NULL,
 	"picture_url" text,
-	"phone_number" varchar(20) NOT NULL,
-	"gender" "gender" NOT NULL,
-	"is_eligible" boolean NOT NULL,
-	"date_of_birth" date NOT NULL,
+	"phone_number" varchar(20),
+	"gender" "gender",
+	"is_eligible" boolean,
+	"date_of_birth" date,
 	"user_password" text NOT NULL,
 	"github_id" integer,
 	"username" varchar,
@@ -138,7 +140,7 @@ CREATE TABLE IF NOT EXISTS "working_days_hours" (
 	"working_day" "days_enum" NOT NULL,
 	"starts_at" time NOT NULL,
 	"ends_at" time NOT NULL,
-	"blood_bank_id" integer NOT NULL
+	"blood_bank_id" uuid NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -179,6 +181,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "email_verification_table" ADD CONSTRAINT "email_verification_table_user_id_user_table_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user_table"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "email_verification_table" ADD CONSTRAINT "email_verification_table_blood_bank_id_blood_banks_id_fk" FOREIGN KEY ("blood_bank_id") REFERENCES "public"."blood_banks"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -1,5 +1,5 @@
 {
-  "id": "f6ac66b6-6d4d-418a-a2ac-f4922d749924",
+  "id": "841135a0-d205-414e-98f8-272c7b9580ae",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -35,7 +35,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -78,9 +78,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -152,13 +153,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "level": {
-          "name": "level",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -250,7 +245,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -284,9 +279,21 @@
           "primaryKey": true,
           "notNull": true
         },
-        "country_name": {
-          "name": "country_name",
+        "name": {
+          "name": "name",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dial_code": {
+          "name": "dial_code",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(3)",
           "primaryKey": false,
           "notNull": true
         }
@@ -295,11 +302,11 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "countries_country_name_unique": {
-          "name": "countries_country_name_unique",
+        "countries_name_unique": {
+          "name": "countries_name_unique",
           "nullsNotDistinct": false,
           "columns": [
-            "country_name"
+            "name"
           ]
         }
       }
@@ -326,6 +333,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "blood_bank_id": {
+          "name": "blood_bank_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "email": {
           "name": "email",
           "type": "varchar(255)",
@@ -347,6 +360,19 @@
           "tableTo": "user_table",
           "columnsFrom": [
             "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "email_verification_table_blood_bank_id_blood_banks_id_fk": {
+          "name": "email_verification_table_blood_bank_id_blood_banks_id_fk",
+          "tableFrom": "email_verification_table",
+          "tableTo": "blood_banks",
+          "columnsFrom": [
+            "blood_bank_id"
           ],
           "columnsTo": [
             "id"
@@ -409,7 +435,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -463,7 +489,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -563,7 +589,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -674,26 +700,26 @@
           "name": "phone_number",
           "type": "varchar(20)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "gender": {
           "name": "gender",
           "type": "gender",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "is_eligible": {
           "name": "is_eligible",
           "type": "boolean",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "date_of_birth": {
           "name": "date_of_birth",
           "type": "date",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "user_password": {
           "name": "user_password",
@@ -798,7 +824,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }

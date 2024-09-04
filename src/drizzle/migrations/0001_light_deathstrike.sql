@@ -1,0 +1,1 @@
+ALTER TABLE "blood_banks" ADD COLUMN "email_verified" boolean NOT NULL;

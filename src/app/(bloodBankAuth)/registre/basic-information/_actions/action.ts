@@ -3,7 +3,7 @@ import generateEmailVerificationCode from "@/app/(userAuth)/signup/_action/gener
 import { countriesCodes } from "@/data/countries";
 import { db } from "@/drizzle/db";
 import { bloodBanks } from "@/drizzle/schema";
-import { setSession } from "@/lib/session";
+import { setBloodBankSession, setSession } from "@/lib/session";
 import { BloodBankNameType, BloodBankSchema } from "@/lib/types";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
@@ -91,6 +91,7 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
     const bloodBank = await db.insert(bloodBanks).values({
       name,
       email,
+      emailVerified: false,
       password: hashedPassword,
       address,
       country: countryObject!.id
@@ -98,12 +99,13 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
       id: bloodBanks.id
     });
 
-    const {isError, isToast, errorMessage} = await generateEmailVerificationCode(String(bloodBank[0].id), email, "bloodBank");
+    const {isError, isToast, errorMessage} = await generateEmailVerificationCode(bloodBank[0].id, email, "bloodBank");
     if(isError){
         return [{name: "confirmPassword", isToast, errorMessage,isError}];
     }
+    
     try{
-      await setSession(String(bloodBank[0].id));
+      await setBloodBankSession(bloodBank[0].id);
     }
     catch{
       return[{

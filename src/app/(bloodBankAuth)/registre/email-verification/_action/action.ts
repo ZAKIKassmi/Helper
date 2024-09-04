@@ -1,32 +1,34 @@
 "use server";
 import { db } from "@/drizzle/db";
-import { emailVerificationTable, userTable } from "@/drizzle/schema";
+import { bloodBanks, emailVerificationTable, userTable } from "@/drizzle/schema";
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
 import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
 import { isWithinExpirationDate } from "oslo";
 
 
-export async function verifyVerificationCode(_:any, formData: FormData): Promise<{error: string,isError:boolean}> {
+export async function verifyVerificationCodeBloodBank(_:any, formData: FormData): Promise<{error: string,isError:boolean}> {
   try{
     
-    const {user} = await validateRequest();
+    const {user} = await validateBloodBankRequest();
     if(!user){
+      if(!user){
         return {
-          error: "user not found",
+          error: "Blood bank not found",
           isError: true
-        }    
-    }
-    const checkLimit = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
-    if(checkLimit.isError){
-      return{
-        error: checkLimit.message,
-        isError: true,
+        }  
       }
     }
+    // const checkLimit = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
+    // if(checkLimit.isError){
+    //   return{
+    //     error: checkLimit.message,
+    //     isError: true,
+    //   }
+    // }
     
     try{
-      const data = await db.select().from(emailVerificationTable).where(eq(emailVerificationTable.userId, user.id));
+      const data = await db.select().from(emailVerificationTable).where(eq(emailVerificationTable.bloodBankId, user.id));
       if(data.length == 0 || data[0].code !== formData.get('code')){
         return {
           error: "Code do not match, please try again",
@@ -64,7 +66,7 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
     }
 
     try{
-      await db.update(userTable).set({emailVerified: true}).where(eq(userTable.id, user.id));
+      await db.update(bloodBanks).set({emailVerified: true}).where(eq(bloodBanks.id, user.id));
     }
     catch{
       return{
@@ -79,9 +81,8 @@ export async function verifyVerificationCode(_:any, formData: FormData): Promise
     }
   }
   catch(e){
-    console.log(e);
     return {
-      error: "user not found",
+      error: "Blood Bank not found",
       isError: true
     }
   }

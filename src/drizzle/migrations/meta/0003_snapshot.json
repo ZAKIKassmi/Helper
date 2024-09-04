@@ -1,6 +1,6 @@
 {
-  "id": "5560e9b3-df7c-412b-8297-6f7f0e9dd8be",
-  "prevId": "778c45f2-8117-47fc-803f-ec6cc8760387",
+  "id": "bdaf3c71-c7ea-4bfb-abbc-79f51efa4ada",
+  "prevId": "38e8f046-df5a-4481-91dc-7dcef0f7ddee",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -35,7 +35,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -78,9 +78,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -91,6 +92,12 @@
         "email": {
           "name": "email",
           "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": true
         },
@@ -140,6 +147,48 @@
         }
       }
     },
+    "public.blood_banks_sessions": {
+      "name": "blood_banks_sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "blood_banks_sessions_user_id_blood_banks_id_fk": {
+          "name": "blood_banks_sessions_user_id_blood_banks_id_fk",
+          "tableFrom": "blood_banks_sessions",
+          "tableTo": "blood_banks",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.blood_stocks": {
       "name": "blood_stocks",
       "schema": "",
@@ -152,13 +201,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "level": {
-          "name": "level",
-          "type": "varchar",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -250,7 +293,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -340,7 +383,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -440,7 +483,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
@@ -494,7 +537,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -594,7 +637,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }
@@ -829,7 +872,7 @@
         },
         "blood_bank_id": {
           "name": "blood_bank_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         }

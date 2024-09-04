@@ -18,13 +18,13 @@ export default async function generateEmailVerificationCode(userId: string, emai
             emailVerificationTable.userId : emailVerificationTable.bloodBankId, userId));
         const insertNewCode = db.insert(emailVerificationTable).values({
             userId: type=='user' ? userId : null,
-            bloodBankId: type=="bloodBank" ? Number(userId): null,
+            bloodBankId: type=="bloodBank" ? userId: null,
             email,
             code,
             expiresAt: createDate(new TimeSpan(5, "m")),
         });
         const getUser = db.select().from(userTable).where(eq( userTable.id, userId));
-        const getBloodBank = db.select().from(bloodBanks).where(eq(bloodBanks.id,Number(userId)));
+        const getBloodBank = db.select().from(bloodBanks).where(eq(bloodBanks.id, userId));
         if(type=="user"){
             const res = await Promise.all([deleteOldCode, insertNewCode, getUser]);
             const emailDetails = {

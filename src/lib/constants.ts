@@ -60,7 +60,7 @@ export const bloodBankFacilityDetailsItems:  { name: BloodBankFacilityNameTypes;
         type: "text"
     },
     {
-        name: "emergencyCalls",
+        name: "emergencyContact",
         displayedName: "Emergency contact information" ,
         type: "text"
     }

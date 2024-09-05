@@ -1,7 +1,7 @@
 'use client';
 import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { facilityDetailsSchema, TFacilityDetails,  } from '@/lib/types';
+import { BloodBankFacilityNameTypes, facilityDetailsSchema, TFacilityDetails,  } from '@/lib/types';
 import { 
     Form, 
     FormControl,
@@ -23,62 +23,61 @@ import CountryCodes from "@/data/CountryCodes.json";
 import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { cn } from '@/lib/utils';
+import { cn, formErrorHandling } from '@/lib/utils';
 import Image from 'next/image';
 import { facilityDetails } from '@/drizzle/schema';
 import Link from 'next/link';
+import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
 
 
 type Props = {}
 
 export default function FacilityDetailsForm({}: Props) {
-  //TODO: add backend logic
 
-  // const [state, formAction] = useFormState(createUser, null);
-  const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
-  const [open, setOpen] = useState(false);
+  const [state, formAction] = useFormState(addFacilityDetails, null);
 
 
   const form = useForm<TFacilityDetails>({
       resolver: zodResolver(facilityDetailsSchema),
       defaultValues: {
           donationBeds: '',
-          capacity: ''
+          capacity: '',
+          emergencyContact: '',
       }   
   });
   const router = useRouter();
   //prefetch the email verification route.
-  // useEffect(()=>{
-  //     if(Array.isArray(state) && state?.length > 0){
-  //         state.forEach((issue: {name: BloodBankNameType, errorMessage: string, isToast: boolean, isError:boolean})=>{
-  //             if(!issue.isToast){
-  //                 form.setError(issue.name, {
-  //                     message: issue.errorMessage
-  //                 })
-  //             }
-  //             else if(issue.isToast && issue.isError){
-  //                 toast.error(issue.errorMessage);
-  //             }
-  //             else if(issue.isToast && !issue.isError){
-  //                 toast.success(issue.errorMessage);
-  //                 router.push("/signup/email-verification");
-  //             }
-  //         });
-  //     }
-  // },[state]);
+  useEffect(()=>{
+      // formErrorHandling(state, form);
+
+      if(Array.isArray(state) && state?.length > 0){
+          state.forEach((issue: {name: BloodBankFacilityNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
+              if(!issue.isToast){
+                  form.setError(issue.name, {
+                      message: issue.errorMessage
+                  })
+              }
+              else if(issue.isToast && issue.isError){
+                  toast.error(issue.errorMessage);
+              }
+              else if(issue.isToast && !issue.isError){
+                  toast.success(issue.errorMessage);
+                  router.push("/registre/operational-details");
+              }
+          });
+      }
+  },[state]);
 
 
   async function onSubmit(data: TFacilityDetails){
       const formData = new FormData();
       //server actions accept FromData object
-      formData.append('name', data.donationBeds);
-      formData.append('email', data.capacity);
+      formData.append('donationBeds', data.donationBeds);
+      formData.append('capacity', data.capacity);
+      formData.append('emergencyContact',data.emergencyContact);
       
-
-      router.push('/registre/operational-details');
-
       //TODO: call the formAction
-      // formAction(formData);
+      formAction(formData);
       
   }
 return (
@@ -113,12 +112,10 @@ return (
                   <p className='text-n-900'>Go Back</p>
                 </Button>
             </Link>
-            <Link href="/registre/operational-details">
               <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
                 <p className='text-n-900'>Next</p>
                 <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
               </Button>
-            </Link>
           </div>
           
 

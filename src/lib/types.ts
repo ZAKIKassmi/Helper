@@ -119,17 +119,20 @@ export const facilityDetailsSchema = z.object({
     capacity: z.string().min(1,{
         message: "Please enter a number",
     }),
-    emergencyCalls: z.string().min(1,{
+    emergencyContact: z.string({
+        message: "This field is required"
+    }).min(1,{
         message: "Please enter a valid emergency contact"
     })
 });
+
 
 export type TFacilityDetails = z.infer<typeof facilityDetailsSchema>;
 
 export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'confirmPassword' | 'address';
 
 
-export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyCalls';
+export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyContact';
 
 
 

@@ -1,0 +1,1 @@
+ALTER TABLE "working_days_hours" RENAME COLUMN "working_day" TO "day";

@@ -84,7 +84,8 @@ export const daysEnum = pgEnum('days_enum', ['Sunday', 'Monday', 'Tuesday', 'Wed
 
 export const workingDaysHours = pgTable('working_days_hours', {
     id: serial('id').primaryKey().notNull(),
-    workingDay: daysEnum('working_day').notNull(),
+    day: daysEnum('day').notNull(),
+    isWorking: boolean('is_working').notNull(),
     startsAt: time('starts_at').notNull(),
     endsAt: time('ends_at').notNull(),
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {

@@ -29,6 +29,7 @@ import Link from 'next/link';
 import CustomInput from '../custom-switch';
 import CustomSwitch from '../custom-switch';
 import CustomSelect from '../custom-select';
+import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
 
 
 type Props = {}
@@ -36,7 +37,7 @@ type Props = {}
 export default function OperationalDetailsForm({}: Props) {
   //TODO: add backend logic
 
-  // const [state, formAction] = useFormState(createUser, null);
+  const [state, formAction] = useFormState(addOperationalDetails, null);
   const form = useForm<TOperaionalDaysSchema>({
       resolver: zodResolver(OperationalDaysSchema),
       defaultValues:{
@@ -65,34 +66,34 @@ export default function OperationalDetailsForm({}: Props) {
       }
        
   });
-  // useEffect(()=>{
-  //     if(Array.isArray(state) && state?.length > 0){
-  //         state.forEach((issue: {name: BloodBankNameType, errorMessage: string, isToast: boolean, isError:boolean})=>{
-  //             if(!issue.isToast){
-  //                 form.setError(issue.name, {
-  //                     message: issue.errorMessage
-  //                 })
-  //             }
-  //             else if(issue.isToast && issue.isError){
-  //                 toast.error(issue.errorMessage);
-  //             }
-  //             else if(issue.isToast && !issue.isError){
-  //                 toast.success(issue.errorMessage);
-  //                 router.push("/signup/email-verification");
-  //             }
-  //         });
-  //     }
-  // },[state]);
+  useEffect(()=>{
+      if(Array.isArray(state) && state?.length > 0){
+          state.forEach((issue: {name: keyof TOperaionalDaysSchema, errorMessage: string, isToast: boolean, isError:boolean})=>{
+              if(!issue.isToast){
+                  form.setError(issue.name, {
+                      message: issue.errorMessage
+                  })
+              }
+              else if(issue.isToast && issue.isError){
+                  toast.error(issue.errorMessage);
+              }
+              else if(issue.isToast && !issue.isError){
+                  toast.success(issue.errorMessage);
+                  // router.push("/signup/email-verification");
+              }
+          });
+      }
+  },[state]);
 
   
   async function onSubmit(data: TOperaionalDaysSchema){
       const formData = new FormData();
-      //server actions accept FromData object
-      console.log(data.SundayStartAt);
-      console.log("is submitting")
 
-      //TODO: call the formAction
-      // formAction(formData);
+      Object.keys(data).forEach(key=>{
+        formData.append(key, String(data[key as keyof TOperaionalDaysSchema]))
+      }) 
+      
+      formAction(formData);
       
   }
 return (
@@ -122,12 +123,11 @@ return (
                   <p className='text-n-900'>Go Back</p>
                 </Button>
             </Link>
-            <Link href="/registre/certification-license">
               <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
                 <p className='text-n-900'>Next</p>
                 <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
               </Button>
-            </Link> 
+
           </div>
           
           

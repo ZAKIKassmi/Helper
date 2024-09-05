@@ -134,30 +134,58 @@ export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'con
 
 export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyContact';
 
-
+export type DaysType = 'Sunday'| 'Monday'| 'Tuesday'| 'Wednesday'| 'Thursday'| 'Friday'| 'Saturday';
 
 export const OperationalDaysSchema = z.object({
     SundaySwitch: z.boolean(),
-    SundayStartAt: z.string(),
-    SundayEndsAt: z.string(),
+    SundayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    SundayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
     MondaySwitch: z.boolean(),
-    MondayStartAt: z.string(),
-    MondayEndsAt: z.string(),
+    MondayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    MondayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
     TuesdaySwitch: z.boolean(),
-    TuesdayStartAt: z.string(),
-    TuesdayEndsAt: z.string(),
+    TuesdayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    TuesdayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
     WednesdaySwitch: z.boolean(),
-    WednesdayStartAt: z.string(),
-    WednesdayEndsAt:z.string(),
+    WednesdayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    WednesdayEndsAt:z.string().min(1,{
+        message: "Please enter a value",
+    }),
     ThursdaySwitch: z.boolean(),
-    ThursdayStartAt: z.string(),
-    ThursdayEndsAt: z.string(),
+    ThursdayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    ThursdayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
     FridaySwitch: z.boolean(),
-    FridayStartAt: z.string(),
-    FridayEndsAt: z.string(),
+    FridayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    FridayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
     SaturdaySwitch: z.boolean(),
-    SaturdayStartAt: z.string(),
-    SaturdayEndsAt: z.string()
+    SaturdayStartAt: z.string().min(1,{
+        message: "Please enter a value",
+    }),
+    SaturdayEndsAt: z.string().min(1,{
+        message: "Please enter a value",
+    })
 });
 
 export type TOperaionalDaysSchema = z.infer<typeof OperationalDaysSchema>;

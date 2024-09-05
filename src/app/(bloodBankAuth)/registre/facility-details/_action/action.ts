@@ -23,6 +23,15 @@ export async function addFacilityDetails(_:any, formData: FormData):Promise<{nam
     capacity,
     emergencyContact,
   });
+  
+  let errors: {name:  BloodBankFacilityNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
+
+  if(!result.success){
+    result.error.issues.forEach((issue)=>{
+        errors = [...errors, {name: issue.path[0] as BloodBankFacilityNameTypes, errorMessage: issue.message,isToast: false, isError: true}]
+    });
+    return errors;
+  }
 
   const {user} = await validateBloodBankRequest();
 
@@ -37,14 +46,7 @@ export async function addFacilityDetails(_:any, formData: FormData):Promise<{nam
     ]
   }
 
-  let errors: {name:  BloodBankFacilityNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
-
-  if(!result.success){
-    result.error.issues.forEach((issue)=>{
-        errors = [...errors, {name: issue.path[0] as BloodBankFacilityNameTypes, errorMessage: issue.message,isToast: false, isError: true}]
-    });
-    return errors;
-  }
+  
 
   try{
     await db.insert(facilityDetails).values({

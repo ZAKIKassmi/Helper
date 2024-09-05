@@ -97,6 +97,7 @@ export const certifications = pgTable('certifications', {
     id: serial('id').primaryKey().notNull(),
     licenseNumber: varchar('license_number', { length: 1024 }),
     certificationUrl: text('certification_url'),
+    expiryData: date('expiry_date').notNull(),
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull(),

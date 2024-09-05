@@ -1,0 +1,1 @@
+ALTER TABLE "certifications" ADD COLUMN "expiry_date" date NOT NULL;

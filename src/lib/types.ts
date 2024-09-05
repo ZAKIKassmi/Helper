@@ -195,8 +195,8 @@ export const certificationSchema = z.object({
     licenseNumber: z.string().min(1,{
         message: "Please enter a number",
     }),
-    expiryDate: z.string().date(),
-    certifications: z.string(),
+    expiryDate: z.coerce.date(),
+    certifications: typeof window === 'undefined' ? z.any() : z.instanceof(FileList).refine((file)=>file?.length > 0, 'File is required'),
 });
 
 export type TCertificationSchema = z.infer<typeof certificationSchema>;

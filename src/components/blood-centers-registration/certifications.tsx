@@ -38,14 +38,14 @@ export default function Certification({}: Props) {
   //TODO: add backend logic
 
   // const [state, formAction] = useFormState(createUser, null);
-
+  const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
 
 
   const form = useForm<TCertificationSchema>({
       resolver: zodResolver(certificationSchema),
       defaultValues: {
           licenseNumber: '',
-          expiryDate: new Date().toISOString().split('T')[0],
+          expiryDate: new Date(),
           certifications: '',
       }
   });
@@ -69,12 +69,12 @@ export default function Certification({}: Props) {
   //     }
   // },[state]);
 
+  const fileRef = form.register("certifications");
 
   async function onSubmit(data: TCertificationSchema){
       // const formData = new FormData();
-      
-      console.log('aha')
-      console.log(data.certifications[0]);
+      console.log(data.expiryDate);
+      console.log(data.certifications);
 
       //TODO: call the formAction
       // formAction(formData);
@@ -142,6 +142,9 @@ return (
                   />
                 </PopoverContent>
               </Popover>
+              <FormDescription>
+                License expiry date
+              </FormDescription>
                           <FormMessage />
                       </FormItem>  
                       )}
@@ -158,9 +161,14 @@ return (
                           <p className='text-left w-full font-normal gap-2 flex justify-start text-label-s file:bg-transparent file:text-sm file:font-medium text-muted-foreground 
                          
                           ' >
-                            upload
+                            {fileInputName}
                           </p>
-                          <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...field}/>
+                          <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...fileRef} multiple
+                          onChange={(e) => {
+                            const files = Array.from(e.target.files || []);
+                            setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
+                          }}
+                          />
                         </div>
                       </FormControl>
                       <FormDescription>

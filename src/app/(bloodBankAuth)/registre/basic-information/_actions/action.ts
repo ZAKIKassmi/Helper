@@ -3,7 +3,7 @@ import generateEmailVerificationCode from "@/app/(userAuth)/signup/_action/gener
 import { countriesCodes } from "@/data/countries";
 import { db } from "@/drizzle/db";
 import { bloodBanks } from "@/drizzle/schema";
-import { setBloodBankSession, setSession } from "@/lib/session";
+import { setBloodBankSession } from "@/lib/session";
 import { BloodBankNameType, BloodBankSchema } from "@/lib/types";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";

@@ -5,7 +5,6 @@ import { validateBloodBankRequest } from "@/lib/auth";
 import { DaysType, OperationalDaysSchema, TOperaionalDaysSchema } from "@/lib/types";
 
 
-
 type OperationalNameTypes = keyof TOperaionalDaysSchema;
 
 export async function addOperationalDetails(_:any, formData: FormData):Promise<{name: OperationalNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]> {

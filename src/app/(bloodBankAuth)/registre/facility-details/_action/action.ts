@@ -1,14 +1,8 @@
 "use server";
-import generateEmailVerificationCode from "@/app/(userAuth)/signup/_action/generateAndSendVerificationCode";
-import { countriesCodes } from "@/data/countries";
 import { db } from "@/drizzle/db";
-import { bloodBanks, facilityDetails } from "@/drizzle/schema";
+import {  facilityDetails } from "@/drizzle/schema";
 import { validateBloodBankRequest } from "@/lib/auth";
-import { setBloodBankSession, setSession } from "@/lib/session";
-import { BloodBankFacilityNameTypes, BloodBankSchema, facilityDetailsSchema } from "@/lib/types";
-import { hash } from "@node-rs/argon2";
-import { eq } from "drizzle-orm";
-
+import { BloodBankFacilityNameTypes, facilityDetailsSchema } from "@/lib/types";
 
 
 export async function addFacilityDetails(_:any, formData: FormData):Promise<{name: BloodBankFacilityNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]> {

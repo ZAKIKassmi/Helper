@@ -8,24 +8,16 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import {bloodBankBasicInformationItems, bloodBankFacilityDetailsItems, signupItems} from '@/lib/constants';
+import {bloodBankFacilityDetailsItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
-import { useEffect, useState } from 'react';
-import zxcvbn from 'zxcvbn';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import CountryCodes from "@/data/CountryCodes.json";
-import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { cn, formErrorHandling } from '@/lib/utils';
 import Image from 'next/image';
-import { facilityDetails } from '@/drizzle/schema';
 import Link from 'next/link';
 import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
 

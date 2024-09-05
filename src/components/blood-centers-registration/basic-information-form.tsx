@@ -8,12 +8,11 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import {bloodBankBasicInformationItems, signupItems} from '@/lib/constants';
+import {bloodBankBasicInformationItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
@@ -26,7 +25,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { AddBasicInformation } from '@/app/(bloodBankAuth)/registre/basic-information/_actions/action';
-import {countriesCodes} from "@/data/countries"
 
 type Props = {}
 

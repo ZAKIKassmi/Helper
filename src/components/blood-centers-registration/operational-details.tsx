@@ -66,6 +66,7 @@ export default function OperationalDetailsForm({}: Props) {
       }
        
   });
+  const router = useRouter();
   useEffect(()=>{
       if(Array.isArray(state) && state?.length > 0){
           state.forEach((issue: {name: keyof TOperaionalDaysSchema, errorMessage: string, isToast: boolean, isError:boolean})=>{
@@ -79,7 +80,7 @@ export default function OperationalDetailsForm({}: Props) {
               }
               else if(issue.isToast && !issue.isError){
                   toast.success(issue.errorMessage);
-                  // router.push("/signup/email-verification");
+                  router.push("/registre/certification-license");
               }
           });
       }

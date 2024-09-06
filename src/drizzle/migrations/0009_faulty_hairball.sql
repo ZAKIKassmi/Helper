@@ -1,0 +1,1 @@
+ALTER TABLE "certifications" ALTER COLUMN "expiry_date" SET DATA TYPE varchar(255);

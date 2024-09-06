@@ -196,7 +196,9 @@ export const certificationSchema = z.object({
         message: "Please enter a number",
     }),
     expiryDate: z.coerce.date(),
-    certifications: typeof window === 'undefined' ? z.any() : z.instanceof(FileList).refine((file)=>file?.length > 0, 'File is required'),
+    certifications: typeof window === 'undefined' ? z.any() : z.instanceof(FileList,{
+        message: "Certification is required",
+    }).refine((file)=>file?.length > 0 , 'Certification is required.').refine((file)=>file?.length < 4, 'You have exceeded the maximum number of certifications allowed.'),
 });
 
 export type TCertificationSchema = z.infer<typeof certificationSchema>;

@@ -25,11 +25,12 @@ import { CalendarIcon, Check, ChevronsUpDown, UploadIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { facilityDetails } from '@/drizzle/schema';
 import Link from 'next/link';
 import { Calendar } from '../ui/calendar';
-import { format } from 'date-fns';
+import { format, formatDate } from 'date-fns';
 import { Matcher } from 'react-day-picker';
+import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
+import { addCertifications } from '@/app/(bloodBankAuth)/registre/certification-license/_action/action';
 
 
 type Props = {}
@@ -37,8 +38,9 @@ type Props = {}
 export default function Certification({}: Props) {
   //TODO: add backend logic
 
-  // const [state, formAction] = useFormState(createUser, null);
+  const [state, formAction] = useFormState(addCertifications, null);
   const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
+  // const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
 
 
   const form = useForm<TCertificationSchema>({
@@ -49,35 +51,39 @@ export default function Certification({}: Props) {
           certifications: '',
       }
   });
-
-  // useEffect(()=>{
-  //     if(Array.isArray(state) && state?.length > 0){
-  //         state.forEach((issue: {name: BloodBankNameType, errorMessage: string, isToast: boolean, isError:boolean})=>{
-  //             if(!issue.isToast){
-  //                 form.setError(issue.name, {
-  //                     message: issue.errorMessage
-  //                 })
-  //             }
-  //             else if(issue.isToast && issue.isError){
-  //                 toast.error(issue.errorMessage);
-  //             }
-  //             else if(issue.isToast && !issue.isError){
-  //                 toast.success(issue.errorMessage);
-  //                 router.push("/signup/email-verification");
-  //             }
-  //         });
-  //     }
-  // },[state]);
+  const router = useRouter();
+  useEffect(()=>{
+      if(Array.isArray(state) && state?.length > 0){
+          state.forEach((issue: {name: keyof TCertificationSchema, errorMessage: string, isToast: boolean, isError:boolean})=>{
+              if(!issue.isToast){
+                  form.setError(issue.name, {
+                      message: issue.errorMessage
+                  })
+              }
+              else if(issue.isToast && issue.isError){
+                  toast.error(issue.errorMessage);
+              }
+              else if(issue.isToast && !issue.isError){
+                  toast.success(issue.errorMessage);
+                  router.push("/");
+              }
+          });
+      }
+  },[state]);
 
   const fileRef = form.register("certifications");
 
   async function onSubmit(data: TCertificationSchema){
-      // const formData = new FormData();
-      console.log(data.expiryDate);
-      console.log(data.certifications);
-
-      //TODO: call the formAction
-      // formAction(formData);
+      const formData = new FormData();
+      formData.append('licenseNumber', data.licenseNumber);
+      formData.append('expiryDate', String(data.expiryDate));
+      for(let i=0; i<3;i++){
+        if(data.certifications[i]){
+          formData.append('file',data.certifications[i]);
+        }
+      }
+      console.log(typeof data.expiryDate);
+      formAction(formData);
       
   }
 
@@ -164,15 +170,15 @@ return (
                             {fileInputName}
                           </p>
                           <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...fileRef} multiple
-                          onChange={(e) => {
-                            const files = Array.from(e.target.files || []);
-                            setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
-                          }}
+                           onChange={(e) => {
+                             const files = Array.from(e.target.files || []);
+                             setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
+                           }}
                           />
                         </div>
                       </FormControl>
                       <FormDescription>
-                        Upload at least one certification
+                        You can upload up to 3 certifications
                       </FormDescription>
                       <FormMessage />
                   </FormItem>  

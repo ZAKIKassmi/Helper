@@ -96,8 +96,10 @@ export const workingDaysHours = pgTable('working_days_hours', {
 export const certifications = pgTable('certifications', {
     id: serial('id').primaryKey().notNull(),
     licenseNumber: varchar('license_number', { length: 1024 }),
-    certificationUrl: text('certification_url'),
-    expiryData: date('expiry_date').notNull(),
+    certificationUrl1: text('certification_url_1'),
+    certificationUrl2: text('certification_url_2'),
+    certificationUrl3: text('certification_url_3'),
+    expiryDate: date('expiry_date').notNull(),
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull(),

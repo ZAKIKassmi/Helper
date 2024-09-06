@@ -1,0 +1,1 @@
+ALTER TABLE "certifications" RENAME COLUMN "certification_url" TO "certification_url_1";

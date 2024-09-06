@@ -13,7 +13,7 @@ export default function Layout({children}: Props) {
       <Image priority={true} src="/images/Helper..svg" width={86} height={31} alt='Helper Logo Icon'/>
       </Link>
       <div className='flex flex-col gap-4 w-full justify-center items-center py-8 px-2 csxxs:px-4'>
-        {children}
+          {children}
       </div>
     </div>
   )

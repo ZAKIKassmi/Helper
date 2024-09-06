@@ -100,25 +100,10 @@ export default function VerificationCodeForm({href}:{href:string}) {
           )}
         >
         </FormField>
-        {
-          href == "/" ? 
-          (<Button className="w-full bg-c-red-500 hover:bg-c-red-600" type="submit" disabled={form.formState.isSubmitting} >Verify Code</Button>)
-          :
-          (
-            <div className='w-full justify-between flex'>
-            <Link href="/registre/basic-information">
-              <Button className='flex border rounded-lg gap-2 px-6 duration-200  bg-white hover:bg-n-20' disabled={form.formState.isSubmitting}>
-                  <Image src="/icons/Arrow-left.svg" alt='Arrow Icon' width={15} height={18}/>
-                  <p className='text-n-900'>Go Back</p>
-                </Button>
-            </Link>
-              <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
-                <p className='text-n-900'>Next</p>
-                <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
-              </Button>
-          </div>
-          )
-        }
+        
+          
+          <Button className="w-full bg-c-red-500 hover:bg-c-red-600" type="submit" disabled={form.formState.isSubmitting} >Verify Code</Button>
+        
       </form>
     </Form>
     </>

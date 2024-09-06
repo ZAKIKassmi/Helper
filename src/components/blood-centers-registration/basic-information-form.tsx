@@ -222,10 +222,13 @@ return (
                   </Command>
                 </PopoverContent>
               </Popover>
+              <FormDescription>
+                Please verify your data before submitting.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
-        />
+        />  
 
 
 

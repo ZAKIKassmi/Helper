@@ -100,18 +100,18 @@ export async function addCertifications(_:any, formData: FormData):Promise<{name
     }
   
   catch(e){
-
+    return[{
+      name: 'certifications',
+      errorMessage: "Could not insert certifications",
+      isError: true,
+      isToast: true,
+    }]
   }
   
-
-  
-  
-    
-
   return [
     {
       name: "expiryDate",
-      errorMessage: "Operational days have been successfully registered.",
+      errorMessage: "certifications have been successfully registered.",
       isError: false,
       isToast: true,
     }

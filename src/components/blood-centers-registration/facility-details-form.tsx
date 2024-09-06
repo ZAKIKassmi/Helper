@@ -1,5 +1,5 @@
 'use client';
-import {useForm} from 'react-hook-form';
+import {useForm, useFormContext} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BloodBankFacilityNameTypes, facilityDetailsSchema, TFacilityDetails,  } from '@/lib/types';
 import { 
@@ -27,7 +27,6 @@ type Props = {}
 export default function FacilityDetailsForm({}: Props) {
 
   const [state, formAction] = useFormState(addFacilityDetails, null);
-
 
   const form = useForm<TFacilityDetails>({
       resolver: zodResolver(facilityDetailsSchema),
@@ -97,13 +96,7 @@ return (
           }
 
       
-          <div className='w-full justify-between flex'>
-            <Link href="/registre/basic-information">
-              <Button className='flex border rounded-lg gap-2 px-6 duration-200  bg-white hover:bg-n-20' disabled={form.formState.isSubmitting}>
-                  <Image src="/icons/Arrow-left.svg" alt='Arrow Icon' width={15} height={18}/>
-                  <p className='text-n-900'>Go Back</p>
-                </Button>
-            </Link>
+          <div className='w-full justify-end flex'>
               <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
                 <p className='text-n-900'>Next</p>
                 <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>

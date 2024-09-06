@@ -4,6 +4,7 @@ import { bloodBanks, emailVerificationTable, userTable } from "@/drizzle/schema"
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
 import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
 import { isWithinExpirationDate } from "oslo";
 
 
@@ -16,7 +17,7 @@ export async function verifyVerificationCodeBloodBank(_:any, formData: FormData)
         return {
           error: "Blood bank not found",
           isError: true
-        }  
+        }
       }
     }
     // const checkLimit = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};

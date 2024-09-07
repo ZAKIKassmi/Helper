@@ -222,7 +222,7 @@ export default function CustomForm() {
                                 className={cn("justify-start gap-1 text-left font-normal w-full ", !date && "text-muted-foreground")}
                                 >
                                 <CalenderIconSVG color={iconColor}/>
-                                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                {date ? format(date, "PPP") : <span>Birthday</span>}
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent align="start" className=" w-full p-0">

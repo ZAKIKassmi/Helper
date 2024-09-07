@@ -273,4 +273,37 @@ export const OperationalDetailsItems = [
     },
 ]
 
+export const eligibilityConditions: string[][] = [[
+    "Chronic nephropathies.",
+    "Chronic endocrinopathies.",
+    "Diabetes.",
+    "Cirrhosis.",
+    "Acute or chronic hepatitis.",
+    "Acquired Immunodeficiency Syndrome (AIDS).",
+    "Ulcers.",
+    "Asthma.",
+    "Chronic hematologic disorders.",
+    "Cancer.",
+    "Angina pectoris.",
+    "Myocardial infarction."
+  ],
+  [
+    "Diastolic blood pressure above 10 cm Hg.",
+    "Systolic blood pressure above 16 cm Hg.",
+    "State of intoxication.",
+    "Vaccination less than 21 days old.",
+    "Serum therapy less than 15 days old.",
+    "Ongoing treatment.",
+    "Acute pneumonia.",
+    "Acute hematologic disorders.",
+    "Pregnancy.",
+    "Childbirth within the last 6 months.",
+    "Abortion within the last 3 months.",
+    "Ongoing breastfeeding.",
+    "Ongoing psychiatric treatment.",
+    "Surgery within the last 3 months."
+  ]
+
+];
+
 

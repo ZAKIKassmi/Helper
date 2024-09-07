@@ -1,4 +1,5 @@
 "use client";
+import { cn } from '@/lib/utils';
 import { 
   Form, 
   FormControl,
@@ -10,17 +11,20 @@ import {
 } from './ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { generateTimeSlots } from '@/lib/generate-time-slots';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 
 type Props = {
   name:string;
-  control: any
+  control: any;
+  array: string[] | null;
+  placeholder?: string;
 }
 
-export default function CustomSelect({name, control}: Props) {
+export default function CustomSelect({name, control, array,placeholder}: Props) {
 
   const timeSlots = useMemo(() => generateTimeSlots("09:00", "22:00", 30), []);
+  const [isSelected, setisSelected] = useState(false);
 
 
   return (
@@ -31,17 +35,30 @@ export default function CustomSelect({name, control}: Props) {
               render={({field})=>(
                 <FormItem className=''>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={(data)=>{
+                      field.onChange(data);
+                      setisSelected(true)
+                    }} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className='focus-visible:ring-n-40 duration-200 focus-visible:ring-offset-n-40 focus:ring-n-40 focus:ring-offset-n-40 w-[100px]'>
-                            <SelectValue placeholder="09:00" />
+                        <SelectTrigger className={cn('focus:ring-n-40 focus:ring-offset-n-40 text-muted-foreground',{
+                          "text-n-900": isSelected,
+                          "w-[100px]": !array,
+                        })}>
+                            <SelectValue placeholder={placeholder || "09:00"} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {
+                          !array ?
                           timeSlots.map((time)=>(
                             <SelectItem  key={time} value={`${time}:00`}>{time}</SelectItem>
-                          ))
+                          )) : (
+                            array.map((item, index)=>(
+                              <SelectItem key={item} value={String(index+1)}>
+                                  {item}
+                              </SelectItem>
+                            ))
+                          )
                         }
                       </SelectContent>
                   </Select> 

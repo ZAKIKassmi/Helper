@@ -60,7 +60,7 @@ export async function GET(request: Request):Promise<Response>{
         }
       })
     }
-
+    console.log(googleUser);
 
     const user = await db.insert(userTable).values({
       firstName: googleUser.given_name || '',
@@ -70,7 +70,7 @@ export async function GET(request: Request):Promise<Response>{
       username: googleUser.name || null,
       googleId: googleUser.sub,
       emailVerified: true,
-      pictureUrl: googleUser.picture
+      pictureUrl: googleUser.picture,
     }).returning({
       id: userTable.id,
     });

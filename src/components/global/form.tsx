@@ -29,12 +29,22 @@ import {
   } from "@/components/ui/select";
 import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Calendar } from '../ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import CalenderIconSVG from '../icons/calendar';
+import CustomSelect from '../custom-select';
+import { CalendarIcon } from 'lucide-react';
  
 
 export default function CustomForm() {
 
     const [state, formAction] = useFormState(createUser, null);
     const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
+    const [date, setDate] = useState<Date>()
+
+    const [iconColor, setIconColor] = useState('#ACACAD');
     const form = useForm<TUserSchema>({
         resolver: zodResolver(userSchema),
         defaultValues: {
@@ -42,12 +52,10 @@ export default function CustomForm() {
             firstName: '',
             lastName: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
         }   
     });
     const router = useRouter();
-    //prefetch the email verification route.
-    // router.prefetch("/signup/email-verification");
     useEffect(()=>{
         if(Array.isArray(state) && state?.length > 0){
             state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
@@ -105,14 +113,18 @@ export default function CustomForm() {
         }
         const formData = new FormData();
         //server actions accept FromData object
-        formData.append('firstName', data.firstName);
-        formData.append('lastName', data.lastName);
-        formData.append('email', data.email);
-        formData.append('password', data.password);
-        formData.append('confirmPassword', data.confirmPassword);
+        // formData.append('firstName', data.firstName);
+        // formData.append('lastName', data.lastName);
+        // formData.append('email', data.email);
+        // formData.append('password', data.password);
+        // formData.append('confirmPassword', data.confirmPassword);
+        // formData.append('dateOfBirth', String(data.dateOfBirth));
+        // formData.append('gender', String(data.gender));
+
+        console.log(data);
         // formData.append('gender', data.gender);
         //call the formAction
-        formAction(formData);
+        // formAction(formData);
         
     }
   return (
@@ -173,7 +185,7 @@ export default function CustomForm() {
                                             evaluatePasswordStrength(e.target.value);
                                         }
                                     }}
-                                />
+                                    /> 
                             </FormControl>
                             {item.name === 'password' && <FormDescription className={
                                   !passwordState ? "hidden" :
@@ -193,31 +205,50 @@ export default function CustomForm() {
                 ))
             }
 
-            {/* 
-                TODO: the following fields needs to be added to the formdata and get inserted into the db.
-            */}
-            <FormField 
-                key="gender"
-                name="gender"
-                control={form.control}
-                render={({field})=>(
-                <FormItem className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
-                    {/* <FormLabel className='text-label-n text-n-900 font-medium'>Gender</FormLabel> */}
-                    <Select onValueChange={field.onChange} defaultValue={field.value} >
-                    <FormControl>
-                        <SelectTrigger className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
-                            <SelectValue className='text-label-n font-medium' placeholder="Please select your gender"/>
-                        </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className='text-n-900 font-medium cursor-pointer focus-visible:ring-n-40 focus-visible:ring-offset-n-40'>
-                            <SelectItem value="Male" className='cursor-pointer '>Male</SelectItem>
-                            <SelectItem value="Female" className='cursor-pointer '>Female</SelectItem> 
-                        </SelectContent>
-                    </Select>
-                    <FormMessage />
-                </FormItem>  
-                )}
-                />
+            
+
+                <FormField
+                    name="dateOfBirth"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <Popover>
+                            <PopoverTrigger asChild >
+                                <Button
+                                variant={"outline"}
+                                className={cn("justify-start gap-1 text-left font-normal w-full ", !date && "text-muted-foreground")}
+                                >
+                                <CalenderIconSVG color={iconColor}/>
+                                {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent align="start" className=" w-auto p-0">
+                                <Calendar
+                                
+                                mode="single"
+                                captionLayout="dropdown-buttons"
+                                selected={date}
+                                onSelect={(date)=>{
+                                    setDate(date);
+                                    setIconColor("#242426")
+                                }}
+                                fromYear={1960}
+                                toYear={2024}
+                                />
+                            </PopoverContent>
+                            </Popover>
+                          <FormMessage />
+                      </FormItem>  
+                      )}
+                      />
+
+            <CustomSelect placeholder='Please select your gender.' array={["Male","Female"]} name='gender' control={form.control}/>
+            <CustomSelect placeholder='Please select your blood type.' array={["A+","A-", "B+","B-","AB+","AB-","O+","O-"]} name='bloodType' control={form.control}/>
+            
+
+
+           
+                
             
 
 

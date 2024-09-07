@@ -1,0 +1,1 @@
+ALTER TABLE "user_table" ADD COLUMN "address" varchar(255) NOT NULL;

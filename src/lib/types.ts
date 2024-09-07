@@ -18,7 +18,7 @@ export const userSchema = z.object({
     }),
     gender: z.enum(["Male", "Female"],{
         message: "This field is Required"
-    }).optional(),
+    }),
     phoneNumber: z.string({
         message: "This field is required"
     }).min(8,{
@@ -27,7 +27,16 @@ export const userSchema = z.object({
         message: 'Phone maximum length is 15 characters'
     }).startsWith('+',{
         message: 'Phone number must starts with +',
-    }).optional(),
+    }),
+    dateOfBirth: z.date({
+        message: "Date of birth is required",
+    }),
+    bloodType: z.string(),
+    address: z.string({
+        message: "Address is required"
+    }).min(1,{
+        message: "Adress is required"
+    }),
 });
 
 
@@ -53,11 +62,12 @@ export const GoogleUserSchema = z.object({
     picture: z.string().trim(),
     email: z.string().trim(),
     email_verified: z.boolean(),
+    address: z.string().trim()
   });
 
 export type GoogleUser = z.infer<typeof GoogleUserSchema>;
 
-export type SignUpFormNameTypes = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword';
+export type SignUpFormNameTypes = 'firstName' | 'lastName' | 'email' | 'password' | 'confirmPassword' | 'address';
 
 export const  VerificationFormSchema = z.object({
 verificationCode: z.string().trim().min(8).max(8),

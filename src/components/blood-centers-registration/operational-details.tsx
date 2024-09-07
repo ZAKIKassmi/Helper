@@ -109,9 +109,9 @@ return (
                 <CustomSwitch name={item.switch} control={form.control}/>
                 </div>
                 <div className='flex justify-between items-center gap-4 flex-[1.2]'>    
-                  <CustomSelect name={item.statrsAt} control={form.control}/>
+                  <CustomSelect array={null}  name={item.statrsAt} control={form.control}/>
                   <p className='text-label-n font-medium'>To</p>
-                  <CustomSelect name={item.endsAt} control={form.control}/>
+                  <CustomSelect array={null}  name={item.endsAt} control={form.control}/>
                 </div>
               </div>
             ))

@@ -14,6 +14,7 @@ export const userTable = pgTable('user_table', {
     pictureUrl: text("picture_url"),
     phoneNumber: varchar('phone_number', { length: 20 }),
     gender: genderEnum('gender'),
+    address: varchar('address',{length: 255}),
     isEligible: boolean('is_eligible'),
     dateOfBirth: date('date_of_birth'),
     password: text('user_password').notNull(),

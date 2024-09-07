@@ -16,7 +16,13 @@ export const signupItems: { name: SignUpFormNameTypes; displayedName: string,typ
         name: 'confirmPassword',
         displayedName: 'Confirm password',
         type: 'password'
+    },
+    {
+        name: 'address',
+        displayedName: 'Address',
+        type: 'text'
     }
+
 ];
 
 export const bloodBankBasicInformationItems:  { name: BloodBankNameType; displayedName: string,type: string }[] = [

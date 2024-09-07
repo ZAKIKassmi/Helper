@@ -44,7 +44,6 @@ export default function VerificationCodeForm({href}:{href:string}) {
       toast.success(state.error);
       router.push(href);
     }
-
   },[state]);
 
 

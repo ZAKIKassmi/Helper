@@ -29,7 +29,7 @@ export const userSchema = z.object({
     }).startsWith('+',{
         message: 'Phone number must starts with +',
     }),
-    dateOfBirth: z.date({
+    dateOfBirth: z.coerce.date({
         message: "Date of birth is required",
     }).optional(),
     bloodType: z.string().optional(),

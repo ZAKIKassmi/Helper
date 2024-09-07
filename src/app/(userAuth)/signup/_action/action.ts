@@ -37,6 +37,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         email,
         password,
         confirmPassword,
+        dateOfBirth,
         gender,
         phoneNumber,
         bloodType,

@@ -1,112 +1,89 @@
 'use client';
-import {useForm, useFormContext} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BloodBankFacilityNameTypes, facilityDetailsSchema, TFacilityDetails,  } from '@/lib/types';
+import {eligibilitySchema, TEligibilitySchema, } from '@/lib/types';
 import { 
     Form, 
     FormControl,
     FormDescription,
     FormField,
     FormItem,
+    FormLabel,
     FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import {bloodBankFacilityDetailsItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
-import Arrow from '../icons/arrow';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 
 
-type Props = {}
+import { Checkbox } from '../ui/checkbox';
+import { updateEligibiliye } from '@/app/(userAuth)/eligibility/_action/action';
 
-export default function EligibilityForm({}: Props) {
 
-  const [state, formAction] = useFormState(addFacilityDetails, null);
+export default function EligibilityForm() {
 
-  const form = useForm<TFacilityDetails>({
-      resolver: zodResolver(facilityDetailsSchema),
+  const [state, formAction] = useFormState(updateEligibiliye, {
+    isError: false,
+    message: '',
+  });
+
+  const form = useForm<TEligibilitySchema>({
+      resolver: zodResolver(eligibilitySchema),
       defaultValues: {
-          donationBeds: '',
-          capacity: '',
-          emergencyContact: '',
+          isEligible: false
       }   
   });
   const router = useRouter();
-  //prefetch the email verification route.
   useEffect(()=>{
-      // formErrorHandling(state, form);
-
-      if(Array.isArray(state) && state?.length > 0){
-          state.forEach((issue: {name: BloodBankFacilityNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
-              if(!issue.isToast){
-                  form.setError(issue.name, {
-                      message: issue.errorMessage
-                  })
-              }
-              else if(issue.isToast && issue.isError){
-                  toast.error(issue.errorMessage);
-              }
-              else if(issue.isToast && !issue.isError){
-                  toast.success(issue.errorMessage);
-                  router.push("/registre/operational-details");
-              }
-          });
-      }
+    if(state?.isError){
+      toast.error(state.message)
+    }
+    if(!state.isError && state.message.length > 0){
+      toast.success(state.message);
+      router.push('/choose-blood-center');
+    }
   },[state]);
 
 
-  async function onSubmit(data: TFacilityDetails){
+  async function onSubmit(data: TEligibilitySchema){
       const formData = new FormData();
-      //server actions accept FromData object
-      formData.append('donationBeds', data.donationBeds);
-      formData.append('capacity', data.capacity);
-      formData.append('emergencyContact',data.emergencyContact);
-      
-      //TODO: call the formAction
-      // formAction(formData);
+      formData.append('isEligible', String(data.isEligible));
+
+      formAction(formData);
       
   }
 return (
   
   <Form {...form}>
-      <form className='flex flex-col w-full max-w-[560px] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>              
+      <form className='flex flex-col w-full gap-4' onSubmit={form.handleSubmit(onSubmit)}>              
         
-              <FormField 
-                        name="capacity"
-                        control={form.control}
-                        render={({field})=>(
-                        <FormItem>
-                          
-                            <FormControl>
+        <FormField 
+          name="isEligible"
+          control={form.control}
+          render={({field}:{field:any})=>(
+          <FormItem className='flex flex-row items-end gap-2'>
+            
+              <FormControl>
 
-                            
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>  
-                        )}
-                        >
-                    </FormField>
-                    
-                    <div className='w-full justify-end flex'>
-                      <Button className='flex w-full border px-8 rounded-lg gap-2  duration-200 bg-white text-n-900 hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
-                        I've read condition, and I confirm that I'm eligible
-                      </Button>
-                    </div>
-                  
-              
-        
+              <Checkbox
+                checked={field.value as boolean}
+                onCheckedChange={field.onChange}
+              />
+              </FormControl>
+              <FormLabel className='pb-[1.3px]'>
+              I have read the conditions and confirm that I am eligible to donate blood
+              </FormLabel>
+              <FormMessage />
+          </FormItem>  
+          )}
+          >
+      </FormField>
 
-      
-          
-          
-
+      <Button className='flex w-full border px-8 rounded-lg gap-2  duration-200 bg-c-red-500  hover:bg-c-red-600' type="submit" disabled={form.formState.isSubmitting}>
+        I am eligible
+      </Button>
       </form>
   </Form>
 )

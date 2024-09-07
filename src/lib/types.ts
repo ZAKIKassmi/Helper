@@ -43,6 +43,11 @@ export const userSchema = z.object({
 
 export type TUserSchema = z.infer<typeof userSchema>; 
 
+export const eligibilitySchema = z.object({
+    isEligible: z.boolean(),
+});
+export type TEligibilitySchema = z.infer<typeof eligibilitySchema>; 
+
 export const loginSchema = z.object({
     email: z.string().trim().email({
         message: 'Please Enter a valid email'

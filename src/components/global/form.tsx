@@ -36,6 +36,7 @@ import { cn } from '@/lib/utils';
 import CalenderIconSVG from '../icons/calendar';
 import CustomSelect from '../custom-select';
 import { CalendarIcon } from 'lucide-react';
+import { PhoneInput } from '../ui/phone-number';
  
 
 export default function CustomForm() {
@@ -53,6 +54,8 @@ export default function CustomForm() {
             lastName: '',
             password: '',
             confirmPassword: '',
+            address: '',
+            phoneNumber: '',
         }   
     });
     const router = useRouter();
@@ -120,6 +123,11 @@ export default function CustomForm() {
         // formData.append('confirmPassword', data.confirmPassword);
         // formData.append('dateOfBirth', String(data.dateOfBirth));
         // formData.append('gender', String(data.gender));
+        // console.log(data.phoneNumber);
+        // console.log(data.bloodType);
+        // console.log(data.gender);
+        // console.log(data.gender);
+
 
         console.log(data);
         // formData.append('gender', data.gender);
@@ -139,7 +147,6 @@ export default function CustomForm() {
                     control={form.control}
                     render={({field})=>(
                     <FormItem>
-                        {/* <FormLabel className='text-label-n text-n-900 font-medium'>First Name</FormLabel> */}
                         <FormControl>
                             <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="First Name" type="text"  {...field}   
                             />
@@ -156,7 +163,6 @@ export default function CustomForm() {
                     control={form.control}
                     render={({field})=>(
                     <FormItem>
-                        {/* <FormLabel className='text-label-n text-n-900 font-medium'>Last Name</FormLabel> */}
                         <FormControl>
                             <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Last Name" type="text"  {...field}   
                             />
@@ -222,14 +228,14 @@ export default function CustomForm() {
                                 {date ? format(date, "PPP") : <span>Pick a date</span>}
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent align="start" className=" w-auto p-0">
+                            <PopoverContent align="start" className=" w-full p-0">
                                 <Calendar
-                                
                                 mode="single"
                                 captionLayout="dropdown-buttons"
                                 selected={date}
                                 onSelect={(date)=>{
                                     setDate(date);
+                                    field.onChange(date);
                                     setIconColor("#242426")
                                 }}
                                 fromYear={1960}
@@ -242,12 +248,32 @@ export default function CustomForm() {
                       )}
                       />
 
-            <CustomSelect placeholder='Please select your gender.' array={["Male","Female"]} name='gender' control={form.control}/>
-            <CustomSelect placeholder='Please select your blood type.' array={["A+","A-", "B+","B-","AB+","AB-","O+","O-"]} name='bloodType' control={form.control}/>
+            {/* <CustomSelect 
+            placeholder='Please select your gender.' 
+            array={["Male","Female"]} 
+            name='gender' 
+            control={form.control}/> */}
+            {/* <CustomSelect 
+            placeholder='Please select your blood type.' 
+            array={["Unknown","A+","A-", "B+","B-","AB+","AB-","O+","O-"]} 
+            name='bloodType' 
+            control={form.control}/> */}
             
 
-
-           
+            
+            <FormField
+                    name="phoneNumber"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                            <PhoneInput {...field}
+                            international
+                            defaultCountry='MA'
+                            placeholder='Enter a phone number'/>
+                          <FormMessage />
+                      </FormItem>  
+                      )}
+                      />
                 
             
 

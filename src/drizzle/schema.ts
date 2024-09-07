@@ -3,7 +3,7 @@ import { boolean, date, integer, pgEnum, pgTable, primaryKey, serial, text, time
 
 export const genderEnum = pgEnum('gender', ['Female', 'Male']);
 
-export const bloodTypesEnum = pgEnum('blood_types_enum', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']);
+export const bloodTypesEnum = pgEnum('blood_types_enum', ['unknown','A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']);
 
 export const userTable = pgTable('user_table', {
     id: uuid('id').primaryKey().defaultRandom().notNull(),

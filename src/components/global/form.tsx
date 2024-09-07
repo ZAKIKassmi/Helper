@@ -116,23 +116,20 @@ export default function CustomForm() {
         }
         const formData = new FormData();
         //server actions accept FromData object
-        // formData.append('firstName', data.firstName);
-        // formData.append('lastName', data.lastName);
-        // formData.append('email', data.email);
-        // formData.append('password', data.password);
-        // formData.append('confirmPassword', data.confirmPassword);
-        // formData.append('dateOfBirth', String(data.dateOfBirth));
-        // formData.append('gender', String(data.gender));
-        // console.log(data.phoneNumber);
-        // console.log(data.bloodType);
-        // console.log(data.gender);
-        // console.log(data.gender);
+        formData.append('firstName', data.firstName);
+        formData.append('lastName', data.lastName);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('confirmPassword', data.confirmPassword);
+        const date = data.dateOfBirth?.toISOString().split('T')[0]
+        formData.append('dateOfBirth', String(date));
+        formData.append('gender', String(data.gender));
+        formData.append('phoneNumber', data.phoneNumber);
+        formData.append('bloodType', String(data.bloodType));
+        formData.append('address', data.address);
 
-
-        console.log(data);
-        // formData.append('gender', data.gender);
-        //call the formAction
-        // formAction(formData);
+    
+        formAction(formData);
         
     }
   return (

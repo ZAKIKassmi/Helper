@@ -31,7 +31,7 @@ export const userSchema = z.object({
     }),
     dateOfBirth: z.date({
         message: "Date of birth is required",
-    }),
+    }).optional(),
     bloodType: z.string().optional(),
     address: z.string({
         message: "Address is required"

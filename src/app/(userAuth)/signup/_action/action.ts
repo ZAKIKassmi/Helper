@@ -15,23 +15,32 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const email = (formData.get('email') as string).toLowerCase();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
+    const dateOfBirth = new Date(formData.get('dateOfBirth') as string).toISOString().split('T')[0];
+    const gender = formData.get('gender') as 'Male' | 'Female';
+    const phoneNumber = formData.get('phoneNumber') as string;
+    const bloodType = formData.get('bloodType') as unknown as number;
+    const address = formData.get('address') as string;
     
-    const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});    
-    if(checkLimit?.isError){
-      return [{
-        name: "confirmPassword",
-        errorMessage: checkLimit.message,
-        isToast: true,
-        isError: true,
-      }]
-    }
+    // const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});    
+    // if(checkLimit?.isError){
+    //   return [{
+    //     name: "confirmPassword",
+    //     errorMessage: checkLimit.message,
+    //     isToast: true,
+    //     isError: true,
+    //   }]
+    // }
     
     const result = userSchema.safeParse({
         firstName,
         lastName,
         email,
         password,
-        confirmPassword
+        confirmPassword,
+        gender,
+        phoneNumber,
+        bloodType,
+        address,
     });
 
     let errors: {name:  SignUpFormNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
@@ -84,6 +93,13 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
             email,
             password: hashed_password,
             emailVerified: false,
+            isEligible: false,
+            gender,
+            address,
+            dateOfBirth,
+            phoneNumber,
+            bloodType,
+
         }).returning({
             id: userTable.id    
         });

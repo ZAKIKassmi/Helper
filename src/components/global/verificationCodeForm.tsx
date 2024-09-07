@@ -27,7 +27,7 @@ import { verifyVerificationCodeBloodBank } from "@/app/(bloodBankAuth)/registre/
 
 export default function VerificationCodeForm({href}:{href:string}) {
 
-  const action = href == "/" ? verifyVerificationCode : verifyVerificationCodeBloodBank;
+  const action = href == "/eligibility" ? verifyVerificationCode : verifyVerificationCodeBloodBank;
 
   const [state, formAction] = useFormState(action, {
     error: "",

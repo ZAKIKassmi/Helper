@@ -54,7 +54,7 @@ export default function CustomSelect({name, control, array,placeholder}: Props) 
                             <SelectItem  key={time} value={`${time}:00`}>{time}</SelectItem>
                           )) : (
                             array.map((item, index)=>(
-                              <SelectItem key={item} value={String(index+1)}>
+                              <SelectItem key={item} value={name=="gender" ? item: String(index+1)}>
                                   {item}
                               </SelectItem>
                             ))

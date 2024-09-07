@@ -1,5 +1,8 @@
 import {z} from 'zod';
-
+enum Gender {
+    Female= "Female",
+    Male= "Male"
+}
 export const userSchema = z.object({
     firstName: z.string().trim().toLowerCase().min(1,{
         message: 'must contain at least 1 character'
@@ -16,9 +19,7 @@ export const userSchema = z.object({
     confirmPassword: z.string().trim().min(8,{
         message: 'Password must contain at least 8 characters',
     }),
-    gender: z.enum(["Male", "Female"],{
-        message: "This field is Required"
-    }).optional(),
+    gender: z.nativeEnum(Gender).optional(),
     phoneNumber: z.string({
         message: "This field is required"
     }).min(8,{
@@ -27,7 +28,7 @@ export const userSchema = z.object({
         message: 'Phone maximum length is 15 characters'
     }).startsWith('+',{
         message: 'Phone number must starts with +',
-    }).optional(),
+    }),
     dateOfBirth: z.date({
         message: "Date of birth is required",
     }),

@@ -248,16 +248,16 @@ export default function CustomForm() {
                       )}
                       />
 
-            {/* <CustomSelect 
+            <CustomSelect 
             placeholder='Please select your gender.' 
             array={["Male","Female"]} 
             name='gender' 
-            control={form.control}/> */}
-            {/* <CustomSelect 
+            control={form.control}/>
+            <CustomSelect 
             placeholder='Please select your blood type.' 
             array={["Unknown","A+","A-", "B+","B-","AB+","AB-","O+","O-"]} 
             name='bloodType' 
-            control={form.control}/> */}
+            control={form.control}/>
             
 
             

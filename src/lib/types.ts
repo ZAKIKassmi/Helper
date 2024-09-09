@@ -35,7 +35,7 @@ export const userSchema = z.object({
     bloodType: z.string().optional(),
     address: z.string({
         message: "Address is required"
-    }).min(1,{
+    }).toLowerCase().trim().min(1,{
         message: "Adress is required"
     }),
 });
@@ -116,7 +116,7 @@ export const BloodBankSchema = z.object({
     confirmPassword: z.string().trim().min(8,{
         message: 'Password must contain at least 8 characters',
     }),
-    address: z.string().trim().min(10,{
+    address: z.string().toLowerCase().trim().min(10,{
         message: "Please enter a valid address"
     }).max(528),
     country: z.string().min(1,{

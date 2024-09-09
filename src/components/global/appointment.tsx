@@ -41,31 +41,27 @@ export default function AppointmentForm() {
 
         <DropDownSelector type="bloodBank" form={form} className='flex-1'/>
 
-        <FormField
+        {/* <FormField
           name='check'
           control={form.control}
           render={({field})=>(
             <FormItem className='flex-1'>
               <FormControl>
-                
-                <Button className='bg-c-red-500 hover:bg-c-red-600 w-full'  {...field}>
-                  <div className='flex items-center gap-1'>
-                    <LocationIcon/>
-                    Help me
-                  </div>
-                </Button>
+                <SelectNearestBloodBank/>
               </FormControl>
               <FormMessage/>
             </FormItem>
           )}          
-          />
+          /> */}
         </div>
         <div className='flex w-full gap-4'>
-          <CustomSelect array={null}  name="time" className='w-full' control={form.control}/>
-          <CustomCalendar name='date' form={form} placeholder='Date'/>
+          <CustomCalendar  name='date' form={form} placeholder='Date'/>
+          <CustomSelect placeholder='time' array={null}  name="time" className='w-full' control={form.control}/>
         </div>
 
-        
+        <CustomSelect array={['Each 3 months', 'Each 4 months' , 'Each 5 months','Each 6 months','Each 7 months','Each 8 months','Each 9 months','Each 10 months','Each 11 months','Each 12 months']} name='interval' className='w-full' control={form.control} placeholder='Time Gap Between Donations'/>
+
+
           
       </form>
     </Form>

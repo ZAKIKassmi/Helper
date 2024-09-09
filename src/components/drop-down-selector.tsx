@@ -8,21 +8,17 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
  } from './ui/form';
 import { Button } from './ui/button';
-import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Input } from './ui/input';
 import { getBloodBanks } from '../../general-actions/get-blood-banks';
 import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from './ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { countriesCodes } from '@/data/countries';
+import LocationIcon from './icons/location';
 
 
 export default function DropDownSelector({form, type, className}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string}) {
@@ -41,6 +37,13 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
       setItems(countriesCodes);
     }
   },[]);
+
+  function handleClick(){
+    const fetchData = async()=>{
+      const res = await fetch(`${process.env.HOST_NAME}/api/get-user-location`);
+      const data = await res.json();
+      console.log(data.location)
+  }}
   
 
 
@@ -72,8 +75,14 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent align='start' className="w-full max-w-[500px] p-0">
-                  <Command>
-                    <CommandInput placeholder={type === "bloodBank" ? "Search blood bank": "Search country..." }/>
+                  <Command >
+                    <div className='flex w-full'>
+                      <CommandInput className='w-full' placeholder={type === "bloodBank" ? "Search blood bank": "Search country..." }/>  
+                      <div className='flex items-center justify-center px-4 border-l border-b cursor-pointer hover:bg-n-40' onClick={handleClick}>
+                        <LocationIcon color='#18181b'/>
+                      </div>  
+                    </div>
+
                     <CommandList>
                       <CommandEmpty>{type == "bloodBank" ? "No blood banks found." : "No country found"}</CommandEmpty>
                       <CommandGroup>

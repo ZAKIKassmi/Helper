@@ -35,6 +35,7 @@ import {
 import PaypalIcon from '../icons/paypal-icon';
 import Balancer from 'react-wrap-balancer';
 import { Slider } from '../ui/slider';
+import DropDownSelector from '../drop-down-selector';
 
 
 type Props = {}
@@ -251,84 +252,23 @@ return (
                       >
                   </FormField>
                 </div>
-          
                 
-                  <FormField
-                  control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-1 flex-col w-full">
-                      <Popover open={open} onOpenChange={setOpen}>
-                        <PopoverTrigger asChild  className='focus:ring-n-40 focus:ring-offset-n-40 w-full'>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              aria-expanded={open}
-                              className={cn(
-                                "w-full justify-between ",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? CountryCodes.find(
-                                    (country) => country.name === field.value
-                                  )?.name
-                                : "Select country"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className=" max-w-[31.25rem] p-0">
-                          <Command>
-                            <CommandInput placeholder="Search country..." />
-                            <CommandList>
-                              <CommandEmpty>No country found.</CommandEmpty>
-                              <CommandGroup>
-                                {CountryCodes.map((country) => (
-                                  <CommandItem
-                                    value={country.name}
-                                    key={country.name}
-                                    onSelect={() => {
-                                      form.setValue("country", country.name)
-                                      setOpen(false)
-                                      
-                                    }}
-                                  >
-                                    <Check
-                                      className={cn(
-                                        "mr-2 h-4 w-4",
-                                        country.name === field.value
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                    {country.name}
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <DropDownSelector type='donation' form={form} className='w-full'/>
+                 
 
-                  <FormField 
-                      name="zipCode"
-                      control={form.control}
-                      render={({field})=>(
-                      <FormItem className='flex-1 w-full'>
-                          <FormControl>
-                              <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40 min-w-[150px]' placeholder="Zip code" type="text"  {...field}/>
-                          </FormControl>
-                          <FormMessage />
-                      </FormItem>  
-                      )}
-                      >
-                  </FormField>
+                <FormField 
+                    name="zipCode"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem className='flex-1 w-full'>
+                        <FormControl>
+                            <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40 min-w-[150px]' placeholder="Zip code" type="text"  {...field}/>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>  
+                    )}
+                    >
+                </FormField>
 
                 
 

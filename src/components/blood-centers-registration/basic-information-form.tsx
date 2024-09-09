@@ -25,6 +25,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { AddBasicInformation } from '@/app/(bloodBankAuth)/registre/basic-information/_actions/action';
+import DropDownSelector from '../drop-down-selector';
 
 type Props = {}
 
@@ -164,77 +165,9 @@ return (
           {/* 
               TODO: the following fields needs to be added to the formdata and get inserted into the db.
           */}
-          <FormField
-          control={form.control}
-          name="country"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild >
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={open}
-                      className={cn(
-                        "w-full justify-between ",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value
-                        ? CountryCodes.find(
-                            (country) => country.name === field.value
-                          )?.name
-                        : "Select country"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-full max-w-[500px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search country..." />
-                    <CommandList>
-                      <CommandEmpty>No country found.</CommandEmpty>
-                      <CommandGroup>
-                        {CountryCodes.map((country) => (
-                          <CommandItem
-                            value={country.name}
-                            key={country.name}
-                            onSelect={() => {
-                              form.setValue("country", country.name)
-                              setOpen(false)
-                              
-                            }}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                country.name === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {country.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
-                Please verify your data before submitting.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />  
-
-
-
-          {/* TODO: add User phone number input */}
-       
-
+          <DropDownSelector type='country' form={form}/>
+          
+      
           <div className='w-full justify-end flex'>
 
             <Button className='flex border rounded-lg gap-2 duration-200 px-8 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>

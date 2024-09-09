@@ -19,9 +19,10 @@ type Props = {
   control: any;
   array: string[] | null;
   placeholder?: string;
+  className?: string
 }
 
-export default function CustomSelect({name, control, array,placeholder}: Props) {
+export default function CustomSelect({name, control, array,placeholder,className}: Props) {
 
   const timeSlots = useMemo(() => generateTimeSlots("09:00", "22:00", 30), []);
   const [isSelected, setisSelected] = useState(false);
@@ -33,16 +34,16 @@ export default function CustomSelect({name, control, array,placeholder}: Props) 
               name={name}
               control={control}
               render={({field})=>(
-                <FormItem className=''>
+                <FormItem className='w-full'>
                   <FormControl>
                     <Select onValueChange={(data)=>{
                       field.onChange(data);
                       setisSelected(true)
                     }} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className={cn('focus:ring-n-40 focus:ring-offset-n-40 text-muted-foreground',{
+                        <SelectTrigger className={cn(`focus:ring-n-40 focus:ring-offset-n-40 text-muted-foreground w-full`,{
                           "text-n-900": isSelected,
-                          "w-[100px]": !array,
+                          "min-w-[100px] w-full": !array,
                         })}>
                             <SelectValue placeholder={placeholder || "09:00"} />
                         </SelectTrigger>

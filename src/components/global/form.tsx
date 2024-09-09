@@ -37,15 +37,13 @@ import CalenderIconSVG from '../icons/calendar';
 import CustomSelect from '../custom-select';
 import { CalendarIcon } from 'lucide-react';
 import { PhoneInput } from '../ui/phone-number';
+import CustomCalendar from '../custom-calendar';
  
 
 export default function CustomForm() {
 
     const [state, formAction] = useFormState(createUser, null);
     const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
-    const [date, setDate] = useState<Date>()
-
-    const [iconColor, setIconColor] = useState('#ACACAD');
     const form = useForm<TUserSchema>({
         resolver: zodResolver(userSchema),
         defaultValues: {
@@ -128,7 +126,7 @@ export default function CustomForm() {
         formData.append('bloodType', String(data.bloodType));
         formData.append('address', data.address);
 
-    
+        console.log(data);
         formAction(formData);
         
     }
@@ -209,42 +207,7 @@ export default function CustomForm() {
             }
 
             
-
-                <FormField
-                    name="dateOfBirth"
-                    control={form.control}
-                    render={({field})=>(
-                    <FormItem>
-                        <Popover>
-                            <PopoverTrigger asChild >
-                                <Button
-                                variant={"outline"}
-                                className={cn("justify-start gap-1 text-left font-normal w-full ", !date && "text-muted-foreground")}
-                                >
-                                <CalenderIconSVG color={iconColor}/>
-                                {date ? format(date, "PPP") : <span>Birthday</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent align="start" className=" w-full p-0">
-                                <Calendar
-                                mode="single"
-                                captionLayout="dropdown-buttons"
-                                selected={date}
-                                onSelect={(date)=>{
-                                    setDate(date);
-                                    field.onChange(date);
-                                    setIconColor("#242426")
-                                }}
-                                fromYear={1960}
-                                toYear={2024}
-                                />
-                            </PopoverContent>
-                            </Popover>
-                          <FormMessage />
-                      </FormItem>  
-                      )}
-                      />
-
+            <CustomCalendar name='dateOfBirth' form={form} placeholder='Your birthday'/>
             <CustomSelect 
             placeholder='Please select your gender.' 
             array={["Male","Female"]} 

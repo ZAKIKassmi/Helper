@@ -66,23 +66,23 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
                         ? items.find(
                             (item:any) => item.name === field.value
                           )?.name
-                        : (type == "bloodBank" ? "Select a blood center" : "Select country")}
+                        : (type === "bloodBank" ? "Select a blood center" : "Select country")}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-full max-w-[500px] p-0">
+                <PopoverContent align='start' className="w-full max-w-[500px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search country..." />
+                    <CommandInput placeholder={type === "bloodBank" ? "Search blood bank": "Search country..." }/>
                     <CommandList>
-                      <CommandEmpty>{type == "bloodBank" ? "No blood items found." : "No country found"}</CommandEmpty>
+                      <CommandEmpty>{type == "bloodBank" ? "No blood banks found." : "No country found"}</CommandEmpty>
                       <CommandGroup>
                         {items.map((item:any) => (
                           <CommandItem
                             value={item.name}
                             key={item.name}
                             onSelect={() => {
-                              form.setValue("item", item.name)
+                              form.setValue(type, item.name)
                               setOpen(false)
                             }}
                           >

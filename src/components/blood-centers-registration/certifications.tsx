@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import CountryCodes from "@/data/CountryCodes.json";
 import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
-import { CalendarIcon, Check, ChevronsUpDown, UploadIcon } from 'lucide-react';
+import { Check, ChevronsUpDown, UploadIcon } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -31,7 +31,8 @@ import { format, formatDate } from 'date-fns';
 import { Matcher } from 'react-day-picker';
 import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
 import { addCertifications } from '@/app/(bloodBankAuth)/registre/certification-license/_action/action';
-
+import CalenderIconSVG from '@/components/icons/calendar';
+import CustomCalendar from '../custom-calendar';
 
 type Props = {}
 
@@ -82,7 +83,6 @@ export default function Certification({}: Props) {
           formData.append('file',data.certifications[i]);
         }
       }
-      console.log(typeof data.expiryDate);
       formAction(formData);
       
   }
@@ -93,97 +93,51 @@ return (
       <form className='flex flex-col w-full max-w-[550px] gap-4 px-4' 
       onSubmit={form.handleSubmit(onSubmit)}
       >              
-                  <FormField
-                      name="licenseNumber"
-                      control={form.control}
-                      render={({field})=>(
-                      <FormItem>
-                          <FormControl>
-                              <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="License Number" type="text"  {...field} />
-                          </FormControl>
-                          <FormMessage />
-                      </FormItem>  
-                      )}
-                      />
+        <FormField
+            name="licenseNumber"
+            control={form.control}
+            render={({field})=>(
+            <FormItem>
+                <FormControl>
+                    <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="License Number" type="text"  {...field} />
+                </FormControl>
+                <FormMessage />
+            </FormItem>  
+            )}
+            />
+        
+
+        <CustomCalendar fromYear={Number((new Date().getFullYear() ))} toYear={2050} name='expiryDate' form={form} placeholder='License Expiry Date'/>
+
                   
-
-
-
-
-                  <FormField
-                      name="expiryDate"
-                      control={form.control}
-                      render={({field})=>(
-                      <FormItem>
-                          <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "pl-3 text-left w-full font-normal gap-2 flex justify-start",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      <Image src="/icons/calendar.svg" alt='calendar icon svg' width={24} height={24}/>
-
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>License Expiry Date</span>
-                      )}
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    //@ts-ignore
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date("1900-01-01")
-                    }
-                    initialFocus
+        <FormField
+          name="certifications"
+          control={form.control}
+          render={({field})=>(
+          <FormItem>
+              <FormControl>
+                <div className='w-full border rounded-lg relative py-2 flex pl-3 gap-2 items-center hover:border-n-70 duration-200'>
+                  <Image src="/icons/upload.svg" alt='upload icon svg' width={24} height={24}/>
+                  <p className='text-left w-full font-normal gap-2 flex justify-start text-label-s file:bg-transparent file:text-sm file:font-medium text-muted-foreground 
+                  
+                  ' >
+                    {fileInputName}
+                  </p>
+                  <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...fileRef} multiple
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                      setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
+                    }}
                   />
-                </PopoverContent>
-              </Popover>
+                </div>
+              </FormControl>
               <FormDescription>
-                License expiry date
+                You can upload up to 3 certifications
               </FormDescription>
-                          <FormMessage />
-                      </FormItem>  
-                      )}
-                      />
-                  
-              <FormField
-                  name="certifications"
-                  control={form.control}
-                  render={({field})=>(
-                  <FormItem>
-                      <FormControl>
-                        <div className='w-full border rounded-lg relative py-2 flex pl-3 gap-2 items-center hover:border-n-70 duration-200'>
-                          <Image src="/icons/upload.svg" alt='upload icon svg' width={24} height={24}/>
-                          <p className='text-left w-full font-normal gap-2 flex justify-start text-label-s file:bg-transparent file:text-sm file:font-medium text-muted-foreground 
-                         
-                          ' >
-                            {fileInputName}
-                          </p>
-                          <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...fileRef} multiple
-                           onChange={(e) => {
-                             const files = Array.from(e.target.files || []);
-                             setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
-                           }}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormDescription>
-                        You can upload up to 3 certifications
-                      </FormDescription>
-                      <FormMessage />
-                  </FormItem>  
-                  )}
-                  />
+              <FormMessage />
+          </FormItem>  
+          )}
+        />
 
                   
             

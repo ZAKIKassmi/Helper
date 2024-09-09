@@ -40,7 +40,9 @@ export const bloodBanks = pgTable('blood_banks', {
     password: text('password').notNull(),
     country: integer('country').notNull().references(() => countries.id, {
         onDelete: 'restrict'
-    })
+    }),
+    latitude: integer('latitude').notNull(),
+    longitude: integer('longitude').notNull()
 });
 
 export const bloodBanksSessions = pgTable('blood_banks_sessions', {

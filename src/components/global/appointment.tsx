@@ -37,23 +37,10 @@ export default function AppointmentForm() {
   return (
     <Form {...form}>
       <form className='w-full flex-col flex gap-4'>
-        <div className='flex gap-4 justify-center'>
 
-        <DropDownSelector type="bloodBank" form={form} className='flex-1'/>
+        <DropDownSelector type="bloodBank" form={form}/>
 
-        {/* <FormField
-          name='check'
-          control={form.control}
-          render={({field})=>(
-            <FormItem className='flex-1'>
-              <FormControl>
-                <SelectNearestBloodBank/>
-              </FormControl>
-              <FormMessage/>
-            </FormItem>
-          )}          
-          /> */}
-        </div>
+    
         <div className='flex w-full gap-4'>
           <CustomCalendar  name='date' form={form} placeholder='Date'/>
           <CustomSelect placeholder='time' array={null}  name="time" className='w-full' control={form.control}/>

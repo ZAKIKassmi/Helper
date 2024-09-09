@@ -124,6 +124,16 @@ export const BloodBankSchema = z.object({
     }).max(60,{
         message: "Please enter a valid country name",
     }),
+    longitude: z.number().lt(180,{
+        message: "longitude must be between -180 and 180",
+    }).gt(-180,{
+        message: "latitude must be between -180 and 180",
+    }).optional(),
+    latitude: z.number().lt(90,{
+        message: "latitude must be between -90 and 90",
+    }).gt(-90,{
+        message: "latitude must be between -90 and 90",
+    }).optional(),
 });
 
 export type TBloodBankSchema = z.infer<typeof BloodBankSchema>;
@@ -265,7 +275,7 @@ export const donationSchema = z.object({
     }).max(10,{
         message: "Zip code is too long",
     }),
-    amount: z.number().lt(100_000_0).min(1,{
+    amount: z.number().lt(100_000).min(1,{
         message: "Please enter a number"
     })
 });

@@ -4,6 +4,7 @@ import { db } from "@/drizzle/db";
 import { bloodBanks } from "@/drizzle/schema";
 
 export async function getBloodBanks(){
+  console.log("triggered");
   const res = await db.select().from(bloodBanks);
   return res;
 }

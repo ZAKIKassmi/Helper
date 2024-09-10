@@ -99,6 +99,13 @@
       "when": 1725920520544,
       "tag": "0013_daily_sister_grimm",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1725921285100,
+      "tag": "0014_chilly_silverclaw",
+      "breakpoints": true
     }
   ]
 }

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { boolean, date, integer, pgEnum, pgTable, primaryKey, serial, text, time, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, date, doublePrecision, integer, pgEnum, pgTable, primaryKey, serial, text, time, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const genderEnum = pgEnum('gender', ['Female', 'Male']);
 
@@ -41,8 +41,8 @@ export const bloodBanks = pgTable('blood_banks', {
     country: integer('country').notNull().references(() => countries.id, {
         onDelete: 'restrict'
     }),
-    latitude: integer('latitude').notNull(),
-    longitude: integer('longitude').notNull()
+    latitude: doublePrecision('latitude').notNull(),
+    longitude: doublePrecision('longitude').notNull()
 });
 
 export const bloodBanksSessions = pgTable('blood_banks_sessions', {

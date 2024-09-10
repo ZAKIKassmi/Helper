@@ -13,14 +13,21 @@ import { getBloodBanks } from '../../general-actions/get-blood-banks';
 import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from './ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, findTheClosestBloodCenter } from '@/lib/utils';
 import { countriesCodes } from '@/data/countries';
 import LocationIcon from './icons/location';
+import { useFormState } from 'react-dom';
 
 
 export default function DropDownSelector({form, type, className}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string}) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<any>([]);
+  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
+
+  // const [state, formAction] = useFormState(getAllBloodBanks,{
+  //   message: "",
+  //   isError: false,
+  // })
   useEffect(()=>{
     if(type == "bloodBank"){
       const fetchBloodBanks = async()=>{
@@ -40,7 +47,12 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
       navigator.geolocation.getCurrentPosition((position)=>{
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        
+        if(items.length > 0){
+          const name = findTheClosestBloodCenter(items, latitude, longitude);
+          form.setValue(type, name);
+          setOpen(false);    
+          setIsTooltipVisible(false);  
+        }
       });
     }
   //   const fetchData = async()=>{
@@ -86,10 +98,15 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
                   }
                   {
                     type == "bloodBank" &&
-                    <div className='flex'>
+                    <div className='flex '>
                       <CommandInput placeholder={type === "bloodBank" ? "Search blood bank": "Search country..." }/>  
-                      <div className='flex items-center justify-center px-4 border-l border-b cursor-pointer hover:bg-n-40' onClick={handleClick}>
-                        <LocationIcon color='#18181b'/>
+                      <div className='flex relative items-center justify-center px-4 border-l border-b cursor-pointer gap-1  hover:bg-n-40 ' onClick={handleClick} 
+                      onMouseEnter={()=>{setIsTooltipVisible(true)}} 
+                      onMouseLeave={()=>{setIsTooltipVisible(false)}}
+                      >
+                      <p className={`absolute whitespace-nowrap px-3 py-2 text-p-s z-[150] -top-10 ${isTooltipVisible ? "": "hidden"}  rounded  text-n-900`} 
+                        >Select the closest blood bank</p>
+                        <LocationIcon color='#18181b' width='17' height='17'/>
                       </div>  
                     </div>
                   }

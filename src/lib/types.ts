@@ -134,6 +134,7 @@ export const BloodBankSchema = z.object({
     }).gt(-90,{
         message: "latitude must be between -90 and 90",
     }).optional(),
+    //TODO: Remove optional later on
 });
 
 export type TBloodBankSchema = z.infer<typeof BloodBankSchema>;

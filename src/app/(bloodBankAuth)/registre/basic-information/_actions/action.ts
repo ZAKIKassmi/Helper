@@ -94,7 +94,9 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
       emailVerified: false,
       password: hashedPassword,
       address,
-      country: countryObject!.id
+      country: countryObject!.id,
+      latitude: 34.261000,
+      longitude: -6.580200
     }).returning({
       id: bloodBanks.id
     });

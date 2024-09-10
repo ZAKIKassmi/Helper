@@ -1,17 +1,10 @@
 'use client';
 import { 
     Form, 
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
  } from '@/components/ui/form';
 import {useForm} from 'react-hook-form';
 import { SetNewPasswordSchema, TSetNewPasswordSchema } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
@@ -19,6 +12,7 @@ import { toast } from 'sonner';
 import { resetPassword } from '@/app/(userAuth)/login/reset-password/[token]/_actions/actions';
 import zxcvbn from 'zxcvbn';
 import { useRouter } from 'next/navigation';
+import PasswordInput from '../password-input';
 
 
 export default function ResetPasswordForm(
@@ -30,7 +24,6 @@ export default function ResetPasswordForm(
         isError: true
     });
 
-    const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
     const form = useForm<TSetNewPasswordSchema>({
         resolver: zodResolver(SetNewPasswordSchema),
         defaultValues: {
@@ -39,32 +32,6 @@ export default function ResetPasswordForm(
         }
     });
 
-    function evaluatePasswordStrength(password: string) {
-      const result = zxcvbn(password);
-      if (password.length === 0) {
-        setPasswordState('');
-        return;
-      }
-      switch (result.score) {
-          case 0:
-              setPasswordState('Very Weak');
-              break;
-          case 1:
-              setPasswordState('Weak');
-              break;
-          case 2:
-              setPasswordState('Moderate');
-              break;
-          case 3:
-              setPasswordState('Strong');
-              break;
-          case 4:
-              setPasswordState('Very Strong');
-              break;
-          default:
-              setPasswordState("");
-      }
-  }
 
     const router = useRouter();
     useEffect(()=>{
@@ -97,65 +64,14 @@ export default function ResetPasswordForm(
         formAction(formData);
     }
 
-    const onInvalid = (errors:any) => console.error(errors)
     return (
-    
             <Form {...form}>
                 <form
                 className='flex flex-col max-w-[500px] w-full gap-4'
-                onSubmit={form.handleSubmit(onSubmit,onInvalid)}>
+                onSubmit={form.handleSubmit(onSubmit)}>
 
-                    <FormField 
-                        name='password'
-                        control={form.control}
-                        render={({field})=>(
-                            <FormItem>
-                                <FormLabel className='text-label-n text-n-900 font-medium'>
-                                    Password
-                                </FormLabel>
-                                <FormControl>
-                                    <Input 
-                                    className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40'
-                                    {...field} 
-                                    placeholder='Password'
-                                    onChange={(e) => {
-                                      field.onChange(e);
-                                      evaluatePasswordStrength(e.target.value);
-                                    }} 
-                                    type='password'/>
-                                </FormControl>
-                                <FormMessage/>
-                                <FormDescription className={
-                                  !passwordState ? "hidden" :
-                                  passwordState === "Weak" ? "text-orange-500" :
-                                  passwordState === "Very Weak" ? "text-red-500" :
-                                  passwordState === "Moderate" ? "text-yellow-500" :
-                                  passwordState === "Strong" ? "text-green-500" :
-                                  "text-blue-500"
-                                }>
-                                  {passwordState}
-                                </FormDescription>
-                            </FormItem>
-                        )}
-                    >
-                    </FormField>
-
-                    <FormField 
-                        name="confirmPassword"
-                        control={form.control}
-                        render={({field})=>(
-                            <FormItem>
-                                <FormLabel className='text-label-n text-n-900 font-medium'>
-                                    Password
-                                </FormLabel>
-                                <FormControl>
-                                    <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' {...field} placeholder='Confirm Password' type='Password'/>
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    >
-                    </FormField>
+                    <PasswordInput form={form} name='password'/>
+                    <PasswordInput form={form} name='confirmPassword'/>
                     <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>
                         Reset Password
                     </Button>

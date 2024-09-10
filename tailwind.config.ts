@@ -128,6 +128,16 @@ const config = {
   					opacity: '1'
   				}
   			},
+				'top-bottom': {
+  				'0%': {
+  					transform: 'translateY(-50%)',
+  					opacity: '0'
+  				},
+  				'100%': {
+  					transform: 'translateY(0%)',
+  					opacity: '1'
+  				}
+  			},
   			'translate-y-fade-in-fast': {
   				'0%': {
   					transform: 'translateY(100%)',
@@ -180,6 +190,7 @@ const config = {
   			}
   		},
   		animation: {
+				'top-bottom': 'top-bottom 500ms ease-out',
   			'fade-in': 'fade-in 1s ease-out',
   			'translate-y-fade-in-fast-then-float': 'translate-y-fade-in-fast 800ms ease-in-out forwards',
   			'translate-y-fade-in-then-float': 'translate-y-fade-in 900ms ease-in-out 400ms forwards',

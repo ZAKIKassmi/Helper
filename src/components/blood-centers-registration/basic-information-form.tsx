@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { AddBasicInformation } from '@/app/(bloodBankAuth)/registre/basic-information/_actions/action';
 import DropDownSelector from '../drop-down-selector';
+import PasswordInput from '../password-input';
 
 type Props = {}
 
@@ -132,27 +133,16 @@ return (
                       control={form.control}
                       render={({field})=>(
                       <FormItem>
-                        {/* <FormLabel>{item.displayedName}</FormLabel> */}
                           <FormControl>
+                          {item.name !== 'password' && item.name !== "confirmPassword" && 
                               <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
-                                  onChange={(e) => {
-                                      field.onChange(e);
-                                      if (item.name === 'password') {
-                                          evaluatePasswordStrength(e.target.value);
-                                      }
-                                  }}
                               />
+                          }
+
                           </FormControl>
-                          {item.name === 'password' && <FormDescription className={
-                                !passwordState ? "hidden" :
-                                passwordState === "Weak" ? "text-orange-500" :
-                                passwordState === "Very Weak" ? "text-red-500" :
-                                passwordState === "Moderate" ? "text-yellow-500" :
-                                passwordState === "Strong" ? "text-green-500" :
-                                "text-blue-500"
-                              }>
-                                  {passwordState}
-                              </FormDescription>}
+                          {(item.name === 'password' || item.name === "confirmPassword") && 
+                            <PasswordInput form={form} name={item.name}/>
+                          }
                           <FormMessage />
                       </FormItem>  
                       )}

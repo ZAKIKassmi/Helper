@@ -5,7 +5,6 @@ import {eligibilitySchema, TEligibilitySchema, } from '@/lib/types';
 import { 
     Form, 
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,8 +15,6 @@ import { useFormState } from 'react-dom';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-
-
 import { Checkbox } from '../ui/checkbox';
 import { updateEligibiliye } from '@/app/(userAuth)/eligibility/_action/action';
 

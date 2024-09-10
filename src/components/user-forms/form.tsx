@@ -5,45 +5,30 @@ import { SignUpFormNameTypes, TUserSchema, userSchema } from '@/lib/types';
 import { 
     Form, 
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import {signupItems} from '@/lib/constants';
 import { createUser } from '@/app/(userAuth)/signup/_action/action';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select";
 import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Calendar } from '../ui/calendar';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import CalenderIconSVG from '../icons/calendar';
 import CustomSelect from '../custom-select';
-import { CalendarIcon } from 'lucide-react';
 import { PhoneInput } from '../ui/phone-number';
 import CustomCalendar from '../custom-calendar';
+import PasswordInput from '../password-input';
  
 
 export default function CustomForm() {
 
     const [state, formAction] = useFormState(createUser, null);
-    const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
+
     const form = useForm<TUserSchema>({
         resolver: zodResolver(userSchema),
         defaultValues: {
@@ -57,6 +42,7 @@ export default function CustomForm() {
         }   
     });
     const router = useRouter();
+
     useEffect(()=>{
         if(Array.isArray(state) && state?.length > 0){
             state.forEach((issue: {name: SignUpFormNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
@@ -76,32 +62,7 @@ export default function CustomForm() {
         }
     },[state]);
 
-    function evaluatePasswordStrength(password: string) {
-        const result = zxcvbn(password);
-        if (password.length === 0) {
-          setPasswordState('');
-          return;
-        }
-        switch (result.score) {
-            case 0:
-                setPasswordState('Very Weak');
-                break;
-            case 1:
-                setPasswordState('Weak');
-                break;
-            case 2:
-                setPasswordState('Moderate');
-                break;
-            case 3:
-                setPasswordState('Strong');
-                break;
-            case 4:
-                setPasswordState('Very Strong');
-                break;
-            default:
-                setPasswordState("");
-        }
-    }
+   
 
     async function onSubmit(data: TUserSchema){
         if(zxcvbn(data.password).score < 3){
@@ -126,10 +87,10 @@ export default function CustomForm() {
         formData.append('bloodType', String(data.bloodType));
         formData.append('address', data.address);
 
-        console.log(data);
         formAction(formData);
         
     }
+
   return (
     
     <Form {...form}>
@@ -168,51 +129,53 @@ export default function CustomForm() {
                     >
                 </FormField>
 
+                
+
             </div>
-            {
-                signupItems.map((item)=>(
-                    <FormField 
-                        key={item.name}
-                        name={item.name}
-                        control={form.control}
-                        render={({field})=>(
-                        <FormItem>
-                            {/* <FormLabel className='text-label-n text-n-900 font-medium'>{item.displayedName}</FormLabel> */}
-                            <FormControl>
-                                <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
-                                    onChange={(e) => {
-                                        field.onChange(e);
-                                        if (item.name === 'password') {
-                                            evaluatePasswordStrength(e.target.value);
-                                        }
-                                    }}
-                                    /> 
-                            </FormControl>
-                            {item.name === 'password' && <FormDescription className={
-                                  !passwordState ? "hidden" :
-                                  passwordState === "Weak" ? "text-orange-500" :
-                                  passwordState === "Very Weak" ? "text-red-500" :
-                                  passwordState === "Moderate" ? "text-yellow-500" :
-                                  passwordState === "Strong" ? "text-green-500" :
-                                  "text-blue-500"
-                                }>
-                                    {passwordState}
-                                </FormDescription>}
-                            <FormMessage />
-                        </FormItem>  
-                        )}
-                        >
-                    </FormField>
-                ))
-            }
+
+            <FormField 
+                    name="email"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <FormControl>
+                            <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Email" type="email"  {...field}   
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>  
+                    )}
+                    >
+            </FormField>
+
+            <FormField 
+                    name="address"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <FormControl>
+                            <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Address" type="text"  {...field}   
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>  
+                    )}
+                    >
+                </FormField>
+            
+
+            <PasswordInput form={form} name="password"/>
+            <PasswordInput form={form} name='confirmPassword'/>
 
             
             <CustomCalendar name='dateOfBirth' form={form} placeholder='Your birthday'/>
+
             <CustomSelect 
             placeholder='Please select your gender.' 
             array={["Male","Female"]} 
             name='gender' 
             control={form.control}/>
+
             <CustomSelect 
             placeholder='Please select your blood type.' 
             array={["Unknown","A+","A-", "B+","B-","AB+","AB-","O+","O-"]} 
@@ -222,24 +185,19 @@ export default function CustomForm() {
 
             
             <FormField
-                    name="phoneNumber"
-                    control={form.control}
-                    render={({field})=>(
-                    <FormItem>
-                            <PhoneInput {...field}
-                            international
-                            defaultCountry='MA'
-                            placeholder='Enter a phone number'/>
-                          <FormMessage />
-                      </FormItem>  
-                      )}
-                      />
-                
-            
-
-
-            {/* TODO: add User phone number input */}
-         
+                name="phoneNumber"
+                control={form.control}
+                render={({field})=>(
+                <FormItem>
+                        <PhoneInput {...field}
+                        international
+                        defaultCountry='MA'
+                        placeholder='Enter a phone number'/>
+                        <FormMessage />
+                    </FormItem>  
+                )}
+            />
+                         
 
 
            <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>

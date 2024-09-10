@@ -16,12 +16,9 @@ import { Button } from "../ui/button";
 import { TVerificationFormSchema, VerificationFormSchema } from "@/lib/types";
 import { verifyVerificationCode } from "@/app/(userAuth)/signup/email-verification/_action/action";
 import { useFormState } from "react-dom";
-import {Toaster, toast} from 'sonner';
+import { toast} from 'sonner';
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
 import { verifyVerificationCodeBloodBank } from "@/app/(bloodBankAuth)/registre/email-verification/_action/action";
 
 

@@ -1,29 +1,7 @@
 import { BloodBankFacilityNameTypes, BloodBankNameType, NavbarLinksType, SignUpFormNameTypes } from "./types";
 
 
-export const signupItems: { name: SignUpFormNameTypes; displayedName: string,type: string }[] = [
-    {
-        name: 'email',
-        displayedName: 'Email',
-        type: 'email'
-    },
-    {
-        name: 'password',
-        displayedName: 'Password',
-        type: 'password'
-    },
-    {
-        name: 'confirmPassword',
-        displayedName: 'Confirm password',
-        type: 'password'
-    },
-    {
-        name: 'address',
-        displayedName: 'Address',
-        type: 'text'
-    }
 
-];
 
 export const bloodBankBasicInformationItems:  { name: BloodBankNameType; displayedName: string,type: string }[] = [
     {

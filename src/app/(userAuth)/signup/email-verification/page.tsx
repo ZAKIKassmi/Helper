@@ -1,4 +1,4 @@
-import VerificationCodeForm from "@/components/global/verificationCodeForm";
+import VerificationCodeForm from "@/components/user-forms/verificationCodeForm";
 
 
 

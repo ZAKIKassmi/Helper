@@ -10,7 +10,7 @@ export default function Page({}: Props) {
         <h1 className="text-h3-d font-bold text-n-900 text-left">Operational Details,</h1>
         <p className="text-p-n font-medium text-n-900">
           <Balancer>
-        Set up your center's operating hours and list the types of donations you accept (e.g., blood, plasma, platelets)
+        Set up your center&apos;s operating hours and list the types of donations you accept (e.g., blood, plasma, platelets)
           </Balancer>
         </p>
       </div>

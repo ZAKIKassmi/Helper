@@ -9,7 +9,7 @@ from "@/components/ui/dialog";
 import { eligibilityConditions } from '@/lib/constants'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from "./ui/button";
-import EligibilityForm from "./global/eligibility-form";
+import EligibilityForm from "./user-forms/eligibility-form";
 
 export default function EligibilityConditions() {
   return (

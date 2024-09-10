@@ -1,0 +1,1 @@
+ALTER TABLE "appointments" ALTER COLUMN "appointment_time" SET DATA TYPE time;

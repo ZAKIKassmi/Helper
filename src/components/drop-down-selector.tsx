@@ -17,6 +17,7 @@ import { cn, findTheClosestBloodCenter } from '@/lib/utils';
 import { countriesCodes } from '@/data/countries';
 import LocationIcon from './icons/location';
 import { useFormState } from 'react-dom';
+import { toast } from 'sonner';
 
 
 export default function DropDownSelector({form, type, className}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string}) {
@@ -24,26 +25,33 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
   const [items, setItems] = useState<any>([]);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
 
-  // const [state, formAction] = useFormState(getAllBloodBanks,{
-  //   message: "",
-  //   isError: false,
-  // })
+  const [state, formAction] = useFormState(getBloodBanks,{
+    message: "",
+    isError: false, 
+    data: []
+  })
   useEffect(()=>{
     if(type == "bloodBank"){
-      const fetchBloodBanks = async()=>{
-        const res = await getBloodBanks();
-        setItems(res);
-        
-      }
-      fetchBloodBanks()
+      formAction();
     }
     else{
       setItems(countriesCodes);
     }
   },[]);
 
+  useEffect(()=>{
+    if(state.isError){
+      toast.error(state.message);
+      return;
+    }
+    if(state.data.length > 0){
+      setItems(state.data);
+    }
+  },[state]);
+
   function handleClick(){
     if(navigator.geolocation){
+      //TODO: USE GOOGLE APIS, because it's more accurate and faster that geolocaiton
       navigator.geolocation.getCurrentPosition((position)=>{
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -55,10 +63,6 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
         }
       });
     }
-  //   const fetchData = async()=>{
-  //     const res = await fetch(`${process.env.HOST_NAME}/api/get-user-location`);
-  //     const data = await res.json();
-  // }
 }
   
 
@@ -104,7 +108,7 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
                       onMouseEnter={()=>{setIsTooltipVisible(true)}} 
                       onMouseLeave={()=>{setIsTooltipVisible(false)}}
                       >
-                      <p className={`absolute whitespace-nowrap px-3 py-2 text-p-s z-[150] -top-10 ${isTooltipVisible ? "": "hidden"}  rounded  text-n-900`} 
+                      <p className={`absolute whitespace-nowrap px-3 py-2 text-p-s z-[150] bg-white -top-10 ${isTooltipVisible ? "": "hidden"}  rounded  text-n-900`} 
                         >Select the closest blood bank</p>
                         <LocationIcon color='#18181b' width='17' height='17'/>
                       </div>  

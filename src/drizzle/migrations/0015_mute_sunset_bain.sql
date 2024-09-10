@@ -1,0 +1,1 @@
+ALTER TABLE "appointments" ADD COLUMN "donation_gap" integer NOT NULL;

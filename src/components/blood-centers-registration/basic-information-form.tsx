@@ -34,7 +34,6 @@ export default function BasicInformationRegistrationForm({}: Props) {
 
   const [state, formAction] = useFormState(AddBasicInformation, null);
   const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
-  const [open, setOpen] = useState(false);
 
   
 

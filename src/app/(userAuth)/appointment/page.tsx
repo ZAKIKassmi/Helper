@@ -1,4 +1,4 @@
-import AppointmentForm from '@/components/global/appointment'
+import AppointmentForm from '@/components/user-forms/appointment'
 import Logo from '@/components/icons/logo'
 import Link from 'next/link'
 import React from 'react'
@@ -19,7 +19,6 @@ export default function Appointment({}: Props) {
           </p>
         <AppointmentForm/>
       </div>
-
     </div>
   </div>
     

@@ -35,9 +35,8 @@ export default function CustomCalendar({name, form, className, placeholder, from
                   {date ? format(date, "PPP") : <span>{placeholder}</span>}
                   </Button>
               </PopoverTrigger>
-              <PopoverContent align="start" className=" w-full p-0">
+              <PopoverContent align="start" className="w-full p-0">
                   <Calendar
-                
                   mode="single"
                   captionLayout="dropdown-buttons"
                   selected={date}

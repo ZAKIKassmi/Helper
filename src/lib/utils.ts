@@ -25,48 +25,24 @@ export function formErrorHandling(state:any, form:any){
 }
 }
 
-
 export function findTheClosestBloodCenter(
-    items: {name: string, latitude: number, longitude:number}[],
-    latitude: number,
-    longitude: number
-):string{
-        let minLat = 1000;
-        let minLon = 1000;
-        let name = "";
-          items.forEach((bank)=>{
-            if(bank.latitude < 0 || bank.longitude < 0){
-              bank.latitude = -(bank.latitude);
-              bank.longitude = -(bank.longitude);
-            }
-            if(bank.latitude > latitude){
-              const result = (bank.latitude - latitude);
-              if(result < minLat){
-                minLat = result;
-                name = bank.name                 
-              }
-            }
-            else{
-              const result = (latitude - bank.latitude);
-              if(result < minLat){
-                minLat = result;
-                name = bank.name
-              }
-            }
-            if(bank.longitude > longitude){
-              const result = bank.longitude - longitude;
-              if(result < minLon){
-                minLon = result;
-              }
-            }
-            else{
-              const result =  longitude - bank.longitude;
-              if(result < minLon){
-                minLon = result;
-                name = bank.name
-              }
-            }
-          })
-          return name;
-        
+  items: { name: string, latitude: number, longitude: number }[],
+  latitude: number,
+  longitude: number
+): string {
+  let closestBank = null;
+  let minDistance = Number.MAX_VALUE;
+
+  items.forEach(bank => {
+      const latDiff = Math.abs(bank.latitude - latitude);
+      const lonDiff = Math.abs(bank.longitude - longitude);
+      const distance = latDiff + lonDiff;
+
+      if (distance < minDistance) {
+          minDistance = distance;
+          closestBank = bank.name;
+      }
+  });
+
+  return closestBank || "";
 }

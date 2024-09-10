@@ -42,7 +42,7 @@ export default function EligibilityForm() {
     }
     if(!state.isError && state.message.length > 0){
       toast.success(state.message);
-      router.push('/choose-blood-center');
+      router.push('/appointment');
     }
   },[state]);
 

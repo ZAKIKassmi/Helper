@@ -284,4 +284,20 @@ export const donationSchema = z.object({
 export type TDonationSchema = z.infer<typeof donationSchema>;
 
 
+export const appointmentSchema = z.object({
+    bloodBank: z.string().min(1,{
+        message: "This field is required",
+    }),
+    date: z.coerce.date({message: "Appointment date is required"}),
+    time: z.string({
+        message: "Appointment time is required",
+    }).time(),
+    interval: z.string({
+        message: "This field is required",
+    }),
+})
+
+export type TAppointmentSchema = z.infer<typeof appointmentSchema>;
+
+
 

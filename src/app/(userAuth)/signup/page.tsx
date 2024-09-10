@@ -1,7 +1,4 @@
-// import dynamic from "next/dynamic";
-// const CustomForm = dynamic(()=>import('@/components/global/form'), {ssr: false});
-
-import CustomForm from "@/components/global/form";
+import CustomForm from "@/components/user-forms/form";
 import Image from "next/image";
 import Link from "next/link";
 

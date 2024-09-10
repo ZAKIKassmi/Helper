@@ -125,7 +125,8 @@ export const events = pgTable('events', {
 export const appointments = pgTable('appointments', {
     id: uuid('id').primaryKey().defaultRandom().notNull(),
     appointmentDate: date('appointment_date').notNull(),
-    appointmentTime: time('appointment_time', { withTimezone: true }),
+    appointmentTime: time('appointment_time', { withTimezone: false }),
+    donationGap: integer('donation_gap').notNull(),
     userId: uuid('user_id').references(() => userTable.id, {
         onDelete: 'cascade'
     }).notNull(),

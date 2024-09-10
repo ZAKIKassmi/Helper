@@ -1,5 +1,5 @@
 import Footer from "@/components/footer";
-import LogOutForm from "@/components/global/logoutFrom";
+import LogOutForm from "@/components/user-forms/logoutFrom";
 import Header from "@/components/header";
 import AnimatedHeroSection from "@/components/home/hero-section-animated";
 import HowWeWork from "@/components/home/how-we-work";

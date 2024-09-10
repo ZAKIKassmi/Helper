@@ -1,4 +1,4 @@
-import ResetPasswordEmailForm from "@/components/global/resetPasswordEmailForm";
+import ResetPasswordEmailForm from "@/components/user-forms/resetPasswordEmailForm";
 
 
 export default function ResetPassword() {

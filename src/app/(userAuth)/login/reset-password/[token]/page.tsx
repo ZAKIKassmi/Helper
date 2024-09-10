@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/components/global/resetPasswordForm";
+import ResetPasswordForm from "@/components/user-forms/resetPasswordForm";
 
 
 export default function Page({ params:{token} }: { params: {token:string}}){

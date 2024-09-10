@@ -3,9 +3,8 @@ import Logo from '@/components/icons/logo'
 import Link from 'next/link'
 import React from 'react'
 
-type Props = {}
 
-export default function Appointment({}: Props) {
+export default function Appointment() {
   return (
     <div className='relative min-h-screen'>
     <Link href="/" className="flex justify-center pt-8 csz:py-4">

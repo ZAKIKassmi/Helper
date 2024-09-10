@@ -1,11 +1,10 @@
 'use client';
-import {useForm, useFormContext} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BloodBankFacilityNameTypes, facilityDetailsSchema, TFacilityDetails,  } from '@/lib/types';
 import { 
     Form, 
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormMessage,
@@ -18,7 +17,6 @@ import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
 
 
@@ -37,9 +35,7 @@ export default function FacilityDetailsForm({}: Props) {
       }   
   });
   const router = useRouter();
-  //prefetch the email verification route.
   useEffect(()=>{
-      // formErrorHandling(state, form);
 
       if(Array.isArray(state) && state?.length > 0){
           state.forEach((issue: {name: BloodBankFacilityNameTypes, errorMessage: string, isToast: boolean, isError:boolean})=>{
@@ -62,12 +58,10 @@ export default function FacilityDetailsForm({}: Props) {
 
   async function onSubmit(data: TFacilityDetails){
       const formData = new FormData();
-      //server actions accept FromData object
       formData.append('donationBeds', data.donationBeds);
       formData.append('capacity', data.capacity);
       formData.append('emergencyContact',data.emergencyContact);
       
-      //TODO: call the formAction
       formAction(formData);
       
   }

@@ -1,47 +1,32 @@
 'use client';
 import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { certificationSchema, facilityDetailsSchema, TCertificationSchema, TFacilityDetails,  } from '@/lib/types';
+import { certificationSchema, TCertificationSchema, } from '@/lib/types';
 import { 
     Form, 
     FormControl,
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import {bloodBankBasicInformationItems, bloodBankFacilityDetailsItems, signupItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
-import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import CountryCodes from "@/data/CountryCodes.json";
-import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
-import { Check, ChevronsUpDown, UploadIcon } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Calendar } from '../ui/calendar';
-import { format, formatDate } from 'date-fns';
-import { Matcher } from 'react-day-picker';
-import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
 import { addCertifications } from '@/app/(bloodBankAuth)/registre/certification-license/_action/action';
-import CalenderIconSVG from '@/components/icons/calendar';
 import CustomCalendar from '../custom-calendar';
 
 type Props = {}
 
 export default function Certification({}: Props) {
-  //TODO: add backend logic
 
   const [state, formAction] = useFormState(addCertifications, null);
   const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
-  // const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
 
 
   const form = useForm<TCertificationSchema>({

@@ -138,7 +138,6 @@ return (
                               <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
                               />
                           }
-
                           </FormControl>
                           {(item.name === 'password' || item.name === "confirmPassword") && 
                             <PasswordInput form={form} name={item.name}/>

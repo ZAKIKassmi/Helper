@@ -1,32 +1,18 @@
 'use client';
 import {useForm} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BloodBankNameType, BloodBankSchema, OperationalDaysSchema, TBloodBankSchema, TOperaionalDaysSchema,  } from '@/lib/types';
+import { OperationalDaysSchema, TOperaionalDaysSchema,  } from '@/lib/types';
 import { 
     Form, 
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
  } from '../ui/form';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import {bloodBankBasicInformationItems, OperationalDetailsItems, signupItems} from '@/lib/constants';
+import { OperationalDetailsItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
-import zxcvbn from 'zxcvbn';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import CountryCodes from "@/data/CountryCodes.json";
-import { Command, CommandEmpty,CommandList, CommandGroup, CommandInput, CommandItem } from '../ui/command';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import CustomInput from '../custom-switch';
 import CustomSwitch from '../custom-switch';
 import CustomSelect from '../custom-select';
 import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
@@ -35,7 +21,6 @@ import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operationa
 type Props = {}
 
 export default function OperationalDetailsForm({}: Props) {
-  //TODO: add backend logic
 
   const [state, formAction] = useFormState(addOperationalDetails, null);
   const form = useForm<TOperaionalDaysSchema>({

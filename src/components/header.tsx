@@ -2,15 +2,11 @@
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
-import Image from "next/image";
 import Link from "next/link";
 import CustomButton from "./customButton";
 import { aboutLinkDropDownItems, navbarLinks } from "@/lib/constants";
@@ -25,10 +21,15 @@ import {
 } from "@/components/ui/sheet";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import Logo from "./icons/logo";
+import HumburgerIcon from "./icons/Humburger";
+import Arrow from "./icons/arrow";
+import { getUser } from "../../general-actions/get-user";
 
-export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
+export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollTopRef = useRef(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -58,14 +59,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
       )}
     >
       <Link href="/">
-        <Image
-          src='/images/Helper..svg'
-          width={73}
-          height={38}
-          alt="Helper logo"
-          style={{ width: 'auto', height: 'auto' }}
-          priority={true}
-        />
+        <Logo/>
       </Link>
 
       <NavigationMenu className="text-xs hidden flex-grow md:flex justify-center">
@@ -131,7 +125,7 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
       <div className="md:hidden">
         <Sheet>
           <SheetTrigger>
-            <Image src='/icons/Hamburger.svg' alt="Hamburger Icon" width={24} height={24} />
+            <HumburgerIcon width="24" height="24"/>
           </SheetTrigger>
           <SheetContent className="pt-16 flex flex-col gap-2 justify-between">
             <div>
@@ -140,14 +134,14 @@ export default function Header({ isLoggedIn }: { isLoggedIn: boolean }) {
                   {link.isDropDown ? (
                     <Sheet>
                       <SheetTrigger className="w-full">
-                        <div className="flex justify-between w-full">
+                        <div className="flex justify-between items-center w-full">
                           <div>
                             <SheetTitle className="text-n-700 text-base text-left">{link.name}</SheetTitle>
                             <SheetDescription className="text-n-70 text-sm text-left">
                               {link.description}
                             </SheetDescription>
                           </div>
-                          <Image src="/icons/arrow-right.svg" alt="Arrow right icon" height={16} width={16} />
+                          <Arrow direction="right" width="20" height="20"/>
                         </div>
                       </SheetTrigger>
                       <SheetContent className="pt-16 flex flex-col gap-2">

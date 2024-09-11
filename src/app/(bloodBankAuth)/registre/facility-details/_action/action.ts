@@ -7,6 +7,19 @@ import { BloodBankFacilityNameTypes, facilityDetailsSchema } from "@/lib/types";
 
 export async function addFacilityDetails(_:any, formData: FormData):Promise<{name: BloodBankFacilityNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]> {
 
+  const {user} = await validateBloodBankRequest();
+
+  if(!user){
+    return [
+      {
+        name: "capacity",
+        isToast: true,
+        isError: true,
+        errorMessage: "Only authenticated blood banks are authorized to make this request."
+      }
+    ]
+  }
+
 
   const donationBeds = formData.get('donationBeds') as unknown as number;
   const capacity = formData.get('capacity') as unknown as number;
@@ -27,18 +40,7 @@ export async function addFacilityDetails(_:any, formData: FormData):Promise<{nam
     return errors;
   }
 
-  const {user} = await validateBloodBankRequest();
-
-  if(!user){
-    return [
-      {
-        name: "capacity",
-        isToast: true,
-        isError: true,
-        errorMessage: "Blood bank not found"
-      }
-    ]
-  }
+  
 
   
 

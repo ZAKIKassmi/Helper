@@ -1,18 +1,31 @@
-import { date } from 'drizzle-orm/pg-core';
 "use server";
 import { db } from "@/drizzle/db";
-import { certifications, workingDaysHours } from "@/drizzle/schema";
+import { certifications } from "@/drizzle/schema";
 import { validateBloodBankRequest } from "@/lib/auth";
-import { certificationSchema, DaysType, OperationalDaysSchema, TCertificationSchema, TOperaionalDaysSchema } from "@/lib/types";
+import { certificationSchema, TCertificationSchema } from "@/lib/types";
+import { redirect } from "next/navigation";
 import fs from "node:fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from 'uuid'; 
-import { createDate } from 'oslo';
 
 
 type CertificationNameTypes = keyof TCertificationSchema;
 
 export async function addCertifications(_:any, formData: FormData):Promise<{name: CertificationNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]> {
+
+    const {user} = await validateBloodBankRequest();
+    if(!user){
+      return [
+        {
+          name: "expiryDate",
+          isToast: true,
+          isError: true,
+          errorMessage: "Only authenticated blood banks are authorized to make this request."
+        }
+      ]
+    }
+  
+
 
   const files = formData.getAll('file') as File[];
   const licenseNumber = formData.get('licenseNumber') as string;
@@ -45,18 +58,7 @@ export async function addCertifications(_:any, formData: FormData):Promise<{name
     return errors;
   }
 
-  const {user} = await validateBloodBankRequest();
-
-  if(!user){
-    return [
-      {
-        name: "expiryDate",
-        isToast: true,
-        isError: true,
-        errorMessage: "Blood bank not found"
-      }
-    ]
-  }
+  
 
   
   const promises:string[] = [];

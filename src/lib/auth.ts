@@ -69,7 +69,7 @@ export const auth = new Lucia(bloodBankAdapter, {
 
 
 export const validateBloodBankRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
-    const sessionId = cookies().get(auth.sessionCookieName)?.value ?? null;
+    const sessionId = cookies().get("blood_bank_auth_session_id")?.value ?? null;
     if(!sessionId){
         //if no session cookie found => user must log in
         return {
@@ -78,18 +78,19 @@ export const validateBloodBankRequest = async (): Promise<{user: User; session: 
         }
     }
 
+
     const result = await auth.validateSession(sessionId);
     try{
         if(result.session && result.session.fresh){
             // if session.fresh is true it indicates that the session expiration has been extended and you should set new session cookie
             const sessionCookie = auth.createSessionCookie(result.session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("blood_bank_auth_session_id", sessionCookie.value, sessionCookie.attributes);
         }
 
         //if the session is invalide, delete the session cookie.
         if(!result.session){
             const sessionCookie = auth.createBlankSessionCookie();
-			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			cookies().set("blood_bank_auth_session_id", sessionCookie.value, sessionCookie.attributes);
         }
     }
     catch{}
@@ -99,7 +100,7 @@ export const validateBloodBankRequest = async (): Promise<{user: User; session: 
 //validateRequest will check for session cookie, validate it and set new cookie if necessary.
 export const validateRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
     //check the session cookie
-    const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+    const sessionId = cookies().get('user_auth_session_id')?.value ?? null;
     if(!sessionId){
         //if no session cookie found => user must log in
         return {
@@ -115,13 +116,13 @@ export const validateRequest = async (): Promise<{user: User; session: Session} 
         if(result.session && result.session.fresh){
             // if session.fresh is true it indicates that the session expiration has been extended and you should set new session cookie
             const sessionCookie = lucia.createSessionCookie(result.session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+            cookies().set("user_auth_session_id", sessionCookie.value, sessionCookie.attributes);
         }
 
         //if the session is invalide, delete the session cookie.
         if(!result.session){
             const sessionCookie = lucia.createBlankSessionCookie();
-			cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+			cookies().set("user_auth_session_id", sessionCookie.value, sessionCookie.attributes);
         }
     }
     catch{}

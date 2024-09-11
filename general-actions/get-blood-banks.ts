@@ -2,7 +2,6 @@
 
 import { db } from "@/drizzle/db";
 import { bloodBanks } from "@/drizzle/schema";
-import { validateRequest } from "@/lib/auth";
 
 export async function getBloodBanks():Promise<{isError:boolean, message:string, data: {}[]}>{
   

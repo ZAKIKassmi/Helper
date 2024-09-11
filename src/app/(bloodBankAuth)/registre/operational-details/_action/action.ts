@@ -10,6 +10,19 @@ type OperationalNameTypes = keyof TOperaionalDaysSchema;
 
 export async function addOperationalDetails(_:any, formData: FormData):Promise<{name: OperationalNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]> {
 
+  const {user} = await validateBloodBankRequest();
+
+  if(!user){
+    return [
+      {
+        name: "FridayEndsAt",
+        isToast: true,
+        isError: true,
+        errorMessage: "Only authenticated blood banks are authorized to make this request."
+      }
+    ]
+  }
+
   const data:any = {};
 
   for(const [key, value] of formData.entries()){
@@ -31,18 +44,7 @@ export async function addOperationalDetails(_:any, formData: FormData):Promise<{
     return errors;
   }
 
-  const {user} = await validateBloodBankRequest();
-
-  if(!user){
-    return [
-      {
-        name: "FridayEndsAt",
-        isToast: true,
-        isError: true,
-        errorMessage: "Blood bank not found"
-      }
-    ]
-  }
+  
 
   const daysOfWeek:DaysType[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

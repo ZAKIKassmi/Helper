@@ -31,7 +31,6 @@ export async function GET(request: Request):Promise<Response>{
     });
 
     const googleUser: GoogleUser = await res.json();
-    const existingUser = await db.select().from(userTable).where(eq(userTable.googleId, googleUser.sub)).limit(1);
 
     const existingEmail = await db.select().from(userTable).where(eq(userTable.email, googleUser.email)).limit(1);
 
@@ -60,7 +59,6 @@ export async function GET(request: Request):Promise<Response>{
         }
       })
     }
-    console.log(googleUser);
 
     const user = await db.insert(userTable).values({
       firstName: googleUser.given_name || '',

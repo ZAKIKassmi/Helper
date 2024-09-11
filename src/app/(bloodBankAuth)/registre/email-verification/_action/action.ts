@@ -2,9 +2,7 @@
 import { db } from "@/drizzle/db";
 import { bloodBanks, emailVerificationTable, userTable } from "@/drizzle/schema";
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
-import { rateLimitByIp } from "@/lib/limiter";
 import { eq } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { isWithinExpirationDate } from "oslo";
 
 
@@ -20,13 +18,6 @@ export async function verifyVerificationCodeBloodBank(_:any, formData: FormData)
         }
       }
     }
-    // const checkLimit = await rateLimitByIp({key: user.id, window: 10000*360*5, limit: 20}) as {message: string, isError: boolean};
-    // if(checkLimit.isError){
-    //   return{
-    //     error: checkLimit.message,
-    //     isError: true,
-    //   }
-    // }
     
     try{
       const data = await db.select().from(emailVerificationTable).where(eq(emailVerificationTable.bloodBankId, user.id));

@@ -13,7 +13,7 @@ import {
  } from '../ui/form';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import {bloodBankBasicInformationItems, signupItems} from '@/lib/constants';
+import {bloodBankBasicInformationItems} from '@/lib/constants';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import zxcvbn from 'zxcvbn';

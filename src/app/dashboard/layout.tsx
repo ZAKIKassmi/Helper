@@ -1,4 +1,5 @@
-import DashboardSideBar from '@/components/dashboard/dashboard-side-bar'
+import DashboardHeader from '@/components/dashboard/header'
+import DashboardSideBar from '@/components/dashboard/side-bar'
 import { ReactNode } from 'react'
 
 type Props = {
@@ -9,6 +10,7 @@ export default function Layout({children}: Props) {
   return (
     <>
       <DashboardSideBar/>
+      <DashboardHeader/>
       <div>
         {children}
       </div>

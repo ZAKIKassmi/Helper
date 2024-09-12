@@ -1,12 +1,11 @@
 import { dashboardItems } from '@/lib/constants';
 import Link from 'next/link';
 import React, { Suspense } from 'react'
-import DashboardIcons from '../icons/dashboard-icons';
 import Logo from '../icons/logo';
 import { Separator } from '../ui/separator';
 import Logout from '../skeletons/logout';
 import LogOutForm from '../user-forms/logoutFrom';
-import DashboardCustomLink from './dashboard-custom-link';
+import DashboardCustomLink from './custom-link';
 
 
 export default function DashboardSideBar() {

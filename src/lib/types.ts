@@ -304,6 +304,7 @@ export type Donors = {
     id: string;
     fullName: string;
     gender: "Male" | "Female";
+    donationTime: string;
     email: string;
     phone: string;
     bloodType: "A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";

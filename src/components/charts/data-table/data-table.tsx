@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
  
@@ -15,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -26,17 +28,24 @@ export function DonorsTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>){
+
+
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   })
+
+
   return (
+  <div>
     <div className="rounded-md border text-n-900">
-      <Table>
+      <Table className="bg-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow  key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -76,5 +85,29 @@ export function DonorsTable<TData, TValue>({
         </TableBody>
       </Table>
     </div>
+
+
+    <div className="flex items-center justify-end space-x-2 py-4 text-white">
+    <Button
+      variant="outline"
+      className="bg-c-red-500 hover:bg-c-red-600 hover:text-white"
+      size="sm"
+      onClick={() => table.previousPage()}
+      disabled={!table.getCanPreviousPage()}
+    >
+      Previous
+    </Button>
+    <Button
+      variant="outline"
+      className="bg-c-red-500 hover:bg-c-red-600 hover:text-white"
+      size="sm"
+      onClick={() => table.nextPage()}
+      disabled={!table.getCanNextPage()}
+    >
+      Next
+    </Button>
+  </div>
+  </div>
+
   )
 }

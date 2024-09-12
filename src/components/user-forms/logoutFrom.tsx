@@ -5,10 +5,13 @@ import { Button } from '../ui/button';
 import { lucia, validateRequest } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import DashboardIcons from '../icons/dashboard-icons';
 
 
 
-export default function LogOutForm() {
+export default async function LogOutForm() {
+
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     
     async function logout(){
         "use server";
@@ -27,8 +30,9 @@ export default function LogOutForm() {
     
     return (
         <form action={logout}>
-            <Button>
-                Log out
+            <Button className='bg-white hover:bg-white text-n-90 stroke-n-90 flex gap-2 px-11 items-center hover:text-c-red-500 hover:stroke-c-red-500' type='submit'>
+                <DashboardIcons type='logout'/>
+                    Log out   
             </Button>
         </form>    
 )

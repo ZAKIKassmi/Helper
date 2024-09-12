@@ -1,6 +1,28 @@
 import { BloodBankFacilityNameTypes, BloodBankNameType, NavbarLinksType, SignUpFormNameTypes } from "./types";
 
 
+export const dashboardItems: {name: string, type: string,href:string}[] = [
+    {
+        name: 'Create event',
+        type: 'plus',
+        href: '/dashboard/create-event'
+    },
+    {
+        name: 'Overview',
+        type: 'home-hospital',
+        href: '/dashboard'
+    },
+    {
+        name: 'Donors',
+        type: 'donors',
+        href: '/dashboard/donors'
+    },
+    {
+        name: 'Blood banks',
+        type: 'cardiology',
+        href: '/dashboard/banks'
+    },
+]
 
 
 export const bloodBankBasicInformationItems:  { name: BloodBankNameType; displayedName: string,type: string }[] = [

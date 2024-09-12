@@ -1,15 +1,10 @@
-"use client";
 import { format, formatRFC7231, parse } from 'date-fns';
-import { usePathname } from 'next/navigation'
 
-type Props = {}
 
-export default function DashboardTitle({}: Props) {
-  const pathname = usePathname();
-  const urlItems = pathname.split('/');
+export default function DashboardTitle() {
   return (
     <div className='flex gap-1 items-center'>
-      <p>
+      <p className='text-n-900'>
         {formatRFC7231(new Date()).slice(0, 16)}
       </p>
     </div>

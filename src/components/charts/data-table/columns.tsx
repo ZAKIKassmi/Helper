@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { ArrowDown } from "lucide-react";
+import Arrow from "@/components/icons/arrow";
 
 export const columns: ColumnDef<Donors>[] = [
   {
     accessorKey: "fullName",
-    header: () => <div className="font-semibold text-n-900">Full Name</div>,
+    header: ({ column }) => <div className="font-semibold text-n-900">Full Name</div>,
   },
   {
     accessorKey: "email",
@@ -33,7 +35,18 @@ export const columns: ColumnDef<Donors>[] = [
   },
   {
     accessorKey: "donationTime",
-    header: () => <div className="font-semibold text-n-900">Time</div>
+    header: ({ column }) => {
+      return (
+        <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-2"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          <div className={`${column.getIsSorted() === "asc" ? "rotate-90" : "-rotate-90"} duration-200`}>
+            <Arrow direction="right" stroke="2"  width="10" height="10"/>
+          </div>
+          <p>Time</p>
+        </div>
+      )
+    },
   },
   {
     header: () => <div className="font-semibold text-n-900">Actions</div>,
@@ -53,7 +66,7 @@ export const columns: ColumnDef<Donors>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(donor.id)}
             >
-              Copy Client Id
+              Copy Donor Id
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={()=>{}}>View Donor Details</DropdownMenuItem>

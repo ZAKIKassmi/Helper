@@ -4,9 +4,10 @@ type Props = {
   direction: 'right' | 'left';
   width?: string;
   height?: string;
+  stroke?: string;
 }
 
-export default function Arrow({direction, width, height}: Props) {
+export default function Arrow({direction, width, height, stroke}: Props) {
   if(direction == 'left'){
 
     return (
@@ -18,7 +19,7 @@ export default function Arrow({direction, width, height}: Props) {
   }
     return(
       <svg width={width || "7"} height={height || "12" } viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 11L6 6L1 1" stroke="#313134" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M1 11L6 6L1 1" stroke="#313134" strokeWidth={stroke || "1.5"} strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
    )
   

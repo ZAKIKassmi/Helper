@@ -26,7 +26,7 @@ export function Sidebar() {
         <Link href="/" className="w-full justify-center flex">
           <Logo/>
         </Link>
-        <Menu isOpen={sidebar?.isOpen} />
+        <Menu isOpen={false} />
       </div>
     </aside>
   );

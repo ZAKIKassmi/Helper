@@ -12,7 +12,7 @@ export default function DashboardAvatar() {
 
       <div className="flex flex-col gap-[.1rem]">
         <p className="text-label-s text-n-900">
-          Emma D'arcy
+          Emma D&apos;arcy
         </p>
         <p className="text-label-x-small text-n-200">
           Administrator

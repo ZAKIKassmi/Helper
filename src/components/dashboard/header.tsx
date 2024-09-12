@@ -6,9 +6,9 @@ type Props = {}
 
 export default function DashboardHeader({}: Props) {
   return (
-    <div className='pl-6 pr-10 fixed right-0 left-60 border-b border-n-50 py-3 flex justify-between'>
+    <div className=' px-8   py-3 flex items-center justify-between'>
       <DashboardTitle/>
-      <DashboardAvatar/>
+      <DashboardAvatar/>    
     </div>
   )
 }

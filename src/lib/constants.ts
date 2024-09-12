@@ -5,7 +5,7 @@ export const dashboardItems: {name: string, type: string,href:string}[] = [
     {
         name: 'Create event',
         type: 'plus',
-        href: '/dashboard/create-event'
+        href: '/create-event'
     },
     {
         name: 'Overview',
@@ -15,12 +15,12 @@ export const dashboardItems: {name: string, type: string,href:string}[] = [
     {
         name: 'Donors',
         type: 'donors',
-        href: '/dashboard/donors'
+        href: '/donors'
     },
     {
         name: 'Blood banks',
         type: 'cardiology',
-        href: '/dashboard/banks'
+        href: '/banks'
     },
 ]
 

@@ -300,4 +300,15 @@ export const appointmentSchema = z.object({
 export type TAppointmentSchema = z.infer<typeof appointmentSchema>;
 
 
+export type Donors = {
+    id: string;
+    fullName: string;
+    gender: "Male" | "Female";
+    email: string;
+    phone: string;
+    bloodType: "A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";
+  }
+  
+
+
 

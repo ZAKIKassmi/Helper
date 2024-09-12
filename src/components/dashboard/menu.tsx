@@ -32,11 +32,11 @@ export function Menu({ isOpen }: MenuProps) {
                           <TooltipTrigger asChild>
                             <Button
                               variant={active ? "secondary" : "ghost"}
-                              className="w-full justify-start h-10 mb-1"
+                              className="w-full pl-3 justify-start h-10 mb-1"
                               asChild
                             >
                               <Link href={href}>
-                              <span className={cn("stroke-n-900 mr-2")}>
+                              <span className="stroke-n-900 mr-2">
                                 <DashboardIcons type={type}/>
                               </span>
                                 <p

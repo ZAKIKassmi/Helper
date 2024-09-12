@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export const description = "An interactive area chart"
+export const description = "Demand vs Supply"
 
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
@@ -157,14 +157,14 @@ export function Component() {
     <Card>
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Demand vs Supply</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Showing total donors for the last 3 months
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="w-[160px] rounded-lg sm:ml-auto"
+            className="w-[160px] rounded-lg focus:ring-0 focus:ring-offset-0 sm:ml-auto"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Last 3 months" />

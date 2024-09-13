@@ -2,8 +2,11 @@
 
 import {
   ColumnDef,
+  ColumnFiltersState,
+  FilterFn,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
@@ -20,11 +23,21 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
+
+
 
 
 export function DonorsTable<TData, TValue>({
@@ -34,21 +47,82 @@ export function DonorsTable<TData, TValue>({
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const table = useReactTable({
     data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  onSortingChange: setSorting,
+  getSortedRowModel: getSortedRowModel(),
+  onColumnFiltersChange: setColumnFilters,
+  getFilteredRowModel: getFilteredRowModel(),
+  state: {
+    sorting,
+    columnFilters
+  },
   });
 
 
   return (
-  <div>
+  <div className="w-full">
+
+    <div className="flex justify-between">
+
+    <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-md w-full focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border text-n-900"
+          />
+      </div>
+        <div className="flex gap-2">
+          <Select 
+        value={(table.getColumn("bloodType")?.getFilterValue() as string) ?? ""}
+        onValueChange={(value) => table.getColumn("bloodType")?.setFilterValue(value)}
+        >
+          <SelectTrigger className="w-[120px]  focus-visible:ring-0 focus-visible:ring-offset-0">
+            <SelectValue placeholder="Blood Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">All</SelectItem>
+            <SelectItem value="A+">A+</SelectItem>
+            <SelectItem value="A-">A-</SelectItem>
+            <SelectItem value="B+">B+</SelectItem>
+            <SelectItem value="B-">B-</SelectItem>
+            <SelectItem value="AB+">AB+</SelectItem>
+            <SelectItem value="AB-">AB-</SelectItem>
+            <SelectItem value="O+">O+</SelectItem>
+            <SelectItem value="O-">O-</SelectItem>
+            
+          </SelectContent>
+        </Select>
+
+        <Select 
+      value={(table.getColumn("gender")?.getFilterValue() as string) ?? ""}
+      onValueChange={(value) => table.getColumn("gender")?.setFilterValue(value)}
+      >
+        <SelectTrigger className="w-[120px] focus-visible:ring-0 focus-visible:ring-offset-0">
+          <SelectValue placeholder="Gender" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="All">All</SelectItem>
+          <SelectItem value="Female">Female</SelectItem>
+          <SelectItem value="Male">Male</SelectItem>
+        </SelectContent>
+      </Select>
+
+        </div>
+      
+    </div>
+
+
+
+    
     <div className="rounded-md border text-n-900">
       <Table className="bg-white">
         <TableHeader>

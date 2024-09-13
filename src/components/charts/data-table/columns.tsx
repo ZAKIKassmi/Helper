@@ -1,7 +1,7 @@
 "use client";
 
 import { Donors } from "@/lib/types";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
 
 import {
   DropdownMenu,
@@ -13,8 +13,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { ArrowDown } from "lucide-react";
 import Arrow from "@/components/icons/arrow";
+
+//define custom filtring function for filtring table
+const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
+  const cellValue = row.getValue(columnId) as string;
+  if(filterValue == 'All') return true;
+  return (cellValue === filterValue)
+};
+
 
 export const columns: ColumnDef<Donors>[] = [
   {
@@ -28,10 +35,12 @@ export const columns: ColumnDef<Donors>[] = [
   {
     accessorKey: "gender",
     header: () => <div className="font-semibold text-n-900">Gender</div>,
+    filterFn: exactTextFilter
   },
   {
     accessorKey: "bloodType",
     header: () => <div className="font-semibold text-n-900">Blood Type</div>,
+    filterFn: exactTextFilter
   },
   {
     accessorKey: "donationTime",
@@ -47,6 +56,7 @@ export const columns: ColumnDef<Donors>[] = [
         </div>
       )
     },
+
   },
   {
     header: () => <div className="font-semibold text-n-900">Actions</div>,

@@ -44,7 +44,7 @@ export function getMenuList(pathname: string): Menu[] {
         {
           href: "/settings",
           label: "Settings",
-          active: pathname.includes("/blood-levels"),
+          active: pathname.includes("/settings"),
           type: 'settings'
         },
       ]

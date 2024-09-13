@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import Arrow from "@/components/icons/arrow";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 //define custom filtring function for filtring table
 const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -24,6 +26,31 @@ const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
 
 
 export const columns: ColumnDef<Donors>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+      className="data-[state=checked]:bg-c-red-500 data-[state=checked]:text-primary-foreground data-[state=checked]:border-c-red-500" 
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+      
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+      className="data-[state=checked]:bg-c-red-500 data-[state=checked]:text-primary-foreground data-[state=checked]:border-c-red-500" 
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "fullName",
     header: ({ column }) => <div className="font-semibold text-n-900">Full Name</div>,
@@ -49,7 +76,7 @@ export const columns: ColumnDef<Donors>[] = [
         <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-2"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          <div className={`${column.getIsSorted() === "asc" ? "rotate-90" : "-rotate-90"} duration-200`}>
+          <div className={`${column.getIsSorted() === "asc" ? "rotate-90" : "-rotate-90"} duration-300`}>
             <Arrow direction="right" stroke="2"  width="10" height="10"/>
           </div>
           <p>Time</p>

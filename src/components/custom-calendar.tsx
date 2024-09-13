@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FormField, FormItem, FormMessage } from './ui/form';
+import { FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
 import CalenderIconSVG from './icons/calendar';
@@ -14,9 +14,10 @@ type Props = {
   placeholder: string,
   fromYear?: number,
   toYear?: number,
+  label?: string;
 }
 
-export default function CustomCalendar({name, form, className, placeholder, fromYear, toYear}: Props) {
+export default function CustomCalendar({name, form, className, placeholder, fromYear, toYear,label}: Props) {
   const [date, setDate] = useState<Date>()
   const [iconColor, setIconColor] = useState('#ACACAD');
   return (
@@ -25,14 +26,17 @@ export default function CustomCalendar({name, form, className, placeholder, from
       control={form.control}
       render={({field})=>(
       <FormItem className='w-full'>
+        {label && <FormLabel>
+            {label}
+          </FormLabel>}
           <Popover>
               <PopoverTrigger asChild className='w-full'>
                   <Button
                   variant={"outline"}
-                  className={cn("justify-start gap-1 text-left font-normal w-full ", !date && "text-muted-foreground")}
+                  className={cn("justify-start pl-2 gap-1 text-left font-normal w-full ", !date && "text-muted-foreground")}
                   >
                   <CalenderIconSVG color={iconColor}/>
-                  {date ? format(date, "PPP") : <span>{placeholder}</span>}
+                  {date ? format(date, "PPP") : <span className='text-label-small'>{placeholder}</span>}
                   </Button>
               </PopoverTrigger>
               <PopoverContent align="start" className="w-full p-0">

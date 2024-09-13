@@ -17,12 +17,13 @@ import { useMemo, useState } from 'react';
 type Props = {
   name:string;
   control: any;
+  label?: string;
   array: string[] | null;
   placeholder?: string;
   className?: string
 }
 
-export default function CustomSelect({name, control, array,placeholder,className}: Props) {
+export default function CustomSelect({name, control, array,placeholder,className,label}: Props) {
 
   const timeSlots = useMemo(() => generateTimeSlots("09:00", "22:00", 30), []);
   const [isSelected, setisSelected] = useState(false);
@@ -35,6 +36,11 @@ export default function CustomSelect({name, control, array,placeholder,className
               control={control}
               render={({field})=>(
                 <FormItem className='w-full'>
+                  {
+                    label &&  <FormLabel>
+                      {label}
+                    </FormLabel>
+                  }
                   <FormControl>
                     <Select onValueChange={(data)=>{
                       field.onChange(data);

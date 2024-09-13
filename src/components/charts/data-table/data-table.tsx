@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
  
 import {
@@ -30,7 +31,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -48,6 +56,9 @@ export function DonorsTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({})
+
 
   const table = useReactTable({
     data,
@@ -58,9 +69,14 @@ export function DonorsTable<TData, TValue>({
   getSortedRowModel: getSortedRowModel(),
   onColumnFiltersChange: setColumnFilters,
   getFilteredRowModel: getFilteredRowModel(),
+  onRowSelectionChange: setRowSelection,
+  onColumnVisibilityChange: setColumnVisibility,
+
   state: {
     sorting,
-    columnFilters
+    columnFilters,
+    columnVisibility,
+    rowSelection,
   },
   });
 
@@ -68,9 +84,9 @@ export function DonorsTable<TData, TValue>({
   return (
   <div className="w-full">
 
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center gap-2">
 
-    <div className="flex items-center py-4">
+    <div className="flex gap-2 items-center py-4">
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -79,46 +95,81 @@ export function DonorsTable<TData, TValue>({
           }
           className="max-w-md w-full focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border text-n-900"
           />
-      </div>
-        <div className="flex gap-2">
-          <Select 
-        value={(table.getColumn("bloodType")?.getFilterValue() as string) ?? ""}
-        onValueChange={(value) => table.getColumn("bloodType")?.setFilterValue(value)}
-        >
-          <SelectTrigger className="w-[120px]  focus-visible:ring-0 focus-visible:ring-offset-0">
-            <SelectValue placeholder="Blood Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All</SelectItem>
-            <SelectItem value="A+">A+</SelectItem>
-            <SelectItem value="A-">A-</SelectItem>
-            <SelectItem value="B+">B+</SelectItem>
-            <SelectItem value="B-">B-</SelectItem>
-            <SelectItem value="AB+">AB+</SelectItem>
-            <SelectItem value="AB-">AB-</SelectItem>
-            <SelectItem value="O+">O+</SelectItem>
-            <SelectItem value="O-">O-</SelectItem>
-            
-          </SelectContent>
-        </Select>
 
-        <Select 
-      value={(table.getColumn("gender")?.getFilterValue() as string) ?? ""}
-      onValueChange={(value) => table.getColumn("gender")?.setFilterValue(value)}
-      >
-        <SelectTrigger className="w-[120px] focus-visible:ring-0 focus-visible:ring-offset-0">
-          <SelectValue placeholder="Gender" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="All">All</SelectItem>
-          <SelectItem value="Female">Female</SelectItem>
-          <SelectItem value="Male">Male</SelectItem>
-        </SelectContent>
+          <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto focus-visible:ring-0 focus-visible:ring-offset-0">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {table
+              .getAllColumns()
+              .filter(
+                (column) => column.getCanHide()
+              )
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+    
+    </div>
+    <div className="flex-1 text-sm text-muted-foreground">
+      {table.getFilteredSelectedRowModel().rows.length} of{" "}
+      {table.getFilteredRowModel().rows.length} row(s) selected.
+    </div>
+
+    <div className="flex gap-2">
+      <Select 
+    value={(table.getColumn("bloodType")?.getFilterValue() as string) ?? ""}
+    onValueChange={(value) => table.getColumn("bloodType")?.setFilterValue(value)}
+    >
+      <SelectTrigger className="w-[120px]  focus:ring-0 focus:ring-offset-0">
+        <SelectValue placeholder="Blood Type" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="All">All</SelectItem>
+        <SelectItem value="A+">A+</SelectItem>
+        <SelectItem value="A-">A-</SelectItem>
+        <SelectItem value="B+">B+</SelectItem>
+        <SelectItem value="B-">B-</SelectItem>
+        <SelectItem value="AB+">AB+</SelectItem>
+        <SelectItem value="AB-">AB-</SelectItem>
+        <SelectItem value="O+">O+</SelectItem>
+        <SelectItem value="O-">O-</SelectItem>
+        
+      </SelectContent>
       </Select>
 
-        </div>
-      
+      <Select 
+  value={(table.getColumn("gender")?.getFilterValue() as string) ?? ""}
+  onValueChange={(value) => table.getColumn("gender")?.setFilterValue(value)}
+  >
+    <SelectTrigger className="w-[120px] focus:ring-0 focus:ring-offset-0">
+      <SelectValue placeholder="Gender"/>
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="All">All</SelectItem>
+      <SelectItem value="Female">Female</SelectItem>
+      <SelectItem value="Male">Male</SelectItem>
+    </SelectContent>
+      </Select>
     </div>
+      
+  </div>
 
 
 

@@ -16,7 +16,7 @@ export default function EventForm({}: Props) {
   const form = useForm();
 
   function onSubmit(data:any){
-
+    
   }
 
   return (
@@ -79,10 +79,6 @@ export default function EventForm({}: Props) {
         <Button className='bg-c-red-500 hover:bg-c-red-600'> 
           Create Event
         </Button>
-        
-
-
-
 
       </form>
     </Form>

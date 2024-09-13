@@ -39,6 +39,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Progress } from "@/components/ui/progress";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -82,7 +83,14 @@ export function DonorsTable<TData, TValue>({
 
 
   return (
+    <>
+    <div>
+      <p className="text-h6-d font-bold text-n-900 mb-[.1rem]">{table.getFilteredRowModel().rows.length} Donors out of 100</p>
+      <p className="text-label-n text-n-200 mb-4">Great! You have reached {(table.getFilteredRowModel().rows.length/100)*100}% of yout capacity today.</p>
+      <Progress value={(table.getFilteredRowModel().rows.length/100)*100}/>
+    </div>
   <div className="w-full">
+    
 
     <div className="flex justify-between items-center gap-2">
 
@@ -241,6 +249,8 @@ export function DonorsTable<TData, TValue>({
     </Button>
   </div>
   </div>
+  </>
+
 
   )
 }

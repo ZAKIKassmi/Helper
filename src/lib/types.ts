@@ -295,7 +295,26 @@ export const appointmentSchema = z.object({
     interval: z.string({
         message: "This field is required",
     }),
-})
+});
+
+
+export const eventFormSchema = z.object({
+    title: z.string().min(4,{
+        message: "Title must be at least 4 characters"
+    }).max(255,{
+        message: "Title is too long."
+    }),
+    description: z.string(),
+    address: z.string().min(1,{message: "Please enter an address"}).max(255,{message: "Address is too long"}),
+    date: z.coerce.date({message: "Event date is required"}),
+    startsAt: z.string().time(),
+    endsAt: z.string().time(),
+    picture: typeof window === 'undefined' ? z.any() : z.instanceof(FileList,{
+        message: "Event picture is required",
+    }).refine((file)=>file?.length > 0 , 'Picture is required.').refine((file)=>file?.length < 2, 'Only one picture is allowed.'),
+});
+
+export type TEventFormSchema = z.infer<typeof eventFormSchema>;
 
 export type TAppointmentSchema = z.infer<typeof appointmentSchema>;
 

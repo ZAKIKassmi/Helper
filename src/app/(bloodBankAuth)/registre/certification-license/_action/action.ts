@@ -70,7 +70,6 @@ export async function addCertifications(_:any, formData: FormData):Promise<{name
       const fileName = `${uuid}${fileExtension}`;  
       
       const filePath = path.join(process.cwd(), 'public', 'uploads', fileName);
-      console.log(filePath);
       //to handle the binary data
       const arrayBuffer = await file.arrayBuffer();
       //Convert the ArrayBuffer into a Node.js Buffer

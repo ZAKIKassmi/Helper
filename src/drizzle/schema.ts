@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { boolean, date, doublePrecision, integer, pgEnum, pgTable, primaryKey, serial, text, time, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, date, doublePrecision, index, integer, pgEnum, pgTable, primaryKey, serial, text, time, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 export const genderEnum = pgEnum('gender', ['Female', 'Male']);
 
@@ -43,6 +43,10 @@ export const bloodBanks = pgTable('blood_banks', {
     }),
     latitude: doublePrecision('latitude').notNull(),
     longitude: doublePrecision('longitude').notNull()
+},(table)=>{
+    return{
+        bloodBankIdIndex: index("blood_bank_id_index").on(table.id)
+    }
 });
 
 export const bloodBanksSessions = pgTable('blood_banks_sessions', {
@@ -114,9 +118,13 @@ export const events = pgTable('events', {
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description').notNull(),
     eventDate: date('event_date').notNull(),
-    eventTime: time('event_time', {
-        withTimezone: true,
+    startsAt: time('startsAt', {
+        withTimezone: false,
     }).notNull(),
+    endsAt: time('endsAt', {
+        withTimezone: false,
+    }).notNull(),
+    pictureURL: text('picture_url').notNull(),
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }),

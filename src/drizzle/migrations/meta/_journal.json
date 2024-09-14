@@ -120,6 +120,34 @@
       "when": 1725987037793,
       "tag": "0016_worthless_viper",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1726324451961,
+      "tag": "0017_bored_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1726329605594,
+      "tag": "0018_sudden_blazing_skull",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1726329813605,
+      "tag": "0019_organic_tony_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1726329846794,
+      "tag": "0020_bouncy_typhoid_mary",
+      "breakpoints": true
     }
   ]
 }

@@ -6,6 +6,7 @@ import { userTable, sessions, bloodBanks, bloodBanksSessions } from "@/drizzle/s
 import type { Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { GitHub, Google } from "arctic";
+import { cache } from 'react';
 
 
 //lucia connects to the database via an adapter
@@ -68,7 +69,7 @@ export const auth = new Lucia(bloodBankAdapter, {
 });
 
 
-export const validateBloodBankRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
+export const validateBloodBankRequest = cache( async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
     const sessionId = cookies().get("blood_bank_auth_session_id")?.value ?? null;
     if(!sessionId){
         //if no session cookie found => user must log in
@@ -95,7 +96,7 @@ export const validateBloodBankRequest = async (): Promise<{user: User; session: 
     }
     catch{}
     return result;
-}
+})
 
 //validateRequest will check for session cookie, validate it and set new cookie if necessary.
 export const validateRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{

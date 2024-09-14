@@ -28,8 +28,6 @@ export default function Certification({}: Props) {
 
 
   const [state, formAction] = useFormState(addCertifications, null);
-  const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
-
 
   const form = useForm<TCertificationSchema>({
       resolver: zodResolver(certificationSchema),
@@ -59,7 +57,6 @@ export default function Certification({}: Props) {
       }
   },[state]);
 
-  const fileRef = form.register("certifications");
 
   async function onSubmit(data: TCertificationSchema){
       const formData = new FormData();

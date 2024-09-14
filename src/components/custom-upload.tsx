@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import UploadIcon from './icons/upload';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 type Props = {
-  form: UseFormReturn<FieldValues, any, undefined>;
+  form: any;
   name:string;
   description?: string;
   label?:string;

@@ -20,6 +20,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { addCertifications } from '@/app/(bloodBankAuth)/registre/certification-license/_action/action';
 import CustomCalendar from '../custom-calendar';
+import CustomUpload from '../custom-upload';
 
 type Props = {}
 
@@ -95,35 +96,8 @@ return (
 
         <CustomCalendar fromYear={Number((new Date().getFullYear() ))} toYear={2050} name='expiryDate' form={form} placeholder='License Expiry Date'/>
 
-                  
-        <FormField
-          name="certifications"
-          control={form.control}
-          render={({field})=>(
-          <FormItem>
-              <FormControl>
-                <div className='w-full border rounded-lg relative py-2 flex pl-3 gap-2 items-center hover:border-n-70 duration-200'>
-                  <Image src="/icons/upload.svg" alt='upload icon svg' width={24} height={24}/>
-                  <p className='text-left w-full font-normal gap-2 flex justify-start text-label-s file:bg-transparent file:text-sm file:font-medium text-muted-foreground 
-                  
-                  ' >
-                    {fileInputName}
-                  </p>
-                  <Input className='focus-visible:ring-n-40 left-0 opacity-0 absolute top-0 focus-visible:ring-offset-n-40' type="file" {...fileRef} multiple
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      setFileInputName(files.map(file => `${file.name?.split('\\').pop()}, ` || ''));
-                    }}
-                  />
-                </div>
-              </FormControl>
-              <FormDescription>
-                You can upload up to 3 certifications
-              </FormDescription>
-              <FormMessage />
-          </FormItem>  
-          )}
-        />
+
+        <CustomUpload form={form} name="certifications" description='You can upload up to 3 certifications'/>
 
                   
             

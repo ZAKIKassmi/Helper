@@ -20,8 +20,12 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
+import { useSearchParams } from 'next/navigation';
 
 export default function LoginForm() {
+
+    const searchParams = useSearchParams();
+    const type = searchParams.get('type');
 
     const [state, formAction] = useFormState(loginAction, []);
     
@@ -52,6 +56,7 @@ export default function LoginForm() {
         const formData = new FormData;
         formData.append('email', data.email);
         formData.append('password', data.password);
+        formData.append('type', type as string);
         formAction(formData);
     }
     return (
@@ -100,10 +105,16 @@ export default function LoginForm() {
                         Log in
                     </Button>
                     
+                    {
+                        type === 'user' && <div>
+
                     <CustomSeperator/>
                     
                     <LoginWithGoogleButton/>
                     
+                        </div>
+                    }
+
                     <div className='flex flex-wrap whitespace-nowrap justify-between text-xs'>
 
                     <Link href="/signup" className=' text-label-x-small font-medium text-n-900 underline' prefetch={true}>

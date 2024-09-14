@@ -1,6 +1,7 @@
 import LoginForm from "@/components/user-forms/loginForm";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 
 
@@ -17,7 +18,9 @@ export default function Page() {
         Let’s manage the blood supply together and make a difference for millions of people worldwide!
         </p>
       </div>
+      <Suspense fallback={<p>Loading...</p>}>
         <LoginForm/>
+      </Suspense>
     </div>
     </>
   )

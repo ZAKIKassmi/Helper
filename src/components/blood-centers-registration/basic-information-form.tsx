@@ -31,12 +31,8 @@ import PasswordInput from '../password-input';
 type Props = {}
 
 export default function BasicInformationRegistrationForm({}: Props) {
-  //TODO: add backend logic
 
   const [state, formAction] = useFormState(AddBasicInformation, null);
-  const [passwordState, setPasswordState] = useState<'Very Weak' | 'Weak' | 'Moderate' | 'Strong' | 'Very Strong' | "">("");    
-
-  
 
 
   const form = useForm<TBloodBankSchema>({
@@ -71,32 +67,7 @@ export default function BasicInformationRegistrationForm({}: Props) {
       }
   },[state]);
 
-  function evaluatePasswordStrength(password: string) {
-      const result = zxcvbn(password);
-      if (password.length === 0) {
-        setPasswordState('');
-        return;
-      }
-      switch (result.score) {
-          case 0:
-              setPasswordState('Very Weak');
-              break;
-          case 1:
-              setPasswordState('Weak');
-              break;
-          case 2:
-              setPasswordState('Moderate');
-              break;
-          case 3:
-              setPasswordState('Strong');
-              break;
-          case 4:
-              setPasswordState('Very Strong');
-              break;
-          default:
-              setPasswordState("");
-      }
-  }
+  
 
   async function onSubmit(data: TBloodBankSchema){
       if(zxcvbn(data.password).score < 4){

@@ -54,6 +54,8 @@ export const getbloodBankAppointments = cache(async()=>{
     email: userTable.email,
     phone: userTable.phoneNumber,
     gender: userTable.gender,
+    address: userTable.address,
+    dateOfBirth: userTable.dateOfBirth,
     bloodType: bloodTypes.bloodTypeName
     })
     .from(appointments).where(eq(appointments.bloodBankId, user.id))

@@ -15,7 +15,9 @@ import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import Arrow from "@/components/icons/arrow";
 import { Checkbox } from "@/components/ui/checkbox"
-
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { Separator } from "@/components/ui/separator";
 
 //define custom filtring function for filtring table
 const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -106,7 +108,60 @@ export const columns: ColumnDef<Donors>[] = [
               Copy Donor Id
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={()=>{}}>View Donor Details</DropdownMenuItem>
+              <Dialog>
+            <DropdownMenuItem onClick={(e) => {
+                e.preventDefault();
+              }}>
+              <DialogTrigger>View Donor Details</DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <Avatar >
+
+                      <AvatarImage  width={100} height={100} className="rounded-full w-[6.25rem] h-[6.25rem] object-cover"  src="/images/de.jpg" alt="user profile image"/>
+                      <AvatarFallback>C</AvatarFallback>
+                    </Avatar>
+                    
+
+                      <div className="flex w-full flex-col pb-4 gap-1">
+                          <p className="font-bold text-n-900 text-h6-d">{donor.fullName}</p>
+                          <DialogDescription className="font-normal text-n-90 ">
+                            {donor.email}
+                          </DialogDescription>
+                      </div>
+
+
+                    
+                      <div className="flex w-full py-2">
+                        <p className="flex-1 text-p-n font-medium">Blood Type</p>
+                        <p className="flex-1 text-p-n">{donor.bloodType}</p>
+                      </div>
+
+
+                      <div className="flex w-full py-2">
+                        <p className="flex-1 text-p-n font-medium">Gender</p>
+                        <p className="flex-1 text-p-n">{donor.gender}</p>
+                      </div>
+
+
+                      <div className="flex w-full py-2">
+                        <p className="flex-1 text-p-n font-medium">Phone number</p>
+                        <p className="flex-1 text-p-n">{donor.phone}</p>
+                      </div>
+
+                      <div className="flex w-full py-2">
+                        <p className="flex-1 text-p-n font-medium">Birthday</p>
+                        <p className="flex-1 text-p-n">{donor.dateOfBirth}</p>
+                      </div>
+
+                      <div className="flex w-full py-2">
+                        <p className="flex-1 text-p-n font-medium">Address</p>
+                        <p className="flex-1 text-p-n">{donor.address}</p>
+                      </div>
+
+                  </DialogHeader>
+                </DialogContent>
+            </DropdownMenuItem>
+              </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )

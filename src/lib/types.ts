@@ -327,6 +327,8 @@ export type Donors = {
     email: string;
     phone: string;
     bloodType: "unknown" |"A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";
+    address:string;
+    dateOfBirth: string;
   }
   
 

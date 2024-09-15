@@ -1,9 +1,9 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { bloodBanks, certifications, facilityDetails, workingDaysHours } from "@/drizzle/schema";
+import { appointments, bloodBanks, bloodTypes, certifications, facilityDetails, userTable, workingDaysHours } from "@/drizzle/schema";
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
-import { eq } from "drizzle-orm";
+import { asc, eq, sql } from "drizzle-orm";
 import { cache } from "react";
 
 export const getUser = cache(async()=>{
@@ -38,4 +38,27 @@ export const getBloodBank = cache(async()=>{
     ...res[0]
   }
 
-})
+});
+
+
+export const getbloodBankAppointments = cache(async()=>{
+  const {user} = await validateBloodBankRequest();
+  if(!user){
+    return null;
+  }
+  const res = await db.select({
+    id: userTable.id,
+    donationTime: sql<string>`SUBSTRING(${appointments.appointmentTime}::text FROM 1 FOR 5)`,
+    date: appointments.appointmentDate,
+    fullName: sql<string>`concat(${userTable.firstName}, ' ', ${userTable.lastName})`,
+    email: userTable.email,
+    phone: userTable.phoneNumber,
+    gender: userTable.gender,
+    bloodType: bloodTypes.bloodTypeName
+    })
+    .from(appointments).where(eq(appointments.bloodBankId, user.id))
+    .innerJoin(userTable, eq(appointments.userId, userTable.id))
+    .orderBy(asc(appointments.appointmentTime))
+    .innerJoin(bloodTypes, eq(userTable.bloodType, bloodTypes.id));
+  return res;
+});

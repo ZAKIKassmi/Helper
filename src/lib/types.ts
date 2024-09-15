@@ -322,11 +322,11 @@ export type TAppointmentSchema = z.infer<typeof appointmentSchema>;
 export type Donors = {
     id: string;
     fullName: string;
-    gender: "Male" | "Female";
+    gender: "Male" | "Female" | "null";
     donationTime: string;
     email: string;
     phone: string;
-    bloodType: "A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";
+    bloodType: "unknown" |"A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";
   }
   
 

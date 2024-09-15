@@ -62,7 +62,7 @@ export const bloodBankFacilityDetailsItems:  { name: BloodBankFacilityNameTypes;
     },
     {
         name: "capacity",
-        displayedName: "Numeber of donors can be handled per day",
+        displayedName: "Minimum number of required donor per day.",
         type: "text"
     },
     {

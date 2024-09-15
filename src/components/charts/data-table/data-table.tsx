@@ -40,6 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress";
+import { Donors } from "@/lib/types";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -61,6 +62,7 @@ export function DonorsTable<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({})
 
 
+
   const table = useReactTable({
     data,
   columns,
@@ -80,13 +82,12 @@ export function DonorsTable<TData, TValue>({
     rowSelection,
   },
   });
-
-
+  const capacity = Number((data[0] as Donors).capacity);
   return (
     <>
     <div>
-      <p className="text-h6-d font-bold text-n-900 mb-[.1rem]">{table.getFilteredRowModel().rows.length} Donors out of 100</p>
-      <p className="text-label-n text-n-200 mb-4">Great! You have reached {(table.getFilteredRowModel().rows.length/100)*100}% of yout capacity today.</p>
+      <p className="text-h6-d font-bold text-n-900 mb-[.1rem]">{table.getFilteredRowModel().rows.length} Donors out of {capacity}</p>
+      <p className="text-label-n text-n-200 mb-4">Great! You have reached {(table.getFilteredRowModel().rows.length/100)*(capacity || 1)}% of yout capacity today.</p>
       <Progress value={(table.getFilteredRowModel().rows.length/100)*100}/>
     </div>
   <div className="w-full">

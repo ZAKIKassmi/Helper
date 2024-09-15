@@ -1,6 +1,5 @@
 import { columns } from '@/components/charts/data-table/columns';
 import {DonorsTable} from '@/components/charts/data-table/data-table';
-import { donors } from '@/data/fake-table-data';
 import { getbloodBankAppointments } from '../../../../general-actions/utils';
 import { Donors } from '@/lib/types';
 

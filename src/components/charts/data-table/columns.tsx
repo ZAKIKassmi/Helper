@@ -116,14 +116,15 @@ export const columns: ColumnDef<Donors>[] = [
                 <DialogContent>
                   <DialogHeader>
                     <Avatar >
-
                       <AvatarImage  width={100} height={100} className="rounded-full w-[6.25rem] h-[6.25rem] object-cover"  src="/images/de.jpg" alt="user profile image"/>
                       <AvatarFallback>C</AvatarFallback>
                     </Avatar>
                     
 
                       <div className="flex w-full flex-col pb-4 gap-1">
-                          <p className="font-bold text-n-900 text-h6-d">{donor.fullName}</p>
+                        <DialogTitle className="font-bold text-n-900 text-h6-d">
+                          {donor.fullName}
+                        </DialogTitle>
                           <DialogDescription className="font-normal text-n-90 ">
                             {donor.email}
                           </DialogDescription>

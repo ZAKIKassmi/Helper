@@ -329,6 +329,7 @@ export type Donors = {
     bloodType: "unknown" |"A+" | "A-" | "B-" | "B+" | "AB+" | "AB-" | "O+" | "O-";
     address:string;
     dateOfBirth: string;
+    capacity: number;
   }
   
 

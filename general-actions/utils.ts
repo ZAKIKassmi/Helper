@@ -56,11 +56,14 @@ export const getbloodBankAppointments = cache(async()=>{
     gender: userTable.gender,
     address: userTable.address,
     dateOfBirth: userTable.dateOfBirth,
-    bloodType: bloodTypes.bloodTypeName
+    bloodType: bloodTypes.bloodTypeName,
+    capacity: facilityDetails.capacity,
     })
     .from(appointments).where(eq(appointments.bloodBankId, user.id))
     .innerJoin(userTable, eq(appointments.userId, userTable.id))
     .orderBy(asc(appointments.appointmentTime))
-    .innerJoin(bloodTypes, eq(userTable.bloodType, bloodTypes.id));
+    .innerJoin(bloodTypes, eq(userTable.bloodType, bloodTypes.id))
+    .innerJoin(facilityDetails,eq(facilityDetails.bloodBankId, user.id));
+    ;
   return res;
 });

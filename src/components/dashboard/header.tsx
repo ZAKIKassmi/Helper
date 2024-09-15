@@ -1,16 +1,12 @@
-import React from 'react'
 import DashboardTitle from './title'
 import DashboardAvatar from './avatar'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
-import { Sidebar } from './sidebar'
 import { Menu } from './menu'
-import { useSidebarToggle } from '@/hooks/use-sidebar-toggle'
-import { useStore } from '@/hooks/use-store'
 import HumburgerIcon from '../icons/Humburger'
+import { Suspense } from 'react'
 
-type Props = {}
 
-export default function DashboardHeader({}: Props) {
+export default async function DashboardHeader() {
 
   return (
     <div className=' px-8 py-3 flex items-center justify-between'>
@@ -23,7 +19,9 @@ export default function DashboardHeader({}: Props) {
         </SheetContent>
       </Sheet>
       <DashboardTitle/>
-      <DashboardAvatar/>    
-    </div>
+      <Suspense fallback={<p>Loading...</p>}>
+        <DashboardAvatar />
+      </Suspense>
+    </div>  
   )
 }

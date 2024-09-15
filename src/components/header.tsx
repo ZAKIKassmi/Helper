@@ -24,7 +24,8 @@ import { cn } from "@/lib/utils";
 import Logo from "./icons/logo";
 import HumburgerIcon from "./icons/Humburger";
 import Arrow from "./icons/arrow";
-import { getUser } from "../../general-actions/get-user";
+import { getUser } from "../../general-actions/utils";
+
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -47,6 +48,7 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
 
   return (
     <nav
@@ -172,10 +174,10 @@ export default function Header() {
               </Link>
             ) : (
               <div className="items-center flex flex-col w-full gap-2 text-center">
-                <Link href='/login' className='p-3 pl-3 pr-3 w-full bg-white rounded transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
+                <Link href='/user-type?path=login' className='p-3 pl-3 pr-3 w-full bg-white rounded transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>
                   Log in
                 </Link>
-                <Link href="/signup" className='p-3 pl-3 pr-3 w-full bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+                <Link href='/user-type?path=signup' className='p-3 pl-3 pr-3 w-full bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
                   Sign up
                 </Link>
               </div>

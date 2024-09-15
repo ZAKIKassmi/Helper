@@ -148,6 +148,13 @@
       "when": 1726329846794,
       "tag": "0020_bouncy_typhoid_mary",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1726357395536,
+      "tag": "0021_far_spectrum",
+      "breakpoints": true
     }
   ]
 }

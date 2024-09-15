@@ -1,14 +1,16 @@
 import DashboardLayout from '@/components/dashboard/dashboard-layout'
-import { ReactNode } from 'react'
+import DashboardHeader from '@/components/dashboard/header'
+import { ReactNode } from 'react';
+
 
 type Props = {
   children: ReactNode
 }
 
 export default function Layout({children}: Props) {
-  
-  return (
+  return (  
     <DashboardLayout>
+      <DashboardHeader/>
       {children}
     </DashboardLayout>
   )

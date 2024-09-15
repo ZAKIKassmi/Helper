@@ -75,6 +75,10 @@ export const facilityDetails = pgTable('facility_details', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
+},(table)=>{
+    return{
+        facilityBloodBankIdIndex: index("facility_blood_bank_index").on(table.bloodBankId)
+    }
 });
 
 export const servicesEnum = pgEnum('services_enum', ['Blood Donation', 'Plasma Donation', 'Platelets Donation', 'Others']);
@@ -85,6 +89,10 @@ export const services = pgTable('services', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
+},(table)=>{
+    return{
+        servicesBloodBankIdIndex: index("services_blood_bank_index").on(table.bloodBankId)
+    }
 });
 
 export const daysEnum = pgEnum('days_enum', ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']);
@@ -98,6 +106,10 @@ export const workingDaysHours = pgTable('working_days_hours', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull()
+},(table)=>{
+    return{
+        workingBloodBankIdIndex: index("working_blood_bank_index").on(table.bloodBankId)
+    }
 });
 
 export const certifications = pgTable('certifications', {
@@ -110,6 +122,10 @@ export const certifications = pgTable('certifications', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }).notNull(),
+},(table)=>{
+    return{
+        certificationsBloodBankIdIndex: index("certifications_blood_bank_index").on(table.bloodBankId)
+    }
 });
 
 export const events = pgTable('events', {
@@ -128,6 +144,10 @@ export const events = pgTable('events', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'cascade',
     }),
+},(table)=>{
+    return{
+        eventBloodBankIdIndex: index("event_blood_bank_index").on(table.bloodBankId)
+    }
 });
 
 export const appointments = pgTable('appointments', {
@@ -141,6 +161,11 @@ export const appointments = pgTable('appointments', {
     bloodBankId: uuid('blood_bank_id').references(() => bloodBanks.id, {
         onDelete: 'restrict'
     })
+},(table)=>{
+    return{
+        appointmentsBloodBankIdIndex: index("appointments_blood_bank_index").on(table.bloodBankId),
+        appointmentsUserIdIndex: index("appointments_user_id_index").on(table.bloodBankId),
+    }
 });
 
 export const sessions = pgTable('sessions', {

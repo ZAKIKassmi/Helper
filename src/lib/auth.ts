@@ -99,7 +99,7 @@ export const validateBloodBankRequest = cache( async (): Promise<{user: User; se
 })
 
 //validateRequest will check for session cookie, validate it and set new cookie if necessary.
-export const validateRequest = async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
+export const validateRequest = cache(async (): Promise<{user: User; session: Session} | {user: null; session:null}> =>{
     //check the session cookie
     const sessionId = cookies().get('user_auth_session_id')?.value ?? null;
     if(!sessionId){
@@ -129,7 +129,7 @@ export const validateRequest = async (): Promise<{user: User; session: Session} 
     catch{}
     return result;
     
-}
+})
 
 export const github = new GitHub(process.env.GITHUB_CLIENT_ID!, process.env.GITHUB_CLIENT_SECRET!);
 export const googleAuth = new Google(process.env.GOOGLE_CLIENT_ID!, process.env.GOOGLE_CLIENT_SECRET!

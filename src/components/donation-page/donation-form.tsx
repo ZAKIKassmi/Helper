@@ -152,7 +152,7 @@ return (
               <AccordionItem  value="donation">
                 <AccordionTrigger className='hover:no-underline'>
                   <div className='flex gap-2 justify-start items-center'>
-                    <Image src="/icons/creditCard.svg" alt='credit card icon for the donation page' width={36} height={36}/>
+                    <Image src="/icons/creditcard.svg" alt='credit card icon for the donation page' width={36} height={36}/>
                     <p className='text-n-900 text-p-n font-normal'>
                       Credit Card
                     </p>

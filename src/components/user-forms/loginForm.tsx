@@ -117,7 +117,7 @@ export default function LoginForm() {
 
                     <div className='flex flex-wrap whitespace-nowrap justify-between text-xs'>
 
-                    <Link href="/signup" className=' text-label-x-small font-medium text-n-900 underline' prefetch={true}>
+                    <Link href={type === 'user' ? "/signup" : "registre/basic-information"}className=' text-label-x-small font-medium text-n-900 underline' prefetch={true}>
                         Create an accout
                     </Link>
                     <Link href="/login/reset-password" className='text-label-x-small font-medium text-n-900 underline' prefetch={true}>

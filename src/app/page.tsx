@@ -11,7 +11,7 @@ import { validateRequest } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { getUser } from "../../general-actions/get-user";
+import { getUser } from "../../general-actions/utils";
 
 
 

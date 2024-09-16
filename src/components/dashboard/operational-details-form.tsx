@@ -6,9 +6,21 @@ import CustomSelect from "../custom-select";
 import CustomSwitch from "../custom-switch";
 import { Button } from "../ui/button";
 
+
+
+const dayOrder = {
+  'Sunday': 0,
+  'Monday': 1,
+  'Tuesday': 2,
+  'Wednesday': 3,
+  'Thursday': 4,
+  'Friday': 5,
+  'Saturday': 6,
+};
+
 type Props = {
   operationalDetails: {
-    day: string,
+    day: keyof typeof dayOrder,
     isWorking: boolean,
     startsAt: string,
     endsAt: string
@@ -16,6 +28,10 @@ type Props = {
 }
 
 export default function SettingForm({operationalDetails}: Props) {
+
+ 
+
+operationalDetails.sort((a,b)=>dayOrder[a.day] - dayOrder[b.day]);
 
   const form = useForm({
     defaultValues: {

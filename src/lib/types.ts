@@ -154,9 +154,13 @@ export const facilityDetailsSchema = z.object({
     }),
     emergencyContact: z.string({
         message: "This field is required"
-    }).min(1,{
-        message: "Please enter a valid emergency contact"
-    })
+    }).min(8,{
+        message: 'Phone minimum length is 8 characters'
+    }).max(15,{
+        message: 'Phone maximum length is 15 characters'
+    }).startsWith('+',{
+        message: 'Phone number must starts with +',
+    }),
 });
 
 

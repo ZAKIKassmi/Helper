@@ -18,6 +18,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
+import { PhoneInput } from '../ui/phone-number';
 
 
 type Props = {}
@@ -61,7 +62,8 @@ export default function FacilityDetailsForm({}: Props) {
       formData.append('donationBeds', data.donationBeds);
       formData.append('capacity', data.capacity);
       formData.append('emergencyContact',data.emergencyContact);
-      
+    
+      console.log(data);
       formAction(formData);
       
   }
@@ -70,14 +72,13 @@ return (
   <Form {...form}>
       <form className='flex flex-col w-full max-w-[500px] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>              
           {
-              bloodBankFacilityDetailsItems.map((item)=>(
+              bloodBankFacilityDetailsItems.filter((item)=> item.name!=="emergencyContact").map((item)=>(
                   <FormField 
                       key={item.name}
                       name={item.name}
                       control={form.control}
                       render={({field})=>(
                       <FormItem>
-                        {/* <FormLabel>{item.displayedName}</FormLabel> */}
                           <FormControl>
                               <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} />
                           </FormControl>
@@ -88,6 +89,19 @@ return (
                   </FormField>
               ))
           }
+          <FormField
+          name="emergencyContact"
+          control={form.control}
+          render={({field})=>(
+          <FormItem>
+              <PhoneInput className="focus:outline-none focus:ring-0" {...field}
+              international
+              defaultCountry='MA'
+              placeholder='Enter a phone number'/>
+              <FormMessage />
+          </FormItem>  
+          )}
+      />
 
       
           <div className='w-full justify-end flex'>

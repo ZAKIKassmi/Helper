@@ -86,7 +86,7 @@ export default function BasicInformationRegistrationForm({}: Props) {
       });
 
       //TODO: call the formAction
-    //   formAction(formData);
+      formAction(formData);
 
       
   }

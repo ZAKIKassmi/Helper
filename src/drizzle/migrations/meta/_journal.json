@@ -155,6 +155,20 @@
       "when": 1726357395536,
       "tag": "0021_far_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1726522675272,
+      "tag": "0022_lonely_cerise",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1726522710291,
+      "tag": "0023_brave_pixie",
+      "breakpoints": true
     }
   ]
 }

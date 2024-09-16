@@ -42,7 +42,9 @@ export const bloodBanks = pgTable('blood_banks', {
         onDelete: 'restrict'
     }),
     latitude: doublePrecision('latitude').notNull(),
-    longitude: doublePrecision('longitude').notNull()
+    longitude: doublePrecision('longitude').notNull(),
+    zip: varchar('zip', {length: 20}),
+    province: varchar('province', {length: 255}),
 },(table)=>{
     return{
         bloodBankIdIndex: index("blood_bank_id_index").on(table.id)

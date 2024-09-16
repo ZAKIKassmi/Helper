@@ -44,6 +44,8 @@ export default function BasicInformationRegistrationForm({}: Props) {
           confirmPassword: '',
           address: '',
           country: '',
+          zip: '',
+          province: '',
       }   
   });
   const router = useRouter();
@@ -79,16 +81,12 @@ export default function BasicInformationRegistrationForm({}: Props) {
           return null;
       }
       const formData = new FormData();
-      //server actions accept FromData object
-      formData.append('name', data.name);
-      formData.append('email', data.email);
-      formData.append('country', data.country);
-      formData.append('address', data.address);
-      formData.append('password', data.password);
-      formData.append('confirmPassword', data.confirmPassword);
+      Object.entries(data).forEach(([key,value])=>{
+        formData.append(key, value as string);
+      });
 
       //TODO: call the formAction
-      formAction(formData);
+    //   formAction(formData);
 
       
   }
@@ -98,6 +96,7 @@ return (
       <form className='flex flex-col w-full max-w-[500px] gap-4 px-4' onSubmit={form.handleSubmit(onSubmit)}>              
           {
               bloodBankBasicInformationItems.map((item)=>(
+                item.name !== "password" && item.name !== "confirmPassword" ?
                   <FormField 
                       key={item.name}
                       name={item.name}
@@ -105,25 +104,18 @@ return (
                       render={({field})=>(
                       <FormItem>
                           <FormControl>
-                          {item.name !== 'password' && item.name !== "confirmPassword" && 
                               <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder={item.displayedName} type={item.type}  {...field} 
                               />
-                          }
                           </FormControl>
-                          {(item.name === 'password' || item.name === "confirmPassword") && 
-                            <PasswordInput form={form} name={item.name}/>
-                          }
                           <FormMessage />
                       </FormItem>  
                       )}
                       >
-                  </FormField>
+                  </FormField> :
+                <PasswordInput key={item.name} form={form} name={item.name}/>
               ))
           }
 
-          {/* 
-              TODO: the following fields needs to be added to the formdata and get inserted into the db.
-          */}
           <DropDownSelector type='country' form={form}/>
           
       

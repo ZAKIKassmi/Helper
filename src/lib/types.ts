@@ -134,6 +134,12 @@ export const BloodBankSchema = z.object({
     }).gt(-90,{
         message: "latitude must be between -90 and 90",
     }).optional(),
+    zip: z.string().min(1,{
+        message: "Please enter a zip code",
+    }),
+    province: z.string().min(1,{
+        message: "Please enter a province"
+    })
     //TODO: Remove optional later on
 });
 
@@ -156,7 +162,7 @@ export const facilityDetailsSchema = z.object({
 
 export type TFacilityDetails = z.infer<typeof facilityDetailsSchema>;
 
-export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'confirmPassword' | 'address';
+export type BloodBankNameType = 'name' | 'country' | 'email' | 'password' | 'confirmPassword' | 'address' | 'zip' | 'province';
 
 
 export type BloodBankFacilityNameTypes = 'capacity' | 'donationBeds' | 'emergencyContact';

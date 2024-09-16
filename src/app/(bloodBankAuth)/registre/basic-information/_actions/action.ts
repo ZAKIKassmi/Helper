@@ -4,7 +4,7 @@ import { countriesCodes } from "@/data/countries";
 import { db } from "@/drizzle/db";
 import { bloodBanks } from "@/drizzle/schema";
 import { setBloodBankSession } from "@/lib/session";
-import { BloodBankNameType, BloodBankSchema } from "@/lib/types";
+import { BloodBankNameType, BloodBankSchema, TBloodBankSchema } from "@/lib/types";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 
@@ -12,11 +12,16 @@ import { eq } from "drizzle-orm";
 
 export async function AddBasicInformation(_:any, formData: FormData):Promise<{name: BloodBankNameType, errorMessage: string, isToast: boolean,isError:boolean}[]> {
   const name = formData.get('name') as string;
-  const email = (formData.get('email') as string).toLowerCase();
-  const password = formData.get('password') as string;
-  const confirmPassword = formData.get('confirmPassword') as string;
+  const email = (formData.get('email') as string).trim().toLowerCase();
+  const password = (formData.get('password') as string).trim();
+  const confirmPassword = (formData.get('confirmPassword') as string).trim();
   const address = formData.get('address') as string;
   const country = formData.get('country');
+  const zip = formData.get('zip') as string;
+  const province = formData.get('province') as string;
+
+
+  
 
   if(password !== confirmPassword){
     return [
@@ -35,6 +40,8 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
     confirmPassword,
     address,
     country,
+    zip,
+    province
   });
 
   const countryObject = countriesCodes.find((c)=>country === c.name);
@@ -96,7 +103,9 @@ export async function AddBasicInformation(_:any, formData: FormData):Promise<{na
       address,
       country: countryObject!.id,
       latitude: 34.261000,
-      longitude: -6.580200
+      longitude: -6.580200,
+      zip,
+      province,
     }).returning({
       id: bloodBanks.id
     });

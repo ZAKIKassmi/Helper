@@ -50,6 +50,16 @@ export const bloodBankBasicInformationItems:  { name: BloodBankNameType; display
         name: "address",
         displayedName: "Address",
         type: "text"
+    },
+    {
+        name: "zip",
+        displayedName: "Zip Code",
+        type: "text"
+    },
+    {
+        name: "province",
+        displayedName: "Province or State",
+        type: "text",
     }
 
 ]

@@ -330,6 +330,7 @@ export type Donors = {
     address:string;
     dateOfBirth: string;
     capacity: number;
+    date: string;
   }
   
 

@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { appointments, bloodBanks, bloodTypes, certifications, facilityDetails, userTable, workingDaysHours } from "@/drizzle/schema";
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
-import { asc, eq, sql } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { cache } from "react";
 
 export const getUser = cache(async()=>{
@@ -59,7 +59,7 @@ export const getbloodBankAppointments = cache(async()=>{
     bloodType: bloodTypes.bloodTypeName,
     capacity: facilityDetails.capacity,
     })
-    .from(appointments).where(eq(appointments.bloodBankId, user.id))
+    .from(appointments).where(and(eq(appointments.bloodBankId, user.id), eq(appointments.appointmentDate, new Date().toISOString().split('T')[0])))
     .innerJoin(userTable, eq(appointments.userId, userTable.id))
     .orderBy(asc(appointments.appointmentTime))
     .innerJoin(bloodTypes, eq(userTable.bloodType, bloodTypes.id))
@@ -67,3 +67,13 @@ export const getbloodBankAppointments = cache(async()=>{
     ;
   return res;
 });
+
+
+export const getFacilityDetails = cache(async()=>{
+  const {user} = await validateBloodBankRequest();
+  if(!user){
+    return null;
+  }
+  const res = await db.select().from(facilityDetails).where(eq(facilityDetails.bloodBankId, user.id));
+  return res[0];
+})

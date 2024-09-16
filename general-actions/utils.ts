@@ -95,6 +95,8 @@ export const getAllBloodBankInformation = (async()=>{
     country: countries.countryName,
     availableBeds: facilityDetails.numberOfBeds,
     dailyDonorsNeeded: facilityDetails.capacity,
+    emergencyContact: facilityDetails.emergencyContact,
+    dialCode: countries.dialCode,
     operationalDetails: sql`json_agg(json_build_object(
       'day', working_days_hours.day,
       'isWorking', working_days_hours.is_working,
@@ -105,14 +107,16 @@ export const getAllBloodBankInformation = (async()=>{
   .from(bloodBanks)
   .innerJoin(countries, eq(countries.id, bloodBanks.country))
   .innerJoin(facilityDetails, eq(facilityDetails.bloodBankId, bloodBanks.id))
-  .innerJoin(workingDaysHours, eq(workingDaysHours.bloodBankId, bloodBanks.id)) // This joins the table
+  .innerJoin(workingDaysHours, eq(workingDaysHours.bloodBankId, bloodBanks.id)) 
   .innerJoin(certifications, eq(certifications.bloodBankId, bloodBanks.id))
   .where(eq(bloodBanks.id, user.id))
   .groupBy(
     bloodBanks.id,
     countries.countryName,
+    countries.dialCode,
     facilityDetails.numberOfBeds,
-    facilityDetails.capacity
+    facilityDetails.capacity,
+    facilityDetails.emergencyContact
   );
   console.timeEnd('alot');
 

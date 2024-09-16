@@ -342,6 +342,8 @@ export type Donors = {
     country: string;
     availableBeds: number;
     dailyDonorsNeeded: number;
+    emergencyContact: string | null;
+    dialCode: string;
     operationalDetails: {
       day: string,
       isWorking: boolean,

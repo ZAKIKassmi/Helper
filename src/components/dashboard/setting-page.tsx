@@ -3,8 +3,12 @@ import React from 'react'
 import { AvatarFallback, AvatarImage } from '../ui/avatar'
 import DashboardIcons from '../icons/dashboard-icons'
 import SettingInfoLine from './setting-info-line'
-import SettingForm from './setting-form'
+import SettingForm from './operational-details-form'
 import { BloodBanksSettingPagePropsType } from '@/lib/types'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { Button } from '../ui/button'
+import { ScrollArea } from '../ui/scroll-area'
+import FacilityDashboardForm from './facility-form'
 
 
 export default function SettingPage({data}: {data: BloodBanksSettingPagePropsType}) {
@@ -30,7 +34,7 @@ export default function SettingPage({data}: {data: BloodBanksSettingPagePropsTyp
         <div className='text-p-n border-b border-b-n-40 py-6'>
           <h2 className='text-n-900 font-bold text-p-n mb-4'>About</h2>
           <SettingInfoLine icon='email' name='Email: ' value={data.email}/>
-          <SettingInfoLine icon='phone' name='Phone: ' value='(+212) 697975128'/>
+          <SettingInfoLine icon='phone' name='Emergency Number: ' value={`(${data.dialCode}) ${data.emergencyContact?.slice(data.dialCode.length)}`}/>
         </div>
 
         <div className='text-p-n border-b border-b-n-40 py-6'>
@@ -45,7 +49,28 @@ export default function SettingPage({data}: {data: BloodBanksSettingPagePropsTyp
           <div className='flex justify-between  pr-10'>
             <h2 className='text-n-900 font-bold text-p-n mb-4 '>Facility Details</h2>
             <div className='cursor-pointer stroke-n-900 stroke-[1.5]'>
-              <DashboardIcons type='edit'/>
+            <Dialog>
+          <Button asChild variant="outline" className='flex gap-2 focus:ring-0 focus:ring-offset-0'>
+            <DialogTrigger>
+                <DashboardIcons type='edit'/>
+                Edit
+            </DialogTrigger>
+          </Button>
+
+          <DialogContent className=''>
+            <DialogHeader className="mb-4">
+              <DialogTitle className='text-n-900 text-h4-d  font-bold'>
+                1. Update Facility Details
+              </DialogTitle>
+            </DialogHeader>
+
+            <FacilityDashboardForm data={{beds: data.availableBeds, donors: data.dailyDonorsNeeded, contact:data.emergencyContact}}/>
+
+          </DialogContent>
+
+          
+
+        </Dialog>
             </div>
           </div>
           <SettingInfoLine icon='beds' name='Total Beds Available: ' value={String(data.availableBeds)}/>

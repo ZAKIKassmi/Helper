@@ -47,7 +47,7 @@ export default function CustomSelect({name, control, array,placeholder,className
                       setisSelected(true)
                     }} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className={cn(`focus:ring-n-40 focus:ring-offset-n-40 text-muted-foreground w-full`,{
+                        <SelectTrigger className={cn(`focus:ring-0 focus:ring-offset-0 text-muted-foreground w-full`,{
                           "text-n-900": isSelected,
                           "min-w-[100px] w-full": !array,
                         })}>

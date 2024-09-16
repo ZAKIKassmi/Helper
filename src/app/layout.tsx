@@ -8,7 +8,7 @@ const inter = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Helper",
-  description: "Helper is a platoform that allows both individual to manage their blood donations and blood centers to have a stable number of donation each week.",
+  description: "Helper is a platoform that allows both individual to manage their blood donations and blood centers to have a stable number of donation each .",
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <Provider>
-        <div className="max-w-[90rem] m-auto">
+        <div className=" m-auto">
           {children}
           <Toaster position="bottom-right" richColors/>
         </div>

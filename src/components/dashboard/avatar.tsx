@@ -1,9 +1,9 @@
-import { getBloodBank } from "../../../general-actions/utils";
+import { getBasicInformation } from "../../../general-actions/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 
 export default async function DashboardAvatar() {
-  const user = await getBloodBank();
+  const user = await getBasicInformation();
   return (
     <div className="flex gap-2 items-center">
       

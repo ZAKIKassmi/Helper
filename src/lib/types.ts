@@ -332,6 +332,23 @@ export type Donors = {
     capacity: number;
     date: string;
   }
+
+
+  export type BloodBanksSettingPagePropsType = {
+    id: string;
+    address: string;
+    name: string;
+    email: string;
+    country: string;
+    availableBeds: number;
+    dailyDonorsNeeded: number;
+    operationalDetails: {
+      day: string,
+      isWorking: boolean,
+      startsAt: string,
+      endsAt: string
+    }[];
+}
   
 
 

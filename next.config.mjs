@@ -16,8 +16,13 @@ const nextConfig = {
 
     return config;
   },
-  
-  
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },  
 };
+
+
 
 export default nextConfig;

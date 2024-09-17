@@ -61,7 +61,7 @@ export const getbloodBankAppointments = cache(async()=>{
     bloodType: bloodTypes.bloodTypeName,
     capacity: facilityDetails.capacity,
     })
-    .from(appointments).where(and(eq(appointments.bloodBankId, user.id), eq(appointments.appointmentDate, new Date().toISOString().split('T')[0])))
+    .from(appointments).where(eq(appointments.bloodBankId, user.id))
     .innerJoin(userTable, eq(appointments.userId, userTable.id))
     .orderBy(asc(appointments.appointmentTime))
     .innerJoin(bloodTypes, eq(userTable.bloodType, bloodTypes.id))

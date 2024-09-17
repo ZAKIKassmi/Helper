@@ -18,12 +18,14 @@ import { countriesCodes } from '@/data/countries';
 import LocationIcon from './icons/location';
 import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
+import { LoadingSpinner } from './ui/loading-spinner';
 
 
 export default function DropDownSelector({form, type, className}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string}) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<any>([]);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [state, formAction] = useFormState(getBloodBanks,{
     message: "",
@@ -50,6 +52,7 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
   },[state]);
 
   function handleClick(){
+    setIsLoading(true);
     if(navigator.geolocation){
       //TODO: USE GOOGLE APIS, because it's more accurate and faster that geolocaiton
       navigator.geolocation.getCurrentPosition((position)=>{
@@ -58,6 +61,7 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
         if(items.length > 0){
           const name = findTheClosestBloodCenter(items, latitude, longitude);
           form.setValue(type, name);
+          setIsLoading(false);
           setOpen(false);    
           setIsTooltipVisible(false);  
         }
@@ -110,7 +114,8 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
                       >
                       <p className={`absolute whitespace-nowrap px-3 py-2 text-p-s z-[150] bg-white -top-10 ${isTooltipVisible ? "": "hidden"}  rounded  text-n-900`} 
                         >Select the closest blood bank</p>
-                        <LocationIcon color='#18181b' width='17' height='17'/>
+                        {isLoading ? <LoadingSpinner className='stroke-n-900 w-5 h-5'/> : <LocationIcon color='#18181b' width='17' height='17'/>}
+                        
                       </div>  
                     </div>
                   }

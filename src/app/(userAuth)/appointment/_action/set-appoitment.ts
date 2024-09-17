@@ -5,6 +5,7 @@ import { appointments, bloodBanks } from "@/drizzle/schema";
 import { validateRequest } from "@/lib/auth";
 import { appointmentSchema, TAppointmentSchema } from "@/lib/types";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -59,6 +60,13 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
         bloodBankId: res[0].id,
         donationGap: interval,
       });
+      revalidatePath('/donors');
+      return[{
+        name: "bloodBank",
+        isError: false,
+        isToast: true,
+        message: "Your appointment has been successfully scheduled.",
+      }]
     }
     catch(e){
       return[{
@@ -77,10 +85,4 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
       name: "bloodBank"
     }]
   }
-  return[{
-    name: "bloodBank",
-    isError: false,
-    isToast: true,
-    message: "Your appointment has been successfully scheduled.",
-  }]
 }

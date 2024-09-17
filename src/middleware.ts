@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest){
 
   const authCookie = req.cookies.get("user_auth_session_id");
-  if((req.nextUrl.pathname.startsWith('/appointment') 
-    || req.nextUrl.pathname.startsWith('/eligibility') 
+  if((
+    req.nextUrl.pathname.startsWith('/eligibility') 
   ) 
     
     && !authCookie?.value){

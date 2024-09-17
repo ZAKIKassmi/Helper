@@ -1,24 +1,21 @@
 import { useState } from 'react';
 import { 
-  Form, 
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from './ui/form';
 import { Switch } from './ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { generateTimeSlots } from '@/lib/generate-time-slots';
+
 
 type Props = {
   name:string;
-  control: any
+  control: any;
+  state?: boolean;
 }
 
-export default function CustomSwitch({name, control}: Props) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function CustomSwitch({name, state, control}: Props) {
+  const [isOpen, setIsOpen] = useState(state || false);
 
   return (
     <FormField

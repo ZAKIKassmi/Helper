@@ -354,8 +354,11 @@ export type Donors = {
     dailyDonorsNeeded: number;
     emergencyContact: string | null;
     dialCode: string;
+    province: string;
+    zip: string;
     operationalDetails: {
-      day: string,
+      id: number,
+      day: DaysType,
       isWorking: boolean,
       startsAt: string,
       endsAt: string

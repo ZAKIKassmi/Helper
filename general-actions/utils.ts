@@ -97,7 +97,10 @@ export const getAllBloodBankInformation = (async()=>{
     dailyDonorsNeeded: facilityDetails.capacity,
     emergencyContact: facilityDetails.emergencyContact,
     dialCode: countries.dialCode,
+    zip: bloodBanks.zip,
+    province: bloodBanks.province,
     operationalDetails: sql`json_agg(json_build_object(
+      'id', working_days_hours.id,
       'day', working_days_hours.day,
       'isWorking', working_days_hours.is_working,
       'startsAt', working_days_hours.starts_at,
@@ -116,7 +119,7 @@ export const getAllBloodBankInformation = (async()=>{
     countries.dialCode,
     facilityDetails.numberOfBeds,
     facilityDetails.capacity,
-    facilityDetails.emergencyContact
+    facilityDetails.emergencyContact,
   );
   console.timeEnd('alot');
 

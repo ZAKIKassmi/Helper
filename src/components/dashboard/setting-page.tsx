@@ -40,8 +40,8 @@ export default function SettingPage({data}: {data: BloodBanksSettingPagePropsTyp
         <div className='text-p-n border-b border-b-n-40 py-6'>
           <h2 className='text-n-900 font-bold text-p-n mb-4 '>Address</h2>
           <SettingInfoLine icon='home-hospital' name='Address: ' value={data.address}/>
-          <SettingInfoLine icon='map' name='City/Province: ' value='Rabat-Sale-Kenitra'/>
-          <SettingInfoLine icon='location-med' name='Zip Code: ' value='12004'/>
+          <SettingInfoLine icon='map' name='City/Province: ' value={data.province}/>
+          <SettingInfoLine icon='location-med' name='Zip Code: ' value={data.zip}/>
         </div>
 
 

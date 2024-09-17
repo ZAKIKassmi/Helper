@@ -7,7 +7,6 @@ import SettingForm from './operational-details-form'
 import { BloodBanksSettingPagePropsType } from '@/lib/types'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Button } from '../ui/button'
-import { ScrollArea } from '../ui/scroll-area'
 import FacilityDashboardForm from './facility-form'
 
 

@@ -1,3 +1,4 @@
+import { eligibilityConditions } from '@/lib/constants';
 "use server";
 
 import { db } from "@/drizzle/db";
@@ -86,44 +87,47 @@ export const getAllBloodBankInformation = (async()=>{
     return null;
   }
 
-  console.time('alot');
-  const res = await db.select({
-    id: bloodBanks.id,
-    address: bloodBanks.address,
-    name: bloodBanks.name,
-    email: bloodBanks.email,
-    country: countries.countryName,
-    availableBeds: facilityDetails.numberOfBeds,
-    dailyDonorsNeeded: facilityDetails.capacity,
-    emergencyContact: facilityDetails.emergencyContact,
-    dialCode: countries.dialCode,
-    zip: bloodBanks.zip,
-    province: bloodBanks.province,
-    operationalDetails: sql`json_agg(json_build_object(
-      'id', working_days_hours.id,
-      'day', working_days_hours.day,
-      'isWorking', working_days_hours.is_working,
-      'startsAt', working_days_hours.starts_at,
-      'endsAt', working_days_hours.ends_at
-    ))`.as('operationalDetails'),
-  })
-  .from(bloodBanks)
-  .innerJoin(countries, eq(countries.id, bloodBanks.country))
-  .innerJoin(facilityDetails, eq(facilityDetails.bloodBankId, bloodBanks.id))
-  .innerJoin(workingDaysHours, eq(workingDaysHours.bloodBankId, bloodBanks.id)) 
-  .innerJoin(certifications, eq(certifications.bloodBankId, bloodBanks.id))
-  .where(eq(bloodBanks.id, user.id))
-  .groupBy(
-    bloodBanks.id,
-    countries.countryName,
-    countries.dialCode,
-    facilityDetails.numberOfBeds,
-    facilityDetails.capacity,
-    facilityDetails.emergencyContact,
-  );
-  console.timeEnd('alot');
+  try{
+    const res = await db.select({
+      id: bloodBanks.id,
+      address: bloodBanks.address,
+      name: bloodBanks.name,
+      email: bloodBanks.email,
+      country: countries.countryName,
+      availableBeds: facilityDetails.numberOfBeds,
+      dailyDonorsNeeded: facilityDetails.capacity,
+      emergencyContact: facilityDetails.emergencyContact,
+      dialCode: countries.dialCode,
+      zip: bloodBanks.zip,
+      province: bloodBanks.province,
+      operationalDetails: sql`json_agg(json_build_object(
+        'id', working_days_hours.id,
+        'day', working_days_hours.day,
+        'isWorking', working_days_hours.is_working,
+        'startsAt', working_days_hours.starts_at,
+        'endsAt', working_days_hours.ends_at
+      ))`.as('operationalDetails'),
+    })
+    .from(bloodBanks)
+    .innerJoin(countries, eq(countries.id, bloodBanks.country))
+    .innerJoin(facilityDetails, eq(facilityDetails.bloodBankId, user.id))
+    .innerJoin(workingDaysHours, eq(workingDaysHours.bloodBankId, user.id)) 
+    .innerJoin(certifications, eq(certifications.bloodBankId, user.id))
+    .where(eq(bloodBanks.id, user.id))
+    .groupBy(
+      bloodBanks.id,
+      countries.countryName,
+      countries.dialCode,
+      facilityDetails.numberOfBeds,
+      facilityDetails.capacity,
+      facilityDetails.emergencyContact,
+    );
+    return res[0];
+  }
+  catch(e){
+    throw new Error("Oops! Something went wrong");
+  }
 
-  return res[0];
 
 
 

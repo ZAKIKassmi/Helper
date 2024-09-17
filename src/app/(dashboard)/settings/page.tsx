@@ -7,12 +7,8 @@ type Props = {}
 
 export default async function Page({}: Props) {
   const data = await getAllBloodBankInformation();
-  if(data){
-    return (
-      <SettingPage data={data as BloodBanksSettingPagePropsType}/>
-    )
-  }
-  else{
-    return notFound()
-  }
+  return (
+    <SettingPage data={data as BloodBanksSettingPagePropsType}/>
+  )
+  
 }

@@ -63,7 +63,6 @@ export default function FacilityDetailsForm({}: Props) {
       formData.append('capacity', data.capacity);
       formData.append('emergencyContact',data.emergencyContact);
     
-      console.log(data);
       formAction(formData);
       
   }

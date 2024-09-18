@@ -57,13 +57,21 @@ export function DonorsTable<TData, TValue>({
   capacity
 }: DataTableProps<TData, TValue>){
 
+  const dates = getYesterdayTodayTomorrow();
+
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
+    {id: "date", value: dates.todayStr}
+  ]);
 
-  const dates = getYesterdayTodayTomorrow();
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    date: false,
+  });
+  
+  const [rowSelection, setRowSelection] = useState({})
+  
+
 
   const table = useReactTable({
     data,

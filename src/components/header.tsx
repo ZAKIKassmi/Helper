@@ -81,6 +81,14 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
           </NavigationMenuItem>
 
           <NavigationMenuItem>
+            <Link href='/events' legacyBehavior passHref>
+              <NavigationMenuLink>
+                <CustomButton type="link" value="Events" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
             <NavigationMenuTrigger className="p-1 pl-1.5 pr-1.5 bg-white text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF] hover:text-n-90 relative">
               About us
             </NavigationMenuTrigger>

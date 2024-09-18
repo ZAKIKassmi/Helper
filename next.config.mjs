@@ -5,8 +5,9 @@
 const nextConfig = {
     experimental: {
 		serverComponentsExternalPackages: ["@node-rs/argon2"],
-    // ppr: true
+    // ppr: true,
 	},
+  
 	webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

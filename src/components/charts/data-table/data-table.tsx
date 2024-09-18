@@ -40,7 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Progress } from "@/components/ui/progress";
-import { Donors } from "@/lib/types";
+import { getYesterdayTodayTomorrow } from "@/lib/get-yesterday-today-tomorrow";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -63,7 +63,7 @@ export function DonorsTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({})
 
-
+  const dates = getYesterdayTodayTomorrow();
 
   const table = useReactTable({
     data,
@@ -143,14 +143,18 @@ export function DonorsTable<TData, TValue>({
     </div>
 
     <div className="flex gap-2">
-    <Select>
+    <Select
+    value={(table.getColumn("date")?.getFilterValue() as string) ?? ""}
+    onValueChange={(value) => table.getColumn("date")?.setFilterValue(value)}
+    
+    >
       <SelectTrigger className="w-[120px]  focus:ring-0 focus:ring-offset-0">
-        <SelectValue placeholder="Select Date"/>
+        <SelectValue placeholder="Today"/>
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="Today">Today</SelectItem>
-        <SelectItem value="Yesterday">Yesterday</SelectItem>
-        <SelectItem value="Tomorrow">Tomorrow</SelectItem>
+        <SelectItem value={dates.todayStr}>Today</SelectItem>
+        <SelectItem value={dates.yesterdayStr}>Yesterday</SelectItem>
+        <SelectItem value={dates.tomorrowStr}>Tomorrow</SelectItem>
       </SelectContent>
       </Select>
       

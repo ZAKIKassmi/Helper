@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Separator } from "@/components/ui/separator";
+import { getYesterdayTodayTomorrow } from "@/lib/get-yesterday-today-tomorrow";
 
 //define custom filtring function for filtring table
 const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -62,14 +63,29 @@ export const columns: ColumnDef<Donors>[] = [
     header: () => <div className="font-semibold text-n-900">Email</div>,
   },
   {
+    accessorKey: "bloodType",
+    header: () => <div className="font-semibold text-n-900">Blood Type</div>,
+    filterFn: exactTextFilter
+  },
+  {
     accessorKey: "gender",
     header: () => <div className="font-semibold text-n-900">Gender</div>,
     filterFn: exactTextFilter
   },
   {
-    accessorKey: "bloodType",
-    header: () => <div className="font-semibold text-n-900">Blood Type</div>,
-    filterFn: exactTextFilter
+    accessorKey: "date",
+    header: () => <div className="font-semibold text-n-900">Date</div>,
+    filterFn: exactTextFilter,
+    cell: ({ row }) => {
+      const { date } = row.original; // Extract the date value from the row data
+      const dates = getYesterdayTodayTomorrow();
+
+      if (date === dates.todayStr) return "Today";
+      if (date === dates.yesterdayStr) return "Yesterday";
+      if (date === dates.tomorrowStr) return "Tomorrow";
+
+      return date; 
+    },
   },
   {
     accessorKey: "donationTime",

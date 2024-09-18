@@ -24,13 +24,11 @@ import { cn } from "@/lib/utils";
 import Logo from "./icons/logo";
 import HumburgerIcon from "./icons/Humburger";
 import Arrow from "./icons/arrow";
-import { getUser } from "../../general-actions/utils";
 
 
-export default function Header() {
+export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, userType:string}) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollTopRef = useRef(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -110,9 +108,15 @@ export default function Header() {
       </NavigationMenu>
 
       {isLoggedIn ? (
-        <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+        userType === "bloodBank" ? (
+          <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Dashboard
-        </Link>
+        </Link> 
+        ) : (
+          <Link href="/Account" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          Account
+        </Link> 
+        )
       ) : (
         <div className="items-center hidden md:flex gap-2">
           <Link href='/user-type?path=login' className='p-3 pl-3 pr-3 bg-white rounded-md transition duration-150 ease-in-out text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF]'>

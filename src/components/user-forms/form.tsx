@@ -86,7 +86,6 @@ export default function CustomForm() {
         formData.append('phoneNumber', data.phoneNumber);
         formData.append('bloodType', String(data.bloodType));
         formData.append('address', data.address);
-        // console.log(data);
         formAction(formData);
         
     }

@@ -1,7 +1,7 @@
 import {z} from 'zod';
 enum Gender {
     Female= "Female",
-    Male= "Male"
+    Male= "Male",
 }
 export const userSchema = z.object({
     firstName: z.string().trim().toLowerCase().min(1,{
@@ -19,9 +19,11 @@ export const userSchema = z.object({
     confirmPassword: z.string().trim().min(8,{
         message: 'Password must contain at least 8 characters',
     }),
-    gender: z.nativeEnum(Gender).optional(),
+    gender: z.nativeEnum(Gender, {
+        message: "Gender is required."
+    }),
     phoneNumber: z.string({
-        message: "This field is required"
+        message: "Phone number is required."
     }).min(8,{
         message: 'Phone minimum length is 8 characters'
     }).max(15,{
@@ -31,11 +33,13 @@ export const userSchema = z.object({
     }),
     dateOfBirth: z.coerce.date({
         message: "Date of birth is required",
-    }).optional(),
-    bloodType: z.string().optional(),
+    }),
+    bloodType: z.string({
+        message: "Blood type is required. If you're unsure, please select 'Unknown'."
+    }),
     address: z.string({
         message: "Address is required"
-    }).toLowerCase().trim().min(1,{
+    }).trim().min(1,{
         message: "Adress is required"
     }),
 });

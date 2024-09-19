@@ -22,6 +22,18 @@ export const userSchema = z.object({
     gender: z.nativeEnum(Gender, {
         message: "Gender is required."
     }),
+    picture: typeof window === 'undefined' 
+  ? z.any() 
+  : z.instanceof(FileList, {
+        message: "Event picture is required",
+    })
+    .refine((file) => file?.length > 0, 'Picture is required.')
+    .refine((file) => file?.length < 2, 'Only one picture is allowed.')
+    .refine((file) => {
+        const validExtensions = ['jpg', 'jpeg', 'png'];
+        const fileName = file?.[0]?.name?.toLowerCase();
+        return validExtensions.some(ext => fileName?.endsWith(ext));
+    }, 'Only jpg, jpeg, or png files are allowed.'),
     phoneNumber: z.string({
         message: "Phone number is required."
     }).min(8,{

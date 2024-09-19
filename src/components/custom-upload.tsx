@@ -8,10 +8,11 @@ type Props = {
   name:string;
   description?: string;
   label?:string;
+  placeholder?: string;
 }
 
-export default function CustomUpload({form, name, description, label}: Props) {
-  const [fileInputName, setFileInputName] = useState<string[]>(["upload"]);
+export default function CustomUpload({form, name, description, label, placeholder}: Props) {
+  const [fileInputName, setFileInputName] = useState<string[]>([placeholder || "upload"]);
   const fileRef = form.register(name);
 
   return (

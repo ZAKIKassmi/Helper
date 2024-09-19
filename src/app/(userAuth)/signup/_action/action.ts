@@ -20,6 +20,25 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const phoneNumber = formData.get('phoneNumber') as string;
     const bloodType = formData.get('bloodType') as unknown as number;
     const address = formData.get('address') as string;
+    const picture = formData.get('picture');
+
+    // if(picture.name.length === 0){
+    //     return[
+    //       {
+    //         errorMessage: "Picture is required",
+    //         isError: true,
+    //         isToast: true,
+    //         name: "address"
+    //       }
+    //     ]
+    //   }
+
+    return [{
+        errorMessage: "Picture is required",
+        isError: true,
+        isToast: true,
+        name: "address"          
+    }];
     
     // const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});    
     // if(checkLimit?.isError){

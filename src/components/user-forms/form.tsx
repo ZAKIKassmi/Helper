@@ -23,6 +23,7 @@ import CustomSelect from '../custom-select';
 import { PhoneInput } from '../ui/phone-number';
 import CustomCalendar from '../custom-calendar';
 import PasswordInput from '../password-input';
+import CustomUpload from '../custom-upload';
  
 
 export default function CustomForm() {
@@ -74,18 +75,12 @@ export default function CustomForm() {
             return null;
         }
         const formData = new FormData();
-        //server actions accept FromData object
-        formData.append('firstName', data.firstName);
-        formData.append('lastName', data.lastName);
-        formData.append('email', data.email);
-        formData.append('password', data.password);
-        formData.append('confirmPassword', data.confirmPassword);
-        const date = data.dateOfBirth?.toISOString().split('T')[0]
-        formData.append('dateOfBirth', String(date));
-        formData.append('gender', String(data.gender));
-        formData.append('phoneNumber', data.phoneNumber);
-        formData.append('bloodType', String(data.bloodType));
-        formData.append('address', data.address);
+
+        Object.entries(data).forEach(([key, val])=>{
+            formData.append(key as string, val as string);
+        });
+        formData.append('picture', data.picture[0]);
+        formData.append('dateOfBirth', String(data.dateOfBirth?.toISOString().split('T')[0]));
         formAction(formData);
         
     }
@@ -196,6 +191,9 @@ export default function CustomForm() {
                     </FormItem>  
                 )}
             />
+
+
+            <CustomUpload name='picture' form={form} placeholder='Upload image'/>
                          
 
 

@@ -87,8 +87,15 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-
           <NavigationMenuItem>
+            <Link href='/events' legacyBehavior passHref>
+              <NavigationMenuLink>
+                <CustomButton type="link" value="Blood Centers" />
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+
+          {/* <NavigationMenuItem>
             <NavigationMenuTrigger className="p-1 pl-1.5 pr-1.5 bg-white text-n-90 text-base leading-[110%] hover:bg-[#EFEFEF] hover:text-n-90 relative">
               About us
             </NavigationMenuTrigger>
@@ -103,15 +110,15 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
                 ))}
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
 
-          <NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <Link href='/contact' passHref legacyBehavior>
               <NavigationMenuLink>
                 <CustomButton type="link" value="Contact us" />
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenu>
 

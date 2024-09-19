@@ -7,6 +7,7 @@ import generateEmailVerificationCode from './generateAndSendVerificationCode';
 import { eq } from 'drizzle-orm';
 import { setSession } from '@/lib/session';
 import { rateLimitByIp } from '@/lib/limiter';
+import { createFilePath } from '@/lib/create-file-path';
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -20,25 +21,23 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const phoneNumber = formData.get('phoneNumber') as string;
     const bloodType = formData.get('bloodType') as unknown as number;
     const address = formData.get('address') as string;
-    const picture = formData.get('picture');
+    const picture = formData.getAll('picture') as File[];
 
-    // if(picture.name.length === 0){
-    //     return[
-    //       {
-    //         errorMessage: "Picture is required",
-    //         isError: true,
-    //         isToast: true,
-    //         name: "address"
-    //       }
-    //     ]
-    //   }
+    if(picture[1].name.length === 0){
+        return[{
+            errorMessage: "Picture is required",
+            isError: true,
+            isToast: true,
+            name: "address"
+          }]
+      }
 
-    return [{
-        errorMessage: "Picture is required",
-        isError: true,
-        isToast: true,
-        name: "address"          
-    }];
+    // return [{
+    //     errorMessage: "Picture is required",
+    //     isError: true,
+    //     isToast: true,
+    //     name: "address"          
+    // }];
     
     // const checkLimit = await rateLimitByIp({limit: 20, window: 10000 * 360 * 5, key: email});    
     // if(checkLimit?.isError){
@@ -61,6 +60,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         phoneNumber,
         bloodType,
         address,
+        picture,
     });
 
     let errors: {name:  SignUpFormNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
@@ -71,6 +71,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         });
         return errors;
     }
+    
     //Check if the email already exist in the database. (EMAILS MUST BE UNIQUE);
     try{
         const checkExistingEmail = await db.select().from(userTable).where(eq(userTable.email, email));
@@ -106,6 +107,31 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         }];
     }
 
+    let filePath = '';
+
+    try{
+        const res = await createFilePath(picture[1], "user-pictures");
+        if(res){
+            filePath = res;
+        }
+        else{
+            return[{
+                name: 'confirmPassword',
+                isError: true,
+                isToast: true,
+                errorMessage: "Oops! Something went wrong. Please try again later."
+            }];
+        }
+    }
+    catch{
+        return[{
+            name: 'confirmPassword',
+            isError: true,
+            isToast: true,
+            errorMessage: "Oops! Something went wrong. Please try again later."
+        }];
+    }
+
     try{
         const userId = await db.insert(userTable).values({
             firstName,
@@ -119,6 +145,7 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
             dateOfBirth,
             phoneNumber,
             bloodType,
+            pictureUrl: filePath,
 
         }).returning({
             id: userTable.id    

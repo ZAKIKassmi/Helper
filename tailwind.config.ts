@@ -20,6 +20,7 @@ const config = {
   		'cs': '530px',
   		'sm': '640px',
   		'md': '768px',
+			'lgx': '1072px',
   		'lg': '1024px',
   		'xl': '1280px',
   		'2xl': '1400px',
@@ -187,7 +188,17 @@ const config = {
   				to: {
   					height: '0'
   				}
-  			}
+  			},
+				'bottom-top':{
+					'0%': {
+						transform: 'translateY(40%)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'translateY(0%)',
+						opacity: '1'
+					}
+				},
   		},
   		animation: {
 				'top-bottom': 'top-bottom 500ms ease-out',
@@ -197,7 +208,8 @@ const config = {
   			'float': 'float 4.5s ease-in-out 1.3s infinite',
   			'fast-float': 'fast-float 4.5s ease-in-out 1.4s infinite',
   			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
+  			'accordion-up': 'accordion-up 0.2s ease-out',
+				'bottom-top': 'bottom-top 1s ease-in-out',
   		}
   	}
   },

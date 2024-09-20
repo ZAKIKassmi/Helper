@@ -51,7 +51,7 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
   return (
     <nav
       className={cn(
-        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center md:pr-10 md:pl-10 2xl:pr-[7.5rem] 2xl:pl-[7.5rem] max-w-[90rem] border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
+        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center lg:px-20 2xl:pr-[7.5rem] 2xl:pl-[7.5rem] max-w-[90rem]  border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
         {
           "-translate-y-full": !isVisible,
           "translate-y-0": isVisible,
@@ -61,9 +61,8 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
       <Link href="/">
         <Logo/>
       </Link>
-
-      <NavigationMenu className="text-xs hidden flex-grow md:flex justify-center">
-        <NavigationMenuList className="flex items-center space-x-4">
+      <NavigationMenu className="text-xs hidden w-full  md:flex justify-center">
+        <NavigationMenuList className="flex justify-center space-x-4">
           <NavigationMenuItem>
             <Link href='/' legacyBehavior passHref>
               <NavigationMenuLink>
@@ -122,13 +121,14 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
         </NavigationMenuList>
       </NavigationMenu>
 
+
       {isLoggedIn ? (
         userType === "bloodBank" ? (
-          <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 hidden md:block rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Dashboard
         </Link> 
         ) : (
-          <Link href="/Account" className='p-3 pl-3 pr-3 bg-c-red-500 rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          <Link href="/Account" className='p-3 pl-3 pr-3 bg-c-red-500 hidden md:block rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Account
         </Link> 
         )

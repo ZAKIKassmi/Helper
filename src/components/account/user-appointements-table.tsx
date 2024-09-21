@@ -22,15 +22,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import { getYesterdayTodayTomorrow } from "@/lib/get-yesterday-today-tomorrow";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -83,12 +74,7 @@ export function UserAppointmentTable<TData, TValue>({
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} row(s) selected.
     </div>
-      
- 
-
-
-
-    
+         
     <div className="rounded-md border text-n-900">
       <Table className="bg-white">
         <TableHeader>

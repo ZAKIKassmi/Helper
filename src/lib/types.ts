@@ -54,6 +54,17 @@ export const userSchema = z.object({
     }).trim().min(1,{
         message: "Adress is required"
     }),
+    zip: z.string().min(1,{
+        message: "Please enter a zip code",
+    }),
+    province: z.string().min(1,{
+        message: "Please enter a province"
+    }),
+    country: z.string().min(1,{
+        message: "Please enter a valid country name",
+    }).max(60,{
+        message: "Please enter a valid country name",
+    }),
 });
 
 

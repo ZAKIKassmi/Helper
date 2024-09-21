@@ -21,9 +21,18 @@ export const userTable = pgTable('user_table', {
     githubId: integer('github_id').unique(),
     username: varchar('username'),
     googleId: text("google_id").unique(),
+    countryCode: integer('country_code').references(()=>countries.id,{
+        onDelete: "restrict",
+    }).notNull(),
+    zip: varchar('zip', {length: 20}),
+    province: varchar('province', {length: 255}),
     bloodType: integer('blood_type').references(() => bloodTypes.id, {
         onDelete: 'cascade',
     })
+},(table)=>{
+    return{
+        userIdIndex: index("user_id_index").on(table.id)
+    }
 });
 
 export const bloodTypes = pgTable('blood_types', {

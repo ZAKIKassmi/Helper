@@ -15,7 +15,10 @@ export const getUser = cache(async()=>{
     return null;
   }
   try{
-    const res = await db.select().from(userTable).where(eq(userTable.id, user.id));
+    const res = await db.select().from(userTable)
+    .where(eq(userTable.id, user.id))
+    .innerJoin(bloodTypes, eq(bloodTypes.id, userTable.bloodType))
+    ;
     return res[0];
   }
   catch{
@@ -37,7 +40,9 @@ export const  getBasicInformation = cache(async()=>{
     email: bloodBanks.email,
     address: bloodBanks.address,
     country: bloodBanks.country,
-  }).from(bloodBanks).where(eq(bloodBanks.id, user.id));
+  }).from(bloodBanks)
+  .where(eq(bloodBanks.id, user.id))
+  ;
 
   // const facility = db.select().from(facilityDetails).where(eq(facilityDetails.bloodBankId, user.id));
   // const workingTimes = db.select().from(workingDaysHours).where(eq(workingDaysHours.bloodBankId,user.id));

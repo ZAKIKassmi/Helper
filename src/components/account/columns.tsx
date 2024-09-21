@@ -5,6 +5,7 @@ import Arrow from "@/components/icons/arrow";
 import { Checkbox } from "@/components/ui/checkbox"
 import { getYesterdayTodayTomorrow } from "@/lib/get-yesterday-today-tomorrow";
 import { formatRFC7231 } from "date-fns";
+import { ChevronsUpDown } from "lucide-react";
 
 //define custom filtring function for filtring table
 const exactTextFilter: FilterFn<any> = (row, columnId, filterValue) => {
@@ -44,13 +45,11 @@ export const columns: ColumnDef<Appointment>[] = [
     accessorKey: "donationDate",
     header: ({ column }) => {
       return (
-        <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-2"
+        <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           <p>Date</p>
-          <div className={`${column.getIsSorted() === "asc" ? "rotate-90" : "-rotate-90"} duration-300`}>
-            <Arrow direction="right" stroke="2"  width="10" height="10"/>
-          </div>
+          <ChevronsUpDown  className="mt-[2px]" width={15} height={15}/>
         </div>
       )
     },
@@ -63,13 +62,11 @@ export const columns: ColumnDef<Appointment>[] = [
     accessorKey: "donationTime",
     header: ({ column }) => {
       return (
-        <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-2"
+        <div className="font-semibold text-n-900 cursor-pointer flex items-center gap-1"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
+        > 
           <p>Time</p>
-          <div className={`${column.getIsSorted() === "asc" ? "rotate-90" : "-rotate-90"} duration-300`}>
-            <Arrow direction="right" stroke="2"  width="10" height="10"/>
-          </div>
+          <ChevronsUpDown  className="mt-[2px]" width={15} height={15}/>
         </div>
       )
     },

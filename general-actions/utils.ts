@@ -30,6 +30,8 @@ export const getUser = cache(async()=>{
       zip: userTable.zip,
       province: userTable.province,
       isEligible: userTable.isEligible,
+      bloodTypeCode: userTable.bloodType,
+      countryName: countries.countryName,
 
     }).from(userTable)
     .where(eq(userTable.id, user.id))

@@ -23,7 +23,7 @@ export default function EventPage({}: Props) {
           <Event image="/images/test.jpg"/>
           <Event image="/images/blood.jpg"/>
           <Event image="/images/test1.jpg"/>
-          <Event image="/images/blood.jpg"/>
+          <Event image="/images/test2.jpg"/>
 
         </div>
 

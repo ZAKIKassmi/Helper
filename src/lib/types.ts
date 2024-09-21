@@ -359,6 +359,11 @@ export type Donors = {
     date: string;
   }
 
+  export type Appointment = {
+    id: string;
+    donationTime: string | null;
+    donationDate: string;
+  }
 
   export type BloodBanksSettingPagePropsType = {
     id: string;

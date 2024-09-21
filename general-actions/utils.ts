@@ -14,6 +14,14 @@ export const getUser = cache(async()=>{
   if(!user){
     return null;
   }
+  try{
+    const res = await db.select().from(userTable).where(eq(userTable.id, user.id));
+    return res[0];
+  }
+  catch{
+    throw new Error('Could not fetch user data');
+  }
+
 })
 
 
@@ -148,3 +156,21 @@ export const getAllBloodBankInformation = (async()=>{
 
 
 })
+
+
+
+export async function getUserAppointments() {
+  const {user} = await validateRequest();
+
+  if(!user){
+    return null;
+  }
+
+  const res = await db.select({
+    id: appointments.id,
+    donationDate: appointments.appointmentDate,
+    donationTime: appointments.appointmentTime,
+  }).from(appointments).where(eq(appointments.userId, user.id));
+
+  return res;
+}

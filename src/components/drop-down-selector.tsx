@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import { LoadingSpinner } from './ui/loading-spinner';
 
 
-export default function DropDownSelector({form, type, className}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string}) {
+export default function DropDownSelector({form, type, className, isDescriptionVisible=true}: {form: any, type: 'bloodBank' | 'country' | 'donation', className?: string, isDescriptionVisible?: boolean}) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<any>([]);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
@@ -150,7 +150,7 @@ export default function DropDownSelector({form, type, className}: {form: any, ty
             </Popover>
             <FormMessage />
             {
-              type == "country" &&
+              type == "country" && isDescriptionVisible &&
                 <FormDescription>
                   Please verify your data before submitting
                 </FormDescription>

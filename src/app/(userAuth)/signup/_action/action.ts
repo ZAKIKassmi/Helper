@@ -8,6 +8,7 @@ import { eq } from 'drizzle-orm';
 import { setSession } from '@/lib/session';
 import { rateLimitByIp } from '@/lib/limiter';
 import { createFilePath } from '@/lib/create-file-path';
+import { countriesCodes } from '@/data/countries';
 
 
 export async function createUser(_: any, formData: FormData ):Promise<{name: SignUpFormNameTypes, errorMessage: string, isToast: boolean,isError:boolean}[]>{
@@ -22,6 +23,9 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
     const bloodType = formData.get('bloodType') as unknown as number;
     const address = formData.get('address') as string;
     const picture = formData.getAll('picture') as File[];
+    const province = formData.get('province') as string;
+    const zip = formData.get('zip') as string;
+    const countryName = formData.get('country') as string;
 
     if(picture[1].name.length === 0){
         return[{
@@ -61,7 +65,12 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
         bloodType,
         address,
         picture,
+        province,
+        zip,
+        country: countryName
     });
+
+    const countryObject = countriesCodes.find((c)=>countryName === c.name);
 
     let errors: {name:  SignUpFormNameTypes, errorMessage: string, isToast:boolean, isError: boolean}[] = [];
 
@@ -146,7 +155,9 @@ export async function createUser(_: any, formData: FormData ):Promise<{name: Sig
             phoneNumber,
             bloodType,
             pictureUrl: filePath,
-
+            province,
+            zip,
+            countryCode: countryObject?.id as number,
         }).returning({
             id: userTable.id    
         });

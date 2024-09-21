@@ -49,8 +49,8 @@ export default async function AccountPage() {
         <div className='text-p-n border-b border-b-n-40 py-6'>
           <h2 className='text-n-900 font-bold text-p-n mb-4 '>Address</h2>
           <SettingInfoLine icon='home-hospital' name='Address: ' value={res[0]?.user_table.address as string}/>
-          <SettingInfoLine icon='map' name='City/Province: ' value="province"/>
-          <SettingInfoLine icon='location-med' name='Zip Code: ' value="11004"/>
+          <SettingInfoLine icon='map' name='City/Province: ' value={res[0]?.user_table.province as string}/>
+          <SettingInfoLine icon='location-med' name='Zip Code: ' value={res[0]?.user_table.zip as string}/>
         </div>
 
 

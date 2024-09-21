@@ -24,6 +24,7 @@ import { PhoneInput } from '../ui/phone-number';
 import CustomCalendar from '../custom-calendar';
 import PasswordInput from '../password-input';
 import CustomUpload from '../custom-upload';
+import DropDownSelector from '../drop-down-selector';
  
 
 export default function CustomForm() {
@@ -40,6 +41,8 @@ export default function CustomForm() {
             confirmPassword: '',
             address: '',
             phoneNumber: '',
+            province: '',
+            zip: ''
         }   
     });
     const router = useRouter();
@@ -156,6 +159,38 @@ export default function CustomForm() {
                     )}
                     >
                 </FormField>
+                <div className='flex justify-between gap-4 csz:gap-2 flex-wrap'>
+
+                    <FormField 
+                        name="province"
+                        control={form.control}
+                        render={({field})=>(
+                        <FormItem className='flex-1 min-w-40'>
+                            <FormControl>
+                                <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Province or state" type="text"  {...field}   
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>  
+                        )}
+                        >
+                    </FormField>
+                    <FormField 
+                        name="zip"
+                        control={form.control}
+                        render={({field})=>(
+                        <FormItem  className='flex-1 min-w-40'>
+                            <FormControl>
+                                <Input className='focus-visible:ring-n-40 focus-visible:ring-offset-n-40' placeholder="Postal code" type="text"  {...field}   
+                                />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>  
+                        )}
+                        >
+                    </FormField>
+                </div>
+
             
 
             <PasswordInput form={form} name="password"/>
@@ -191,10 +226,10 @@ export default function CustomForm() {
                     </FormItem>  
                 )}
             />
+            <DropDownSelector isDescriptionVisible={false} type='country' form={form}/>
 
 
             <CustomUpload name='picture' form={form} placeholder='Upload image'/>
-                         
 
 
            <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" disabled={form.formState.isSubmitting}>

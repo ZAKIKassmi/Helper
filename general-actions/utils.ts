@@ -15,9 +15,26 @@ export const getUser = cache(async()=>{
     return null;
   }
   try{
-    const res = await db.select().from(userTable)
+    const res = await db.select({
+      id: userTable.id,
+      gender: userTable.gender,
+      firstName: userTable.firstName,
+      lastName: userTable.lastName,
+      username: userTable.username,
+      bloodTypeName: bloodTypes.bloodTypeName,
+      email: userTable.email,
+      dialCode: countries.dialCode,
+      phoneNumber: userTable.phoneNumber,
+      birthday: userTable.dateOfBirth,
+      address: userTable.address,
+      zip: userTable.zip,
+      province: userTable.province,
+      isEligible: userTable.isEligible,
+
+    }).from(userTable)
     .where(eq(userTable.id, user.id))
     .innerJoin(bloodTypes, eq(bloodTypes.id, userTable.bloodType))
+    .innerJoin(countries, eq(countries.id, userTable.countryCode));
     ;
     return res[0];
   }

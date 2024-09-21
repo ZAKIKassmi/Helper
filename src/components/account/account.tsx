@@ -1,11 +1,11 @@
 import Image from "next/image";
 import SettingInfoLine from "../dashboard/setting-info-line";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {UserAppointmentTable} from "./user-appointements-table";
 import { getUser, getUserAppointments } from "../../../general-actions/utils";
 import { columns } from "./columns";
 import { formatRFC7231 } from "date-fns";
 import { Appointment } from "@/lib/types";
+import { ScrollArea } from "../ui/scroll-area";
 
 export default async function AccountPage() {
 
@@ -24,34 +24,41 @@ export default async function AccountPage() {
           </div>
           <div>
               {
-              res[0]?.user_table?.firstName ?
+              res[0]?.firstName ?
                 <h1 className='text-h4-d font-bold'>
-                {res[0]?.user_table?.firstName} {res[0]?.user_table.lastName}
+                {res[0]?.firstName} {res[0]?.lastName}
                 </h1>
                 : 
                 <h1 className="text-h4-d font-bold">
-                  {res[0]?.user_table?.username}
+                  {res[0]?.username}
                 </h1>
               }
-            <p>
-              {res[0]?.blood_types.bloodTypeName}
+            <p className="text-muted-foreground">
+              Blood type: {res[0]?.bloodTypeName}
             </p>
           </div>
         </div>
+      
+      <ScrollArea>
 
         <div className='text-p-n border-b border-b-n-40 py-6'>
           <h2 className='text-n-900 font-bold text-p-n mb-4'>Personal Informations</h2>
-          <SettingInfoLine icon='email' name='Email: ' value={res[0]?.user_table.email as string}/>
-          <SettingInfoLine icon='phone' name='Phone number: ' value="153"/>
-          <SettingInfoLine icon='date' name='Birthday: ' value={formatRFC7231(new Date("2003-07-07")).slice(0, 16)}/>
+          <SettingInfoLine icon='email' name='Email: ' value={res[0]?.email as string}/>
+          <SettingInfoLine icon='phone' name='Phone number: ' value={`(${res[0]?.dialCode}) ${res[0]?.phoneNumber!.slice(res[0].dialCode.length)}`}/>
+          <SettingInfoLine icon='date' name='Birthday: ' value={formatRFC7231(new Date(res[0]?.birthday!)).slice(0, 16)}/>
+          <SettingInfoLine icon={res[0]?.gender === 'Male' ? 'male' : 'female'} name='Gender: ' value={res[0]?.gender!}/>
+          <SettingInfoLine icon='blood' name='Blood type: ' value={res[0]?.bloodTypeName!}/>
         </div>
 
         <div className='text-p-n border-b border-b-n-40 py-6'>
           <h2 className='text-n-900 font-bold text-p-n mb-4 '>Address</h2>
-          <SettingInfoLine icon='home-hospital' name='Address: ' value={res[0]?.user_table.address as string}/>
-          <SettingInfoLine icon='map' name='City/Province: ' value={res[0]?.user_table.province as string}/>
-          <SettingInfoLine icon='location-med' name='Zip Code: ' value={res[0]?.user_table.zip as string}/>
+          <SettingInfoLine icon='home-hospital' name='Address: ' value={res[0]?.address as string}/>
+          <SettingInfoLine icon='map' name='City/Province: ' value={res[0]?.province as string}/>
+          <SettingInfoLine icon='location-med' name='Zip Code: ' value={res[0]?.zip as string}/>
         </div>
+        
+        
+        </ScrollArea>
 
 
       </div>

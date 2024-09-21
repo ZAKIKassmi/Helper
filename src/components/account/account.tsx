@@ -34,7 +34,7 @@ export default async function AccountPage() {
                 </h1>
               }
             <p className="text-muted-foreground">
-              Blood type: {res[0]?.bloodTypeName}
+              Credits: 100 points
             </p>
           </div>
         </div>

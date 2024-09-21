@@ -5,7 +5,7 @@ import { db } from "@/drizzle/db";
 import { appointments, bloodBanks, bloodTypes, certifications, countries, facilityDetails, userTable, workingDaysHours } from "@/drizzle/schema";
 import { validateBloodBankRequest, validateRequest } from "@/lib/auth";
 import { and, asc, eq, or, sql } from "drizzle-orm";
-import { unstable_cache } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getYesterdayTodayTomorrow } from '@/lib/get-yesterday-today-tomorrow';
 
@@ -191,8 +191,22 @@ export async function getUserAppointments() {
   const res = await db.select({
     id: appointments.id,
     donationDate: appointments.appointmentDate,
-    donationTime: appointments.appointmentTime,
-  }).from(appointments).where(eq(appointments.userId, user.id));
+    donationTime: sql<string>`SUBSTRING(${appointments.appointmentTime}::text FROM 1 FOR 5)`,
+    bloodBank: bloodBanks.name,
+  }).from(appointments).where(eq(appointments.userId, user.id))
+  .innerJoin(bloodBanks, eq(appointments.bloodBankId, bloodBanks.id));
 
   return res;
+}
+
+
+export async function deleteAppointment(id:string){
+  const {user} = await validateRequest();
+  if(!user){
+    return null;
+  }
+
+
+  await db.delete(appointments).where(eq(appointments.id, id));
+  revalidatePath('/account');
 }

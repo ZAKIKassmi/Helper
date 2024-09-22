@@ -144,8 +144,6 @@ export default function UserSignUpInputs({form, isVisible=true}: Props) {
             name='bloodType' 
             control={form.control}/>
             
-
-            
             <FormField
                 name="phoneNumber"
                 control={form.control}
@@ -160,7 +158,6 @@ export default function UserSignUpInputs({form, isVisible=true}: Props) {
                 )}
             />
             <DropDownSelector isDescriptionVisible={false} type='country' form={form}/>
-
             {
                 isVisible && 
             <CustomUpload name='picture' form={form} placeholder='Upload image'/>

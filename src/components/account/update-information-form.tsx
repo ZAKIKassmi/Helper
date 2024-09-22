@@ -7,8 +7,9 @@ import UserSignUpInputs from '../user-forms/user-sign-up-inputs';
 import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
 import { updateUserInformation } from '@/app/(user)/account/_action/upate-user-information';
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import { toast } from 'sonner';
+import { LoadingSpinner } from '../ui/loading-spinner';
 
 
 type Props = {
@@ -31,6 +32,7 @@ export default function UpdateUserInformation({data}: Props) {
     message:  '',
     isError: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<Omit<TUserSchema, 'dateOfBirth' | 'password' | 'confirmPassword' | 'picture'>>({
     defaultValues: {
       email: data.email || '',
@@ -47,12 +49,16 @@ export default function UpdateUserInformation({data}: Props) {
   });
 
   useEffect(()=>{
-    if(state?.isError && state.message.length > 0){
-      toast.error(state.message);
+    if(state){
+      if(state?.isError && state.message){
+        toast.error(state.message);
+      }
+      else if(!state?.isError && state.message){
+        toast.success(state?.message && state.message);
+        setIsSubmitting(false);
+      }
     }
-    else{
-      toast.success(state?.message && state.message.length > 0);
-    }
+    
   }, [state]);
 
   
@@ -76,6 +82,7 @@ export default function UpdateUserInformation({data}: Props) {
         toast.success("Everything is up to date");
       }
       else{
+        setIsSubmitting(true);
         formAction(formData);   
       }      
     }
@@ -84,7 +91,7 @@ export default function UpdateUserInformation({data}: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className='p-4 flex flex-col gap-4'>
           <UserSignUpInputs form={form} isVisible={false}/>
           <Button className='bg-c-red-500 hover:bg-c-red-600' >
-            Update Information
+            {isSubmitting ? <LoadingSpinner className='fill-c-red-500'/> : <p>Update Information</p>}
           </Button>
       </form>
     </Form>

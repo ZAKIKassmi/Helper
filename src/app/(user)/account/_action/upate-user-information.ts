@@ -5,6 +5,7 @@ import { userTable } from '@/drizzle/schema';
 import { validateRequest } from '@/lib/auth';
 import { TUserSchema, userSchema } from "@/lib/types";
 import { eq, SQL } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 import { permanentRedirect } from 'next/navigation';
 import { z } from 'zod';
 
@@ -16,12 +17,14 @@ type ChangedPropertiesType = Partial<{
   phoneNumber: string | SQL<unknown>;
   province: string | SQL<unknown>;
   zip: string | SQL<unknown>;
+  gender: 'Male' | 'Female' | SQL<unknown>;
   bloodType: number;
   countryCode: number;
   country: string;
 }>;
 
-export async function updateUserInformation(_: any, formData: FormData) {
+export async function updateUserInformation(_: any, formData: FormData):
+Promise<{message: string, isError:boolean}>{
   // Validate user session
   const { user } = await validateRequest();
   if (!user) {
@@ -40,6 +43,7 @@ export async function updateUserInformation(_: any, formData: FormData) {
     province: '',
     zip: '',
     bloodType: '',
+    gender: undefined,
     country: '',
   };
 
@@ -78,9 +82,9 @@ export async function updateUserInformation(_: any, formData: FormData) {
       }
     }
   }
-
+  console.log(data);
   if (Object.keys(changedProperties).length === 0) {
-    return { message: 'No changes detected' };
+    return { message: 'No changes detected', isError: false };
   }
 
   // Dynamically create a Zod schema based on the changed properties
@@ -107,15 +111,18 @@ export async function updateUserInformation(_: any, formData: FormData) {
   // Perform the database update with validated changed properties
   try{
     await db.update(userTable).set(changedProperties).where(eq(userTable.id, user.id));
+    revalidatePath('/account');
+    return{
+      message: "Data has been updated successfully",
+      isError: false,
+    }
   }
   catch(e){
-    console.log(e);
     return{
       message: "Oops! something went wrong while updating the user data.",
       isError: true,
     }
   }
-  permanentRedirect('/account');
 
   // return { message: 'User information updated successfully', updatedFields: changedProperties };
 }

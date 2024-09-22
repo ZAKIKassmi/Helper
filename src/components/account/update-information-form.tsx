@@ -52,6 +52,7 @@ export default function UpdateUserInformation({data}: Props) {
     if(state){
       if(state?.isError && state.message){
         toast.error(state.message);
+        setIsSubmitting(false);
       }
       else if(!state?.isError && state.message){
         toast.success(state?.message && state.message);
@@ -78,12 +79,15 @@ export default function UpdateUserInformation({data}: Props) {
         }
       });
 
+      formData.append('reservedGender', data.gender);
+
       if(!inputChanged){
         toast.success("Everything is up to date");
       }
       else{
         setIsSubmitting(true);
-        formAction(formData);   
+        formAction(formData); 
+        console.log(form.formState.isSubmitting);  
       }      
     }
   return (

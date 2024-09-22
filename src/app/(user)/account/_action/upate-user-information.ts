@@ -3,7 +3,7 @@ import { countriesCodes } from '@/data/countries';
 import { db } from '@/drizzle/db';
 import { userTable } from '@/drizzle/schema';
 import { validateRequest } from '@/lib/auth';
-import { TUserSchema, userSchema } from "@/lib/types";
+import { Gender, TUserSchema, userSchema } from "@/lib/types";
 import { eq, SQL } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { permanentRedirect } from 'next/navigation';
@@ -42,13 +42,16 @@ Promise<{message: string, isError:boolean}>{
     phoneNumber: '',
     province: '',
     zip: '',
+    gender: formData.get('gender') as Gender || formData.get('reservedGender') as Gender,
     bloodType: '',
-    gender: undefined,
     country: '',
   };
 
   formData.forEach((value, key) => {
     if (key in data) {
+      if(key === 'gender' || key === 'reserverGender'){
+        return;
+      }
       //@ts-ignore
       data[key as keyof Omit<TUserSchema, 'password' | 'confirmPassword' | 'picture' | 'dateOfBirth'>] = value as string;
     }
@@ -103,6 +106,7 @@ Promise<{message: string, isError:boolean}>{
 
   // Validate the changed properties
   const result = dynamicSchema.safeParse(changedProperties);
+  console.log(result.error?.issues);
   if (!result.success) {
     return { message: 'Validation failed', isError: true };
   }
@@ -124,5 +128,4 @@ Promise<{message: string, isError:boolean}>{
     }
   }
 
-  // return { message: 'User information updated successfully', updatedFields: changedProperties };
 }

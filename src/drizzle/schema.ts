@@ -27,7 +27,7 @@ export const userTable = pgTable('user_table', {
     zip: varchar('zip', {length: 20}),
     province: varchar('province', {length: 255}),
     bloodType: integer('blood_type').references(() => bloodTypes.id, {
-        onDelete: 'cascade',
+        onDelete: "restrict",
     })
 },(table)=>{
     return{

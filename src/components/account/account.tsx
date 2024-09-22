@@ -4,7 +4,7 @@ import {UserAppointmentTable} from "./user-appointements-table";
 import { getUser, getUserAppointments } from "../../../general-actions/utils";
 import { columns } from "./columns";
 import { formatRFC7231 } from "date-fns";
-import { Appointment } from "@/lib/types";
+import { Appointment, Gender } from "@/lib/types";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -78,14 +78,14 @@ export default async function AccountPage() {
                 firstName: res[0].firstName,
                 lastName: res[0].lastName,
                 email: res[0].email,
-                gender: res[0].gender,
+                gender: res[0].gender as Gender,
                 phoneNumber: res[0].phoneNumber,
                 address: res[0].address,
                 zip: res[0].zip,
                 province: res[0].province,
-                dateOfBirth: new Date(res[0].birthday as string),
                 bloodType: String(res[0].bloodTypeCode),
                 country: res[0].countryName,
+
               }}/>
             </ScrollArea>
           

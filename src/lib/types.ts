@@ -1,5 +1,6 @@
 import {z} from 'zod';
-enum Gender {
+
+export enum Gender {
     Female= "Female",
     Male= "Male",
 }
@@ -65,6 +66,9 @@ export const userSchema = z.object({
     }).max(60,{
         message: "Please enter a valid country name",
     }),
+    countryCode: z.number().min(1,{
+        message: "Please enter a number."
+    }).optional(),
 });
 
 

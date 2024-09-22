@@ -125,12 +125,12 @@ export default function UserSignUpInputs({form, isVisible=true}: Props) {
                     <>
                     <PasswordInput form={form} name="password"/>
                     <PasswordInput form={form} name='confirmPassword'/>
+                    <CustomCalendar name='dateOfBirth' form={form} placeholder='Your birthday'/>
                     </>
                 )
             }
 
             
-            <CustomCalendar name='dateOfBirth' form={form} placeholder='Your birthday'/>
 
             <CustomSelect 
             placeholder='Please select your gender.' 

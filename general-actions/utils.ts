@@ -32,6 +32,7 @@ export const getUser = cache(async()=>{
       isEligible: userTable.isEligible,
       bloodTypeCode: userTable.bloodType,
       countryName: countries.countryName,
+      countryCode: userTable.countryCode,
 
     }).from(userTable)
     .where(eq(userTable.id, user.id))

@@ -124,11 +124,11 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
 
       {isLoggedIn ? (
         userType === "bloodBank" ? (
-          <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 hidden md:block rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          <Link href="/dashboard" className='p-3 pl-3 pr-3 bg-c-red-500 rounded-md hidden md:block text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Dashboard
         </Link> 
         ) : (
-          <Link href="/Account" className='p-3 pl-3 pr-3 bg-c-red-500 hidden md:block rounded text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
+          <Link href="/account" className='p-3 pl-3 pr-3 bg-c-red-500 hidden md:block rounded-md text-white transition duration-150 ease-in-out text-base leading-[110%] hover:bg-c-red-700'>
           Account
         </Link> 
         )

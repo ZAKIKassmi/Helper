@@ -3,6 +3,7 @@
 import { db } from "@/drizzle/db";
 import { appointments, bloodBanks } from "@/drizzle/schema";
 import { validateRequest } from "@/lib/auth";
+import { getGapInDay } from "@/lib/get-gap-in-days";
 import { appointmentSchema, TAppointmentSchema } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -53,13 +54,33 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
     }
 
     try{
-      await db.insert(appointments).values({
-        appointmentDate: date,
-        appointmentTime: time,
-        userId: user.id,
-        bloodBankId: res[0].id,
-        donationGap: interval,
-      });
+      const gapInDays = getGapInDay(interval);
+      console.log(gapInDays);
+      let currentDate = new Date(date);
+      const appointmentsPromise = [];
+      appointmentsPromise.push(
+        db.insert(appointments).values({
+          appointmentDate: date,
+          appointmentTime: time,
+          userId: user.id,
+          bloodBankId: res[0].id,
+          donationGap: interval,
+        })
+      )
+      for(let i =0; i<9; i++){ 
+          currentDate.setDate(currentDate.getDate()+gapInDays);
+          appointmentsPromise.push(
+            db.insert(appointments).values({
+              appointmentDate: currentDate.toISOString().split('T')[0],
+              appointmentTime: time,
+              userId: user.id,
+              bloodBankId: res[0].id,
+              donationGap: interval,
+            })
+          )
+      }
+      await Promise.all(appointmentsPromise);
+      revalidatePath('/account');
       revalidatePath('/donors');
       return[{
         name: "bloodBank",

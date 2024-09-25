@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Hand from "../hand";
 
 export default function AnimatedHeroSection() {

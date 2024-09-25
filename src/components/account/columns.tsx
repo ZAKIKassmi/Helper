@@ -81,7 +81,12 @@ export const columns: ColumnDef<Appointment>[] = [
     cell: ({row})=>{
       const date = row.original;
       return formatRFC7231(new Date(date.donationDate)).slice(0, 16);
-    }
+    },
+    sortingFn: (rowA, rowB) => {
+      const dateA = new Date(rowA.getValue("donationDate"));
+      const dateB = new Date(rowB.getValue("donationDate"));
+      return dateA.getTime() - dateB.getTime();
+    },
   },
   {
     accessorKey: "donationTime",

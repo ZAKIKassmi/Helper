@@ -51,7 +51,7 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
   return (
     <nav
       className={cn(
-        "flex w-full justify-between pr-4 pl-4 pt-3 pb-3 items-center lg:px-20 2xl:pr-[7.5rem] 2xl:pl-[7.5rem]   border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
+        "flex w-full max-w-[95rem] justify-between pr-4 pl-4 pt-3 pb-3 items-center lg:px-20 2xl:pr-[7.5rem] 2xl:pl-[7.5rem]   border-b-n-30 border-b fixed bg-white z-50 transition-transform duration-300",
         {
           "-translate-y-full": !isVisible,
           "translate-y-0": isVisible,

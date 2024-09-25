@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue>{
   columns: ColumnDef<TData, TValue>[];
@@ -70,9 +71,17 @@ export function UserAppointmentTable<TData, TValue>({
     
 
 
-    <div className="flex-1 text-sm text-muted-foreground my-2">
+    <div className="flex-1 text-sm text-muted-foreground my-2 flex w-full items-center justify-between ">
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} row(s) selected.
+      {
+        table.getFilteredRowModel().rows.length == 0 &&
+        <Button asChild className="bg-c-red-500 hover:bg-c-red-600">
+          <Link href="/appointment">
+            Take an appoinmtent
+          </Link>
+        </Button>
+      }
     </div>
          
     <div className="rounded-md border text-n-900">

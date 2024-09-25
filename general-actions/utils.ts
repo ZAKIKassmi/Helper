@@ -33,7 +33,7 @@ export const getUser = cache(async()=>{
       bloodTypeCode: userTable.bloodType,
       countryName: countries.countryName,
       countryCode: userTable.countryCode,
-
+      profilePicture: userTable.pictureUrl,
     }).from(userTable)
     .where(eq(userTable.id, user.id))
     .innerJoin(bloodTypes, eq(bloodTypes.id, userTable.bloodType))

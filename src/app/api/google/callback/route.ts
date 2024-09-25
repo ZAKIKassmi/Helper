@@ -60,6 +60,8 @@ export async function GET(request: Request):Promise<Response>{
       })
     }
 
+    console.log(googleUser);
+
     const user = await db.insert(userTable).values({
       firstName: googleUser.given_name || '',
       lastName: googleUser.family_name || '',
@@ -67,8 +69,16 @@ export async function GET(request: Request):Promise<Response>{
       password: '',
       username: googleUser.name || null,
       googleId: googleUser.sub,
-      emailVerified: true,
+      emailVerified: googleUser.email_verified,
       pictureUrl: googleUser.picture,
+      isEligible: false,
+      phoneNumber: '',
+      gender: null,
+      address: googleUser.address,
+      zip: 'Not Available',
+      province: 'Not Available',
+      bloodType: 1,
+      countryCode: 145
     }).returning({
       id: userTable.id,
     });

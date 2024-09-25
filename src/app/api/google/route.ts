@@ -6,7 +6,7 @@ export async function GET():Promise<Response> {
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const url = await googleAuth.createAuthorizationURL(state, codeVerifier,{
-    scopes: ["profile","email"]
+    scopes: ["profile", "email", "https://www.googleapis.com/auth/cloud-platform", "https://www.googleapis.com/auth/user.addresses.read"]
   });
 
   cookies().set('google_oauth_state',state,{

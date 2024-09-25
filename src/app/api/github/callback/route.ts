@@ -71,20 +71,20 @@ export async function GET(request: Request): Promise<Response> {
 
       }
 
-      const user = await db.insert(userTable).values({
-        firstName: '',
-        lastName: '',
-        email: githubUser.email || '',
-        password: '',
-        githubId: gitId,
-        username: githubUser.login,
-        emailVerified: true,
-        pictureUrl: githubUser.avatar_url
-      }).returning({
-        id: userTable.id    
-    });
+    //   const user = await db.insert(userTable).values({
+    //     firstName: '',
+    //     lastName: '',
+    //     email: githubUser.email || '',
+    //     password: '',
+    //     githubId: gitId,
+    //     username: githubUser.login,
+    //     emailVerified: true,
+    //     pictureUrl: githubUser.avatar_url
+    //   }).returning({
+    //     id: userTable.id    
+    // });
 
-      await setSession(user[0].id);
+      // await setSession(user[0].id);
       return new Response(null, {
         status: 302,
         headers: {

@@ -36,7 +36,7 @@ export default function CustomCard({title,description,isSignUp, className}: Prop
   },[]);
 
   return (
-    <div ref={ref} className={cn(`min-w-[150px] csxxs:min-w-[300px] p-8 border border-n-70 flex flex-col gap-6 rounded-lg min-h-[230px]  ${className}`,{
+    <div ref={ref} className={cn(`min-w-[150px] csxxs:min-w-[300px] lg:min-w-[400px] p-8 border border-n-70 flex flex-col gap-6 rounded-lg min-h-[230px]  ${className}`,{
       "animate-translate-y-fade-in-fast-then-float": isIntersecting,
     })}>
       <div className='flex flex-col gap-2'>

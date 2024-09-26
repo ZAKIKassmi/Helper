@@ -7,6 +7,7 @@ import { getGapInDay } from "@/lib/get-gap-in-days";
 import { appointmentSchema, TAppointmentSchema } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { Queue } from "bullmq";
 
 
 
@@ -15,6 +16,8 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
   const date = new Date(formData.get('date') as string).toISOString().split('T')[0];
   const time = formData.get('time') as string;
   const interval = formData.get('interval') as unknown as number;
+
+  
 
   const {user} = await validateRequest();
   if(!user){
@@ -55,29 +58,41 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
 
     try{
       const gapInDays = getGapInDay(interval);
-      console.log(gapInDays);
+      //create a queue using BullMQ to send email everytime an appointment is close.
+      const emailQueue = new Queue('emailQueue', {
+        connection: {
+          host: 'localhost',
+          port: 6379,
+        }
+      });
       let currentDate = new Date(date);
       const appointmentsPromise = [];
-      appointmentsPromise.push(
-        db.insert(appointments).values({
-          appointmentDate: date,
-          appointmentTime: time,
-          userId: user.id,
-          bloodBankId: res[0].id,
-          donationGap: interval,
-        })
-      )
-      for(let i =0; i<9; i++){ 
-          currentDate.setDate(currentDate.getDate()+gapInDays);
-          appointmentsPromise.push(
-            db.insert(appointments).values({
-              appointmentDate: currentDate.toISOString().split('T')[0],
-              appointmentTime: time,
-              userId: user.id,
-              bloodBankId: res[0].id,
-              donationGap: interval,
-            })
-          )
+
+      for(let i =0; i<10; i++){
+        if(i===0){
+            appointmentsPromise.push(
+              db.insert(appointments).values({
+                appointmentDate: date,
+                appointmentTime: time,
+                userId: user.id,
+                bloodBankId: res[0].id,
+                donationGap: interval,
+              })
+            )
+            continue;
+          }
+          else{
+            currentDate.setDate(currentDate.getDate()+gapInDays);
+            appointmentsPromise.push(
+              db.insert(appointments).values({
+                appointmentDate: currentDate.toISOString().split('T')[0],
+                appointmentTime: time,
+                userId: user.id,
+                bloodBankId: res[0].id,
+                donationGap: interval,
+              })
+            )
+          }
       }
       await Promise.all(appointmentsPromise);
       revalidatePath('/account');

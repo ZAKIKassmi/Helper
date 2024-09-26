@@ -20,7 +20,7 @@ export default async function AccountPage() {
   const data = getUserAppointments();
 
   const res = await Promise.all([user, data]);
-
+  console.log(res[0].profilePicture?.split('/').pop());
   return (
 
     res[0] && res[1] ? 
@@ -30,7 +30,7 @@ export default async function AccountPage() {
         <div className='flex w-full items-start flex-col sm:items-center sm:flex-row gap-4'>
           <div className="relative w-32 h-32 rounded-full flex items-center justify-center">
             <Input type="file" title="Update profile picture" className="absolute z-20 h-full rounded-full opacity-0"/>
-            <Image src={res[0].profilePicture as string} fill alt="Profile image" className="rounded-full object-cover"/>
+            <Image src={`/uploads/user-pictures/${res[0].profilePicture?.split('\\').pop()}`} fill alt="Profile image" className="rounded-full object-cover"/>
           </div>
           <div>
               {

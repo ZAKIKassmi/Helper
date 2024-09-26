@@ -88,7 +88,7 @@ export default function CustomForm() {
 
 
            <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" 
-           variant={form.formState.isSubmitting ? "ghost" : "default"} disabled>
+           variant={form.formState.isSubmitting ? "ghost" : "default"}>
                 Sign Up
             </Button>
 

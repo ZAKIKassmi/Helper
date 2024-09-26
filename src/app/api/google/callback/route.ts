@@ -78,6 +78,7 @@ export async function GET(request: Request):Promise<Response>{
       zip: 'Not Available',
       province: 'Not Available',
       bloodType: 1,
+      //TODO: USE GOOGLE API TO GET THE CLIENT COUNTRY;
       countryCode: 145
     }).returning({
       id: userTable.id,

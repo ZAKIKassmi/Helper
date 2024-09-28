@@ -1,8 +1,5 @@
 import { validateBloodBankRequest, validateRequest } from '@/lib/auth'
-import Header from '../header'
-
-// export const experimental_ppr = true
-
+import Header from '../header';
 
 export default async function HeaderContainer() {
   let isLoggedIn = false;

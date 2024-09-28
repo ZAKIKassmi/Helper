@@ -1,5 +1,4 @@
 import Footer from "@/components/footer";
-import Header from "@/components/header";
 import HeaderContainer from "@/components/home/header-container";
 import AnimatedHeroSection from "@/components/home/hero-section-animated";
 import HowWeWork from "@/components/home/how-we-work";

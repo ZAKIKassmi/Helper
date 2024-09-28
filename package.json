@@ -47,6 +47,7 @@
     "lucia": "^3.2.0",
     "lucide-react": "^0.427.0",
     "next": "^14.2.13",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.14",
     "oslo": "^1.2.1",
     "pg": "^8.12.0",
@@ -58,6 +59,7 @@
     "react-phone-number-input": "^3.4.5",
     "react-wrap-balancer": "^1.1.1",
     "recharts": "^2.12.7",
+    "sharp": "^0.33.5",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
@@ -70,6 +72,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/node-cron": "^3.0.11",
     "@types/nodemailer": "^6.4.15",
     "@types/pg": "^8.11.6",
     "@types/react": "^18",

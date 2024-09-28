@@ -130,7 +130,7 @@ export const getFacilityDetails = cache(async()=>{
 });
 
 
-export const getAllBloodBankInformation = (async()=>{
+export const getAllBloodBankInformation = cache(async()=>{
   const {user} = await validateBloodBankRequest();
   if(!user){
     return null;
@@ -180,11 +180,11 @@ export const getAllBloodBankInformation = (async()=>{
 
 
 
-})
+});
 
 
 
-export async function getUserAppointments() {
+export const getUserAppointments = cache(async()=> {
   const {user} = await validateRequest();
 
   if(!user){
@@ -200,7 +200,7 @@ export async function getUserAppointments() {
   .innerJoin(bloodBanks, eq(appointments.bloodBankId, bloodBanks.id));
 
   return res;
-}
+})
 
 
 export async function deleteAppointment(id:string){

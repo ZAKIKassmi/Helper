@@ -4,7 +4,9 @@ import { mailOptions, transporter } from "./nodemailer";
 
 const emailQueue = new Queue('emailQueue', {
   connection,
+  
 });
+
 
 
 export default emailQueue;
@@ -47,7 +49,7 @@ emailWorker.on("completed", (job)=>{
 })
 
 emailWorker.on('failed', (job, err) => {
-  throw new Error(`Job Failed:\n Job id=${job?.id} \n Error: ${err}`);
+  console.error(`Job Failed:\n Job id=${job?.id} \n Error: ${err}`);
 });
 
 

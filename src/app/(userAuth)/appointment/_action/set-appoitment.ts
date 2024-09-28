@@ -72,7 +72,7 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
               })
             );
             
-            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: date}, {delay: 5000, attempts:3});
+            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: date}, {attempts:3});
 
 
             continue;
@@ -88,7 +88,7 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
                 donationGap: interval,
               })
             )
-            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: currentDate.toISOString().split('T')[0]},{delay: i*10000, attempts: 3});
+            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: currentDate.toISOString().split('T')[0]},{attempts: 3});
           }
       }
       await Promise.all(appointmentsPromise);

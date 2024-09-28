@@ -13,7 +13,7 @@ export default emailQueue;
 
 
 const emailWorker = new Worker('emailQueue', async(job)=>{
-  const {email, appointmentDate} = job.data;
+  const {email, appointmentDate, firstName, lastName} = job.data;
   console.log(`Job is being processed by worker: ${job.id}`);
 
 
@@ -30,7 +30,7 @@ const emailWorker = new Worker('emailQueue', async(job)=>{
             </h1>
             <div style="margin-bottom: 24px;">
               <h2 style="font-size: 20px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">
-                Hello user,
+                Hello ${firstName} ${lastName},
               </h2>
               <p>This is a helper reminder for your upcomming blood donation appointemnt on ${appointmentDate}</p>
             </div>

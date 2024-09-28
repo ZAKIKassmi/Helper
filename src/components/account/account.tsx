@@ -20,7 +20,6 @@ export default async function AccountPage() {
   const data = getUserAppointments();
 
   const res = await Promise.all([user, data]);
-  console.log(res[0].profilePicture?.split('/').pop());
   return (
 
     res[0] && res[1] ? 

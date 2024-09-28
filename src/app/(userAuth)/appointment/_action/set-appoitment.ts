@@ -1,5 +1,4 @@
 "use server";
-
 import { db } from "@/drizzle/db";
 import { appointments, bloodBanks } from "@/drizzle/schema";
 import { validateRequest } from "@/lib/auth";
@@ -7,7 +6,7 @@ import { getGapInDay } from "@/lib/get-gap-in-days";
 import { appointmentSchema, TAppointmentSchema } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { Queue } from "bullmq";
+import emailQueue from "@/lib/email-reminder-queue-and-worker";
 
 
 
@@ -58,13 +57,6 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
 
     try{
       const gapInDays = getGapInDay(interval);
-      //create a queue using BullMQ to send email everytime an appointment is close.
-      const emailQueue = new Queue('emailQueue', {
-        connection: {
-          host: 'localhost',
-          port: 6379,
-        }
-      });
       let currentDate = new Date(date);
       const appointmentsPromise = [];
 
@@ -78,7 +70,11 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
                 bloodBankId: res[0].id,
                 donationGap: interval,
               })
-            )
+            );
+            
+            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: date}, {delay: 5000, attempts:3});
+
+
             continue;
           }
           else{
@@ -92,9 +88,11 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
                 donationGap: interval,
               })
             )
+            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: currentDate.toISOString().split('T')[0]},{delay: i*10000, attempts: 3});
           }
       }
       await Promise.all(appointmentsPromise);
+
       revalidatePath('/account');
       revalidatePath('/donors');
       return[{

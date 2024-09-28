@@ -1,4 +1,5 @@
 import { mailOptions, transporter } from "./nodemailer";
+import {Worker} from "bullmq";
 
 type Props = {
   email: string;
@@ -52,3 +53,6 @@ export function sendEmail({email, subject,firstName, lastName,name, isLink, code
     });
   },1500);
 }
+
+
+

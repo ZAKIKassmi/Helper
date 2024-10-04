@@ -1,11 +1,9 @@
 'use client';
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import CustomButton from "./customButton";
@@ -109,14 +107,6 @@ export default function Header({isLoggedIn, userType}: {isLoggedIn:boolean, user
                 ))}
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem> */}
-
-          {/* <NavigationMenuItem>
-            <Link href='/contact' passHref legacyBehavior>
-              <NavigationMenuLink>
-                <CustomButton type="link" value="Contact us" />
-              </NavigationMenuLink>
-            </Link>
           </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenu>

@@ -21,6 +21,8 @@ import Link from 'next/link';
 import { addCertifications } from '@/app/(bloodBankAuth)/registre/certification-license/_action/action';
 import CustomCalendar from '../custom-calendar';
 import CustomUpload from '../custom-upload';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
+import SubmitButton from '../submit-button';
 
 type Props = {}
 
@@ -28,6 +30,8 @@ export default function Certification({}: Props) {
 
 
   const [state, formAction] = useFormState(addCertifications, null);
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
 
   const form = useForm<TCertificationSchema>({
       resolver: zodResolver(certificationSchema),
@@ -54,6 +58,7 @@ export default function Certification({}: Props) {
                   router.push("/");
               }
           });
+          toggleButtonState();
       }
   },[state]);
 
@@ -67,6 +72,7 @@ export default function Certification({}: Props) {
           formData.append('file',data.certifications[i]);
         }
       }
+      toggleButtonState();
       formAction(formData);
       
   }
@@ -107,9 +113,8 @@ return (
                   <p className='text-n-900'>Go Back</p>
                 </Button>
             </Link> 
-              <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-c-red-500 hover:bg-c-red-600 text-white' type="submit" disabled={form.formState.isSubmitting}>
-                Create
-              </Button>
+                <SubmitButton/>
+
           </div>
           
           

@@ -16,11 +16,15 @@ import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
 
 import UserSignUpInputs from './user-sign-up-inputs';
+import SubmitButton from '../submit-button';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
  
 
 export default function CustomForm() {
 
     const [state, formAction] = useFormState(createUser, null);
+    const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
 
     const form = useForm<TUserSchema>({
         resolver: zodResolver(userSchema),
@@ -54,6 +58,7 @@ export default function CustomForm() {
                     router.push("/signup/email-verification");
                 }
             });
+            toggleButtonState();
         }
     },[state]);
 
@@ -75,6 +80,7 @@ export default function CustomForm() {
         });
         formData.append('picture', data.picture[0]);
         formData.append('dateOfBirth', String(data.dateOfBirth?.toISOString().split('T')[0]));
+        toggleButtonState();
         formAction(formData);
         
     }
@@ -87,10 +93,7 @@ export default function CustomForm() {
             <UserSignUpInputs form={form}/>
 
 
-           <Button className='bg-c-red-500 hover:bg-c-red-600 duration-200' type="submit" 
-           variant={form.formState.isSubmitting ? "ghost" : "default"}>
-                Sign Up
-            </Button>
+           <SubmitButton/>
 
 
             <CustomSeperator/>

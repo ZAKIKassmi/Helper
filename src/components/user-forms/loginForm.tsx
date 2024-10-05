@@ -21,6 +21,7 @@ import { toast } from 'sonner';
 import LoginWithGoogleButton from '../login-with-google-button';
 import CustomSeperator from '../custom-seperator';
 import { useSearchParams } from 'next/navigation';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
 
 export default function LoginForm() {
 
@@ -28,7 +29,8 @@ export default function LoginForm() {
     const type = searchParams.get('type');
 
     const [state, formAction] = useFormState(loginAction, []);
-    
+    const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
     const form = useForm<TLoginSchema>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -49,6 +51,7 @@ export default function LoginForm() {
                     toast.error(issue.errorMessage);
                 }
             })
+            toggleButtonState();
         }
     },[state]);
 
@@ -57,6 +60,8 @@ export default function LoginForm() {
         formData.append('email', data.email);
         formData.append('password', data.password);
         formData.append('type', type as string);
+        toggleButtonState();
+
         formAction(formData);
     }
     return (

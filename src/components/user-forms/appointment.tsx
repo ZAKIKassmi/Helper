@@ -14,11 +14,15 @@ import DropDownSelector from '../drop-down-selector';
 import CustomSelect from '../custom-select';
 import CustomCalendar from '../custom-calendar';
 import { setAppointment } from '@/app/(userAuth)/appointment/_action/set-appoitment';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
+import SubmitButton from '../submit-button';
 
 
 export default function AppointmentForm() {
 
   const [state, formAction] = useFormState(setAppointment,null);
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
   const form = useForm<TAppointmentSchema>({
     resolver: zodResolver(appointmentSchema),
     }    
@@ -41,6 +45,7 @@ export default function AppointmentForm() {
                 router.push("/account");
             }
         });
+        toggleButtonState();
     }
   },[state]);
 
@@ -51,6 +56,7 @@ export default function AppointmentForm() {
     formData.append('date', String(data.date));
     formData.append('time', data.time);
     formData.append('interval', data.interval);
+    toggleButtonState();
 
     formAction(formData);
 
@@ -69,10 +75,7 @@ export default function AppointmentForm() {
         </div>
 
         <CustomSelect array={['Each 3 months', 'Each 4 months' , 'Each 5 months','Each 6 months','Each 7 months','Each 8 months','Each 9 months','Each 10 months','Each 11 months','Each 12 months']} name='interval' className='w-full' control={form.control} placeholder='Time Gap Between Donations'/>
-
-        <Button type='submit' className='bg-c-red-500 tracking-wide hover:bg-c-red-600'>
-          Confirm
-        </Button>
+        <SubmitButton/>
           
       </form>
     </Form>

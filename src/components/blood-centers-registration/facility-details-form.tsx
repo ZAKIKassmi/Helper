@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { addFacilityDetails } from '@/app/(bloodBankAuth)/registre/facility-details/_action/action';
 import { PhoneInput } from '../ui/phone-number';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
+import SubmitButton from '../submit-button';
 
 
 type Props = {}
@@ -26,6 +28,7 @@ type Props = {}
 export default function FacilityDetailsForm({}: Props) {
 
   const [state, formAction] = useFormState(addFacilityDetails, null);
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
 
   const form = useForm<TFacilityDetails>({
       resolver: zodResolver(facilityDetailsSchema),
@@ -53,6 +56,7 @@ export default function FacilityDetailsForm({}: Props) {
                   router.push("/registre/operational-details");
               }
           });
+          toggleButtonState();
       }
   },[state]);
 
@@ -62,7 +66,8 @@ export default function FacilityDetailsForm({}: Props) {
       formData.append('donationBeds', data.donationBeds);
       formData.append('capacity', data.capacity);
       formData.append('emergencyContact',data.emergencyContact);
-    
+      
+      toggleButtonState();
       formAction(formData);
       
   }
@@ -104,10 +109,8 @@ return (
 
       
           <div className='w-full justify-end flex'>
-              <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
-                <p className='text-n-900'>Next</p>
-                <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
-              </Button>
+              <SubmitButton/>
+
           </div>
           
 

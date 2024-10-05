@@ -16,13 +16,18 @@ import Link from 'next/link';
 import CustomSwitch from '../custom-switch';
 import CustomSelect from '../custom-select';
 import { addOperationalDetails } from '@/app/(bloodBankAuth)/registre/operational-details/_action/action';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
+import SubmitButton from '../submit-button';
 
 
 type Props = {}
 
 export default function OperationalDetailsForm({}: Props) {
 
+
   const [state, formAction] = useFormState(addOperationalDetails, null);
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
   const form = useForm<TOperaionalDaysSchema>({
       resolver: zodResolver(OperationalDaysSchema),
       defaultValues:{
@@ -68,6 +73,7 @@ export default function OperationalDetailsForm({}: Props) {
                   router.push("/registre/certification-license");
               }
           });
+          toggleButtonState();
       }
   },[state]);
 
@@ -78,7 +84,7 @@ export default function OperationalDetailsForm({}: Props) {
       Object.keys(data).forEach(key=>{
         formData.append(key, String(data[key as keyof TOperaionalDaysSchema]))
       }) 
-      
+      toggleButtonState();
       formAction(formData);
       
   }
@@ -109,10 +115,7 @@ return (
                   <p className='text-n-900'>Go Back</p>
                 </Button>
             </Link>
-              <Button className='flex border px-8 rounded-lg gap-2  duration-200 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
-                <p className='text-n-900'>Next</p>
-                <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
-              </Button>
+              <SubmitButton/>
 
           </div>
           

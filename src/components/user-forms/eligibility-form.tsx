@@ -17,6 +17,8 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Checkbox } from '../ui/checkbox';
 import { updateEligibiliye } from '@/app/(userAuth)/eligibility/_action/action';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
+import SubmitButton from '../submit-button';
 
 
 export default function EligibilityForm() {
@@ -25,6 +27,8 @@ export default function EligibilityForm() {
     isError: false,
     message: '',
   });
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
 
   const form = useForm<TEligibilitySchema>({
       resolver: zodResolver(eligibilitySchema),
@@ -36,10 +40,12 @@ export default function EligibilityForm() {
   useEffect(()=>{
     if(state?.isError){
       toast.error(state.message)
+      toggleButtonState();
     }
     if(!state.isError && state.message.length > 0){
       toast.success(state.message);
       router.push('/appointment');
+      toggleButtonState();
     }
   },[state]);
 
@@ -47,7 +53,7 @@ export default function EligibilityForm() {
   async function onSubmit(data: TEligibilitySchema){
       const formData = new FormData();
       formData.append('isEligible', String(data.isEligible));
-
+      toggleButtonState();
       formAction(formData);
       
   }
@@ -78,9 +84,7 @@ return (
           >
       </FormField>
 
-      <Button className='flex w-full border px-8 rounded-lg gap-2  duration-200 bg-c-red-500  hover:bg-c-red-600' type="submit" disabled={form.formState.isSubmitting}>
-        I am eligible
-      </Button>
+      <SubmitButton/>
       </form>
   </Form>
 )

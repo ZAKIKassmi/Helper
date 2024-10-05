@@ -22,12 +22,16 @@ import Image from 'next/image';
 import { AddBasicInformation } from '@/app/(bloodBankAuth)/registre/basic-information/_actions/action';
 import DropDownSelector from '../drop-down-selector';
 import PasswordInput from '../password-input';
+import SubmitButton from '../submit-button';
+import { useFormButtonStateToggle } from '@/hooks/form-button-state-toggle';
 
 type Props = {}
 
 export default function BasicInformationRegistrationForm({}: Props) {
 
   const [state, formAction] = useFormState(AddBasicInformation, null);
+  const toggleButtonState = useFormButtonStateToggle((state)=>state.toggleButtonState);
+
 
 
   const form = useForm<TBloodBankSchema>({
@@ -60,7 +64,8 @@ export default function BasicInformationRegistrationForm({}: Props) {
                   toast.success(issue.errorMessage);
                   router.push("/registre/email-verification");
               }
-          });
+            });
+            toggleButtonState();
       }
   },[state]);
 
@@ -80,7 +85,7 @@ export default function BasicInformationRegistrationForm({}: Props) {
         formData.append(key, value as string);
       });
 
-      //TODO: call the formAction
+      toggleButtonState();
       formAction(formData);
 
       
@@ -116,10 +121,7 @@ return (
       
           <div className='w-full justify-end flex'>
 
-            <Button className='flex border rounded-lg gap-2 duration-200 px-8 bg-white hover:bg-n-20' type="submit" disabled={form.formState.isSubmitting}>
-              <p className='text-n-900'>Next</p>
-              <Image src="/icons/Arrow.svg" alt='Arrow Icon' width={15} height={18}/>
-            </Button>
+           <SubmitButton/>
           </div>
           
 

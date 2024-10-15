@@ -8,10 +8,11 @@ export async function middleware(req: NextRequest){
     || req.nextUrl.pathname.startsWith('/account') 
     || req.nextUrl.pathname.startsWith('/appointment') 
   ) 
-    
-    && !authCookie?.value){
-    return NextResponse.redirect(new URL("/", req.url));
+  && !authCookie?.value)
+  {
+    return NextResponse.redirect(new URL("/", req.url));  
   }
+
   const bloodBankAuthCookie = req.cookies.get('blood_bank_auth_session_id');
   if((
      req.nextUrl.pathname.startsWith("/registre/facility-details")

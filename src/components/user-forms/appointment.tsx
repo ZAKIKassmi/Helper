@@ -5,7 +5,6 @@ import {appointmentSchema, eligibilitySchema, TAppointmentSchema, TEligibilitySc
 import { 
     Form,
  } from '../ui/form';
-import { Button } from '../ui/button';
 import { useFormState } from 'react-dom';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -75,7 +74,7 @@ export default function AppointmentForm() {
         </div>
 
         <CustomSelect array={['Each 3 months', 'Each 4 months' , 'Each 5 months','Each 6 months','Each 7 months','Each 8 months','Each 9 months','Each 10 months','Each 11 months','Each 12 months']} name='interval' className='w-full' control={form.control} placeholder='Time Gap Between Donations'/>
-        <SubmitButton/>
+        <SubmitButton placeholder='Schedule appointment'/>
           
       </form>
     </Form>

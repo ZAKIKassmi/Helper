@@ -1,10 +1,14 @@
-import {connection} from '@/lib/redis-connection';
+import "dotenv/config";
 import { Queue, Worker } from 'bullmq';
 import { mailOptions, transporter } from "./nodemailer";
 
 const emailQueue = new Queue('emailQueue', {
-  connection,
-  
+  connection:  {
+    host: "living-puma-34526.upstash.io",
+    port: 6379,
+    password: process.env.UPSTACH_REDIS_TOKEN,
+    tls: {},
+  }
 });
 
 
@@ -41,7 +45,12 @@ const emailWorker = new Worker('emailQueue', async(job)=>{
   });
 
   }, 
-  {connection,}
+  {connection:{
+    host: "living-puma-34526.upstash.io",
+    port: 6379,
+    password: process.env.UPSTACH_REDIS_TOKEN,
+    tls: {},
+  }}
 );
 
 emailWorker.on("completed", (job)=>{

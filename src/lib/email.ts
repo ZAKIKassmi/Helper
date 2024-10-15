@@ -1,5 +1,4 @@
 import { mailOptions, transporter } from "./nodemailer";
-import {Worker} from "bullmq";
 
 type Props = {
   email: string;
@@ -15,7 +14,7 @@ export function sendEmail({email, subject,firstName, lastName,name, isLink, code
   // I have used setTimeout to defer the process of sending email by 3 seconds 
   // to improve the user experience by avoiding the 1-second delay in loading the verification page. 
 
-
+  const displayedName = firstName ? `${firstName} ${lastName}`: name;
   //TODO: Improve UI
   setTimeout(async()=>{
     await transporter.sendMail({
@@ -30,7 +29,7 @@ export function sendEmail({email, subject,firstName, lastName,name, isLink, code
               </h1>
               <div style="margin-bottom: 24px;">
                 <h2 style="font-size: 20px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">
-                  Hello ${firstName} ${lastName} ${name},
+                  Hello ${displayedName},
                 </h2>
                 <p>You have been registered to Helper successfully. Here is your ${isLink ? "reset link" : "verification code"}:</p>
               </div>

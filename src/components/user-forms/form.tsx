@@ -93,8 +93,7 @@ export default function CustomForm() {
             <UserSignUpInputs form={form}/>
 
 
-           <SubmitButton/>
-
+           <SubmitButton placeholder='Sign up'/>
 
             <CustomSeperator/>
 

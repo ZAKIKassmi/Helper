@@ -6,7 +6,7 @@ import emailQueue from './email-reminder-queue-and-worker';
 import { formatRFC7231 } from 'date-fns';
 
 const startCron = ()=>{
-  cron.schedule('30 0 * * *',async()=>{
+  cron.schedule('0 0 * * *',async()=>{
     const currentDate = new Date();
     const appointmentsIn7Days = new Date(currentDate.setDate(currentDate.getDate() + 7)).toISOString().split('T')[0];
     const appointmentsIn2Day = new Date(currentDate.setDate(currentDate.getDate() + 2)).toISOString().split('T')[0];
@@ -25,16 +25,16 @@ const startCron = ()=>{
     .innerJoin(userTable, eq(appointments.userId, userTable.id));
       
 
-    data.forEach(async(appointment)=>{
-      await emailQueue.add('emailReminder', 
-        {
-        email:appointment.email, 
-        appointmentDate: formatRFC7231(new Date(appointment.date)), 
-        firstName: appointment.firstName, 
-        lastName: appointment.lastName
-        }, 
-        {attempts:3});
-    })
+    // data.forEach(async(appointment)=>{
+    //   await emailQueue.add('emailReminder', 
+    //     {
+    //     email:appointment.email, 
+    //     appointmentDate: formatRFC7231(new Date(appointment.date)), 
+    //     firstName: appointment.firstName, 
+    //     lastName: appointment.lastName
+    //     }, 
+    //     {attempts:3});
+    // })
 
 
   });

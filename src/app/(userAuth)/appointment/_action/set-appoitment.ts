@@ -17,6 +17,7 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
   const interval = formData.get('interval') as unknown as number;
 
   
+  
 
   const {user} = await validateRequest();
   if(!user){
@@ -56,43 +57,33 @@ export async function setAppointment(_:any, formData:FormData):Promise<{name: ke
     }
 
     try{
-      const gapInDays = getGapInDay(interval);
+      const gapInDays = getGapInDay(Number(interval));
       let currentDate = new Date(date);
       const appointmentsPromise = [];
 
-      for(let i =0; i<10; i++){
-        if(i===0){
-            appointmentsPromise.push(
-              db.insert(appointments).values({
-                appointmentDate: date,
-                appointmentTime: time,
-                userId: user.id,
-                bloodBankId: res[0].id,
-                donationGap: interval,
-              })
-            );
-            
-            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: date}, {attempts:3});
-
-
-            continue;
-          }
-          else{
-            currentDate.setDate(currentDate.getDate()+gapInDays);
-            appointmentsPromise.push(
-              db.insert(appointments).values({
-                appointmentDate: currentDate.toISOString().split('T')[0],
-                appointmentTime: time,
-                userId: user.id,
-                bloodBankId: res[0].id,
-                donationGap: interval,
-              })
-            )
-            await emailQueue.add('emailReminder', {email:user.email, appointmentDate: currentDate.toISOString().split('T')[0]},{attempts: 3});
-          }
+      appointmentsPromise.push(
+        db.insert(appointments).values({
+          appointmentDate: date,
+          appointmentTime: time,
+          userId: user.id,
+          bloodBankId: res[0].id,
+          donationGap: interval,
+        })
+      );
+      for(let i =1; i<10; i++){
+        const newDate = new Date(currentDate); 
+        newDate.setDate(newDate.getDate() + (gapInDays * (i)));
+        appointmentsPromise.push(
+          db.insert(appointments).values({
+            appointmentDate: newDate.toISOString().split('T')[0],
+            appointmentTime: time,
+            userId: user.id,
+            bloodBankId: res[0].id,
+            donationGap: interval,
+          })
+        )
       }
       await Promise.all(appointmentsPromise);
-
       revalidatePath('/account');
       revalidatePath('/donors');
       return[{

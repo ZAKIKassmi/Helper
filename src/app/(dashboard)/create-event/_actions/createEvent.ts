@@ -8,6 +8,7 @@ import path from "path";
 import { v4 as uuidv4 } from 'uuid'; 
 import fs from "node:fs/promises";
 import { revalidatePath } from "next/cache";
+import ratelimit from "@/lib/rate-limiter";
 
 
 export async function createEvent(_:any, formData: FormData):Promise<{name: keyof TEventFormSchema, message: string, isToast: boolean,isError:boolean}[]> {
@@ -21,6 +22,16 @@ export async function createEvent(_:any, formData: FormData):Promise<{name: keyo
       isError: true,
       isToast: true,
       name: 'title'
+    }]
+  }
+
+  const {success} = await ratelimit.limit(user.id);
+  if(!success){
+    return[{
+      name: "title",
+      isError: true,
+      isToast: true,
+      message: "You've reached your daily limit! Only one event can be created each day."
     }]
   }
 

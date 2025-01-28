@@ -1,5 +1,5 @@
 
-# User Login and Signup Template Using Next.js 14 (App Router) and Lucia Auth
+# Blood Management System (Next.js 14) 
 
 Full-stack web application for managing blood center operations, including donor scheduling, facility management, and
 certification tracking. The system provides social privileges to donors based on their donation frequency and commitment using credits.

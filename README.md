@@ -1,7 +1,10 @@
 
-# User Login and Signup Template Using Next.js 14 and Lucia Auth
+# User Login and Signup Template Using Next.js 14 (App Router) and Lucia Auth
 
-I have created a template for user login and signup either by their email and passwords or OAuth 2.0 using Lucia Auth for Authentication, Zod for schema declaration and validation, Drizzle ORM, and Postgresql.
+Full-stack web application for managing blood center operations, including donor scheduling, facility management, and
+certification tracking. The system provides social privileges to donors based on their donation frequency and commitment using credits.
+Additionally, it facilitates monetary donations to support the construction of new blood centers. Integrated user authentication and
+notification systems to remind donors of upcoming appointments.
 
 
 

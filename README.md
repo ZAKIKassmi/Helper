@@ -8,31 +8,10 @@ I have created a template for user login and signup either by their email and pa
 
 ## Dependencies
 
-You will need to i the following dependencies:
+Run the following command to install all the necessary dependencies:
 
 ```bash
-  npx create-next-app@latest
-  npx shadcn-ui@latest init
-  npm i lucia
-  npm i @lucia-auth/adapter-drizzle
-  npm i postgres
-  npm i dotenv
-  npm i sonner
-  npm i zod
-  npm i drizzle-orm
-  npm i drizzle-kit
-  npm i arctic
-  npm i react-hook-form
-  npm i @hookform/resolvers
-  npm i oslo
-  npm i zxcvbn
-```
-Developer dependencies:
-
-```bash
-  npm i @types/nodemailer
-  npm i @types/pg
-  npm i @types/ zxcvbn
+  npm install
 ```
 ## Environment Variables
 

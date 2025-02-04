@@ -6,7 +6,11 @@ certification tracking. The system provides social privileges to donors based on
 Additionally, it facilitates monetary donations to support the construction of new blood centers. Integrated user authentication and
 notification systems to remind donors of upcoming appointments.
 
+## Prerequisites
 
+Make sure you have the following installed before running the project:
+
+- **Node.js**: `v22.7.0` [Download here](https://nodejs.org/)
 
 
 ## Dependencies

@@ -6,6 +6,12 @@ certification tracking. The system provides social privileges to donors based on
 Additionally, it facilitates monetary donations to support the construction of new blood centers. Integrated user authentication and
 notification systems to remind donors of upcoming appointments.
 
+## Project Status
+
+This project is unfinished and was primarily a learning experience. My goal was to explore web development concepts and apply them in a real-world scenario. Since this was my first major web project, the separation between the backend and frontend may not be ideal from a developer's perspective.
+
+Despite its imperfections, this project remains one of the most valuable learning experiences I've had. It has helped me gain a deeper understanding of web development, and I’ve learned a lot throughout the process.
+
 ## Prerequisites
 
 Make sure you have the following installed before running the project:
